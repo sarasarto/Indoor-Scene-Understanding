@@ -55,6 +55,10 @@ coverage.xml
 *.mo
 *.pot
 
+#Vsc stuff
+.idea
+.vscode
+
 # Django stuff:
 *.log
 local_settings.py
