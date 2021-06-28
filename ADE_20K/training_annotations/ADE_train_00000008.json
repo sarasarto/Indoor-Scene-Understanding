@@ -1,1 +1,212 @@
-{"annotation":{"filename":"ADE_train_00000008.jpg","folder":"ADE20K_2021_17_01/images/ADE/training/home_or_hotel/bathroom","imsize":[1653,1737,3],"source":{"folder":"/static_sun_database/b/bathroom","filename":"sun_aauqnwburbyamyzc.jpg","origin":"Downloaded from Google search. Image might be subject to copyright. Use only for non-commercial research and educational purposes."},"scene":["indoor","home or hotel","bathroom"],"object":[{"id":0,"name":"windowpane, window","name_ndx":3055,"hypernym":["windowpane, window","pane, pane of glass, window glass","plate glass, sheet glass","sheet, flat solid","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"window","attributes":"","depth_ordering_rank":1,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_000_ADE_train_00000008.png","polygon":{"x":[1314,1308,1736,1734,1734,1477,1408,1399],"y":[1193,420,400,1053,1071,1047,1071,1201],"click_date":[]},"saved_date":"14-Feb-2013 21:10:10"},{"id":1,"name":"ceiling","name_ndx":447,"hypernym":["ceiling","upper surface","side","surface","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"ceiling","attributes":"","depth_ordering_rank":2,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_001_ADE_train_00000008.png","polygon":{"x":[1308,1302,1732,1736],"y":[138,4,2,91],"click_date":[]},"saved_date":"14-Feb-2013 21:10:38"},{"id":2,"name":"wall","name_ndx":2978,"hypernym":["wall","partition, divider","structure, construction","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"wall","attributes":"","depth_ordering_rank":3,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_002_ADE_train_00000008.png","polygon":{"x":[1308,1306,1736,1734,1306],"y":[318,138,85,396,418],"click_date":[]},"saved_date":"14-Feb-2013 21:10:51"},{"id":3,"name":"wall","name_ndx":2978,"hypernym":["wall","partition, divider","structure, construction","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"wall","attributes":"","depth_ordering_rank":4,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_003_ADE_train_00000008.png","polygon":{"x":[684,684,2,8,294,312,304,533],"y":[148,0,2,1442,1349,1140,178,160],"click_date":[]},"saved_date":"14-Feb-2013 21:11:05"},{"id":4,"name":"wall","name_ndx":2978,"hypernym":["wall","partition, divider","structure, construction","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"wall","attributes":"","depth_ordering_rank":5,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_004_ADE_train_00000008.png","polygon":{"x":[1312,1278,1268,1109,1095,1099,982,679,688,1302],"y":[1422,1432,1347,1322,1103,203,174,152,2,6],"click_date":[]},"saved_date":"14-Feb-2013 21:11:41"},{"id":5,"name":"shower","name_ndx":2356,"hypernym":["shower","plumbing fixture","fixture","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"shower","attributes":"","depth_ordering_rank":6,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_005_ADE_train_00000008.png","polygon":{"x":[369,292,312,306,531,692,974,1095,1093,1113,984,821,550],"y":[1369,1355,1142,178,156,148,170,201,1113,1316,1361,1395,1395],"click_date":[]},"saved_date":"14-Feb-2013 21:12:05"},{"id":6,"name":"floor, flooring","name_ndx":976,"hypernym":["floor, flooring","horizontal surface, level","surface","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"floor","attributes":"","depth_ordering_rank":7,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_006_ADE_train_00000008.png","polygon":{"x":[791,1278,1268,1103,972,836,696,554,404,288,4,4],"y":[1651,1430,1347,1320,1363,1389,1395,1399,1383,1355,1442,1649],"click_date":[]},"saved_date":"14-Feb-2013 21:12:37"},{"id":7,"name":"table","name_ndx":2684,"hypernym":["table","furniture, piece of furniture, article of furniture","furnishing","instrumentality, instrumentation","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"table","attributes":"","depth_ordering_rank":8,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_007_ADE_train_00000008.png","polygon":{"x":[1402,1408,1489,1736,1728,1440,1442,1418],"y":[1251,1061,1045,1061,1282,1239,1253,1253],"click_date":[]},"saved_date":"14-Feb-2013 21:12:59"},{"id":8,"name":"floor, flooring","name_ndx":976,"hypernym":["floor, flooring","horizontal surface, level","surface","artifact, artefact","whole, unit","object, physical object","physical entity","entity"],"raw_name":"floor","attributes":"","depth_ordering_rank":9,"occluded":[],"crop":"0","parts":{"hasparts":[],"ispartof":[],"part_level":0},"instance_mask":"ADE_train_00000008/instance_008_ADE_train_00000008.png","polygon":{"x":[1734,1730,1442,1440,1402,1404,1312,1312,795],"y":[1651,1288,1243,1253,1251,1205,1197,1422,1649],"click_date":[]},"saved_date":"14-Feb-2013 21:13:14"}]}}
+{
+    "annotation": {
+        "filename": "ADE_train_00000008.jpg",
+        "folder": "ADE20K_2021_17_01/images/ADE/training/home_or_hotel/bathroom",
+        "imsize": [1653, 1737, 3],
+        "source": {
+            "folder": "/static_sun_database/b/bathroom",
+            "filename": "sun_aauqnwburbyamyzc.jpg",
+            "origin": "Downloaded from Google search. Image might be subject to copyright. Use only for non-commercial research and educational purposes."
+        },
+        "scene": ["indoor", "home or hotel", "bathroom"],
+        "object": [{
+            "id": 0,
+            "name": "windowpane, window",
+            "name_ndx": 3055,
+            "hypernym": ["windowpane, window", "pane, pane of glass, window glass", "plate glass, sheet glass", "sheet, flat solid", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "window",
+            "attributes": "",
+            "depth_ordering_rank": 1,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_000_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1314, 1308, 1736, 1734, 1734, 1477, 1408, 1399],
+                "y": [1193, 420, 400, 1053, 1071, 1047, 1071, 1201],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:10:10"
+        }, {
+            "id": 1,
+            "name": "ceiling",
+            "name_ndx": 447,
+            "hypernym": ["ceiling", "upper surface", "side", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "ceiling",
+            "attributes": "",
+            "depth_ordering_rank": 2,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_001_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1308, 1302, 1732, 1736],
+                "y": [138, 4, 2, 91],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:10:38"
+        }, {
+            "id": 2,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": "",
+            "depth_ordering_rank": 3,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_002_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1308, 1306, 1736, 1734, 1306],
+                "y": [318, 138, 85, 396, 418],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:10:51"
+        }, {
+            "id": 3,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": "",
+            "depth_ordering_rank": 4,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_003_ADE_train_00000008.png",
+            "polygon": {
+                "x": [684, 684, 2, 8, 294, 312, 304, 533],
+                "y": [148, 0, 2, 1442, 1349, 1140, 178, 160],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:11:05"
+        }, {
+            "id": 4,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": "",
+            "depth_ordering_rank": 5,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_004_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1312, 1278, 1268, 1109, 1095, 1099, 982, 679, 688, 1302],
+                "y": [1422, 1432, 1347, 1322, 1103, 203, 174, 152, 2, 6],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:11:41"
+        }, {
+            "id": 5,
+            "name": "shower",
+            "name_ndx": 2356,
+            "hypernym": ["shower", "plumbing fixture", "fixture", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "shower",
+            "attributes": "",
+            "depth_ordering_rank": 6,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_005_ADE_train_00000008.png",
+            "polygon": {
+                "x": [369, 292, 312, 306, 531, 692, 974, 1095, 1093, 1113, 984, 821, 550],
+                "y": [1369, 1355, 1142, 178, 156, 148, 170, 201, 1113, 1316, 1361, 1395, 1395],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:12:05"
+        }, {
+            "id": 6,
+            "name": "floor, flooring",
+            "name_ndx": 976,
+            "hypernym": ["floor, flooring", "horizontal surface, level", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "floor",
+            "attributes": "",
+            "depth_ordering_rank": 7,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_006_ADE_train_00000008.png",
+            "polygon": {
+                "x": [791, 1278, 1268, 1103, 972, 836, 696, 554, 404, 288, 4, 4],
+                "y": [1651, 1430, 1347, 1320, 1363, 1389, 1395, 1399, 1383, 1355, 1442, 1649],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:12:37"
+        }, {
+            "id": 7,
+            "name": "table",
+            "name_ndx": 2684,
+            "hypernym": ["table", "furniture, piece of furniture, article of furniture", "furnishing", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "table",
+            "attributes": "",
+            "depth_ordering_rank": 8,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_007_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1402, 1408, 1489, 1736, 1728, 1440, 1442, 1418],
+                "y": [1251, 1061, 1045, 1061, 1282, 1239, 1253, 1253],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:12:59"
+        }, {
+            "id": 8,
+            "name": "floor, flooring",
+            "name_ndx": 976,
+            "hypernym": ["floor, flooring", "horizontal surface, level", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "floor",
+            "attributes": "",
+            "depth_ordering_rank": 9,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000008/instance_008_ADE_train_00000008.png",
+            "polygon": {
+                "x": [1734, 1730, 1442, 1440, 1402, 1404, 1312, 1312, 795],
+                "y": [1651, 1288, 1243, 1253, 1251, 1205, 1197, 1422, 1649],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 21:13:14"
+        }]
+    }
+}
