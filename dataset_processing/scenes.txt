@@ -1,0 +1,11 @@
+bathroom
+bedroom
+childs_room
+dining_room
+dorm_room
+garage indoor
+home_office
+kitchen
+living_room
+nursery
+utility_room

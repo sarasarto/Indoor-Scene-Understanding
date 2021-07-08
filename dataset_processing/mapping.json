@@ -1,0 +1,406 @@
+{
+    "sink": {
+        "old_label": 2388,
+        "new_label": 1
+    },
+    "shower": {
+        "old_label": 2356,
+        "new_label": 2
+    },
+    "bathtub": {
+        "old_label": 155,
+        "new_label": 3
+    },
+    "curtain": {
+        "old_label": 687,
+        "new_label": 4
+    },
+    "shower stall": {
+        "old_label": 2362,
+        "new_label": 5
+    },
+    "toilet": {
+        "old_label": 2793,
+        "new_label": 6
+    },
+    "picture": {
+        "old_label": 1735,
+        "new_label": 7
+    },
+    "mirror": {
+        "old_label": 1564,
+        "new_label": 8
+    },
+    "tap": {
+        "old_label": 2708,
+        "new_label": 9
+    },
+    "cabinet": {
+        "old_label": 350,
+        "new_label": 10
+    },
+    "toilet paper": {
+        "old_label": 2792,
+        "new_label": 11
+    },
+    "bowl": {
+        "old_label": 259,
+        "new_label": 12
+    },
+    "door": {
+        "old_label": 774,
+        "new_label": 13
+    },
+    "table": {
+        "old_label": 2684,
+        "new_label": 14
+    },
+    "vase": {
+        "old_label": 2932,
+        "new_label": 15
+    },
+    "bottle": {
+        "old_label": 249,
+        "new_label": 16
+    },
+    "plant": {
+        "old_label": 1910,
+        "new_label": 17
+    },
+    "towel": {
+        "old_label": 2821,
+        "new_label": 18
+    },
+    "towel rack": {
+        "old_label": 2824,
+        "new_label": 19
+    },
+    "shelf": {
+        "old_label": 2329,
+        "new_label": 20
+    },
+    "dish": {
+        "old_label": 1919,
+        "new_label": 21
+    },
+    "glass": {
+        "old_label": 1098,
+        "new_label": 22
+    },
+    "sponge": {
+        "old_label": 2503,
+        "new_label": 23
+    },
+    "bag": {
+        "old_label": 95,
+        "new_label": 24
+    },
+    "mug": {
+        "old_label": 1619,
+        "new_label": 25
+    },
+    "toothbrush": {
+        "old_label": 2811,
+        "new_label": 26
+    },
+    "bathrobe": {
+        "old_label": 154,
+        "new_label": 27
+    },
+    "chair": {
+        "old_label": 471,
+        "new_label": 28
+    },
+    "table lamp": {
+        "old_label": 1395,
+        "new_label": 29
+    },
+    "television": {
+        "old_label": 2733,
+        "new_label": 30
+    },
+    "bidet": {
+        "old_label": 188,
+        "new_label": 31
+    },
+    "stool": {
+        "old_label": 2586,
+        "new_label": 32
+    },
+    "t-shirt": {
+        "old_label": 3102,
+        "new_label": 33
+    },
+    "cushion": {
+        "old_label": 689,
+        "new_label": 34
+    },
+    "bed": {
+        "old_label": 165,
+        "new_label": 35
+    },
+    "pillow": {
+        "old_label": 1869,
+        "new_label": 36
+    },
+    "carpet": {
+        "old_label": 2178,
+        "new_label": 37
+    },
+    "armchair": {
+        "old_label": 57,
+        "new_label": 38
+    },
+    "desk": {
+        "old_label": 724,
+        "new_label": 39
+    },
+    "blanket": {
+        "old_label": 206,
+        "new_label": 40
+    },
+    "laptop": {
+        "old_label": 1407,
+        "new_label": 41
+    },
+    "coffee table": {
+        "old_label": 571,
+        "new_label": 42
+    },
+    "book": {
+        "old_label": 236,
+        "new_label": 43
+    },
+    "sofa": {
+        "old_label": 2473,
+        "new_label": 44
+    },
+    "trousers": {
+        "old_label": 2877,
+        "new_label": 45
+    },
+    "cradle": {
+        "old_label": 642,
+        "new_label": 46
+    },
+    "rocking chair": {
+        "old_label": 3104,
+        "new_label": 47
+    },
+    "clothes": {
+        "old_label": 38,
+        "new_label": 48
+    },
+    "cup": {
+        "old_label": 677,
+        "new_label": 49
+    },
+    "knife": {
+        "old_label": 1378,
+        "new_label": 50
+    },
+    "computer": {
+        "old_label": 591,
+        "new_label": 51
+    },
+    "sofa bed": {
+        "old_label": 2472,
+        "new_label": 52
+    },
+    "coffee pot": {
+        "old_label": 570,
+        "new_label": 53
+    },
+    "doll": {
+        "old_label": 767,
+        "new_label": 54
+    },
+    "microwave": {
+        "old_label": 1551,
+        "new_label": 55
+    },
+    "oven": {
+        "old_label": 1708,
+        "new_label": 56
+    },
+    "refrigerator": {
+        "old_label": 2096,
+        "new_label": 57
+    },
+    "dishwasher": {
+        "old_label": 747,
+        "new_label": 58
+    },
+    "cooker": {
+        "old_label": 610,
+        "new_label": 59
+    },
+    "blender": {
+        "old_label": 210,
+        "new_label": 60
+    },
+    "spoon": {
+        "old_label": 2505,
+        "new_label": 61
+    },
+    "mitten": {
+        "old_label": 1569,
+        "new_label": 62
+    },
+    "coffee grinder": {
+        "old_label": 568,
+        "new_label": 63
+    },
+    "dishcloths": {
+        "old_label": 744,
+        "new_label": 64
+    },
+    "staircase": {
+        "old_label": 2531,
+        "new_label": 65
+    },
+    "toothpaste": {
+        "old_label": 2812,
+        "new_label": 66
+    },
+    "hairbrush": {
+        "old_label": 1163,
+        "new_label": 67
+    },
+    "razor": {
+        "old_label": 2076,
+        "new_label": 68
+    },
+    "shower curtain": {
+        "old_label": 2357,
+        "new_label": 69
+    },
+    "washing machine": {
+        "old_label": 2989,
+        "new_label": 70
+    },
+    "closet": {
+        "old_label": 533,
+        "new_label": 71
+    },
+    "deodorant": {
+        "old_label": 722,
+        "new_label": 72
+    },
+    "shower door": {
+        "old_label": 2358,
+        "new_label": 73
+    },
+    "shower shelf": {
+        "old_label": 2361,
+        "new_label": 74
+    },
+    "toilet set": {
+        "old_label": 2791,
+        "new_label": 75
+    },
+    "bicycle": {
+        "old_label": 187,
+        "new_label": 76
+    },
+    "dressing table": {
+        "old_label": 799,
+        "new_label": 77
+    },
+    "small table": {
+        "old_label": 2448,
+        "new_label": 78
+    },
+    "sock": {
+        "old_label": 2468,
+        "new_label": 79
+    },
+    "hammer": {
+        "old_label": 1171,
+        "new_label": 80
+    },
+    "fork": {
+        "old_label": 1019,
+        "new_label": 81
+    },
+    "bread": {
+        "old_label": 286,
+        "new_label": 82
+    },
+    "cutlery": {
+        "old_label": 693,
+        "new_label": 83
+    },
+    "goblet": {
+        "old_label": 1105,
+        "new_label": 84
+    },
+    "napkins": {
+        "old_label": 1644,
+        "new_label": 85
+    },
+    "coat rack": {
+        "old_label": 554,
+        "new_label": 86
+    },
+    "motorbike": {
+        "old_label": 1563,
+        "new_label": 87
+    },
+    "car": {
+        "old_label": 401,
+        "new_label": 88
+    },
+    "metal shutter": {
+        "old_label": 2370,
+        "new_label": 89
+    },
+    "wheelbarrow": {
+        "old_label": 3036,
+        "new_label": 90
+    },
+    "egg": {
+        "old_label": 841,
+        "new_label": 91
+    },
+    "tomato": {
+        "old_label": 2798,
+        "new_label": 92
+    },
+    "bananas": {
+        "old_label": 115,
+        "new_label": 93
+    },
+    "pans": {
+        "old_label": 1752,
+        "new_label": 94
+    },
+    "onion": {
+        "old_label": 1688,
+        "new_label": 95
+    },
+    "alarm": {
+        "old_label": 3113,
+        "new_label": 96
+    },
+    "pillows": {
+        "old_label": 1870,
+        "new_label": 97
+    },
+    "shower head": {
+        "old_label": 3172,
+        "new_label": 98
+    },
+    "knige": {
+        "old_label": 3225,
+        "new_label": 99
+    },
+    "lettuce": {
+        "old_label": 3288,
+        "new_label": 100
+    },
+    "electric toothbrush": {
+        "old_label": 3423,
+        "new_label": 101
+    }
+}

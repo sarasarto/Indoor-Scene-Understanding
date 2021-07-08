@@ -1,0 +1,560 @@
+{
+    "annotation": {
+        "filename": "ADE_train_00000015.jpg",
+        "folder": "ADE20K_2021_17_01/images/ADE/training/home_or_hotel/bathroom",
+        "imsize": [1769, 2200, 3],
+        "source": {
+            "folder": "/static_sun_database/b/bathroom",
+            "filename": "sun_abeymlrfgckenfyk.jpg",
+            "origin": "Downloaded from Google search. Image might be subject to copyright. Use only for non-commercial research and educational purposes."
+        },
+        "scene": ["indoor", "home or hotel", "bathroom"],
+        "object": [{
+            "id": 0,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 1,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_000_ADE_train_00000015.png",
+            "polygon": {
+                "x": [480, 612, 564, 462, 414, 393, 378, 375, 378, 362, 369, 386, 480, 482, 464, 471, 482, 491, 506, 506, 499, 499, 557, 607, 605, 594, 601, 616, 625, 640, 629, 627, 703, 720, 751, 777, 807, 818, 812, 788, 727, 679, 736, 833, 829, 838, 799, 807, 816, 807, 775, 633, 3, 0, 12, 12, 23, 23, 14, 23, 146, 129, 136, 117, 117, 132, 133, 140, 141, 154, 146, 167, 165, 152, 163, 278, 264, 270, 281, 308, 320, 333, 349, 365],
+                "y": [1332, 1293, 1065, 1054, 1037, 1015, 991, 974, 946, 913, 889, 879, 840, 825, 822, 807, 799, 805, 801, 812, 818, 833, 816, 803, 786, 781, 766, 764, 770, 772, 783, 796, 779, 783, 809, 827, 851, 891, 924, 963, 1013, 1026, 1247, 1213, 1165, 1157, 954, 930, 883, 846, 822, 0, 0, 1122, 1122, 1130, 1133, 1141, 1144, 1166, 1128, 1107, 1102, 1104, 1092, 1092, 1083, 1083, 1076, 1076, 1087, 1083, 1092, 1095, 1120, 1083, 1039, 1026, 1017, 1011, 1015, 1067, 1068, 1092]
+            },
+            "saved_date": "15-Feb-2013 21:41:36"
+        }, {
+            "id": 1,
+            "name": "screen door, screen",
+            "name_ndx": 2251,
+            "hypernym": ["screen door, screen", "door", "movable barrier", "barrier", "obstruction, obstructor, obstructer, impediment, impedimenta", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "shower screen",
+            "attributes": [],
+            "depth_ordering_rank": 2,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_001_ADE_train_00000015.png",
+            "polygon": {
+                "x": [975, 913, 837, 796, 813, 818, 812, 807, 773, 633, 799, 896, 932, 983],
+                "y": [1283, 1241, 1149, 955, 925, 896, 860, 849, 821, 1, 1, 672, 944, 1267]
+            },
+            "saved_date": "15-Feb-2013 21:44:52"
+        }, {
+            "id": 2,
+            "name": "screen door, screen",
+            "name_ndx": 2251,
+            "hypernym": ["screen door, screen", "door", "movable barrier", "barrier", "obstruction, obstructor, obstructer, impediment, impedimenta", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "shower screen",
+            "attributes": [],
+            "depth_ordering_rank": 3,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_002_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1350, 1401, 1409, 1580, 1580, 1596, 1601, 1596, 1594, 1605, 1616, 1625, 1647, 1669, 1319, 1334, 1345],
+                "y": [1331, 1315, 1320, 1249, 1262, 1255, 1199, 1178, 1143, 1093, 1041, 973, 597, 1, 0, 559, 949]
+            },
+            "saved_date": "15-Feb-2013 21:45:47"
+        }, {
+            "id": 3,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 4,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_003_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1300, 1275, 1254, 1236, 1228, 1228, 1233, 1247, 1294, 1292, 802, 959],
+                "y": [988, 233, 221, 186, 145, 112, 73, 49, 50, 0, 1, 1112]
+            },
+            "saved_date": "15-Feb-2013 21:46:52"
+        }, {
+            "id": 4,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 5,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_004_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1341, 1299, 1277, 1288, 1312, 1325, 1320, 1296, 1292, 1322],
+                "y": [1030, 988, 233, 233, 236, 233, 51, 50, 1, 1]
+            },
+            "saved_date": "15-Feb-2013 21:47:17"
+        }, {
+            "id": 5,
+            "name": "heater, warmer",
+            "name_ndx": 1223,
+            "hypernym": ["heater, warmer", "device", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "heater",
+            "attributes": [],
+            "depth_ordering_rank": 6,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_005_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1314, 1322, 1254, 1236, 1230, 1222, 1225, 1233, 1259, 1275],
+                "y": [232, 50, 45, 61, 90, 122, 163, 194, 227, 230]
+            },
+            "saved_date": "15-Feb-2013 21:47:37"
+        }, {
+            "id": 6,
+            "name": "windowpane, window",
+            "name_ndx": 3055,
+            "hypernym": ["windowpane, window", "pane, pane of glass, window glass", "plate glass, sheet glass", "sheet, flat solid", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "window",
+            "attributes": [],
+            "depth_ordering_rank": 7,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_006_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1896, 1646, 1669, 1984],
+                "y": [717, 602, 0, 0]
+            },
+            "saved_date": "15-Feb-2013 21:49:09"
+        }, {
+            "id": 7,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 8,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_007_ADE_train_00000015.png",
+            "polygon": {
+                "x": [2199, 1986, 1894, 1646, 1625, 1616, 1600, 1594, 1597, 1601, 1596, 1609, 1609, 1709, 1729, 1738, 1773, 1788, 1798, 1804, 1770, 1759, 1745, 1752, 1762, 1862, 1891, 1983, 2071, 2182, 2199, 2197, 2185, 2149, 2120, 2086, 2028, 2008, 1995, 1958, 1917, 1905, 1894, 1933, 1981, 2012, 2051, 2087, 2128, 2143, 2197],
+                "y": [0, 0, 719, 604, 949, 1053, 1114, 1137, 1170, 1188, 1254, 1273, 1328, 1423, 1423, 1423, 1410, 1398, 1384, 1372, 1328, 1143, 1125, 1103, 1092, 1045, 1054, 1106, 1162, 1247, 1262, 1311, 1330, 1404, 1462, 1496, 1524, 1528, 1524, 1504, 1563, 1578, 1593, 1645, 1604, 1583, 1574, 1588, 1612, 1633, 1528]
+            },
+            "saved_date": "15-Feb-2013 21:57:22"
+        }, {
+            "id": 8,
+            "name": "towel",
+            "name_ndx": 2821,
+            "hypernym": ["towel", "piece of cloth, piece of material", "piece", "part, portion", "object, physical object", "physical entity", "entity"],
+            "raw_name": "towel",
+            "attributes": [],
+            "depth_ordering_rank": 9,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_008_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1796, 1802, 1790, 1743, 1722, 1703, 1691, 1665, 1627, 1603, 1594, 1597, 1614, 1622, 1639, 1656, 1665, 1669, 1681, 1667, 1673, 1703, 1731, 1741, 1756, 1757, 1740, 1749, 1770, 1787],
+                "y": [1004, 916, 830, 817, 807, 812, 817, 886, 989, 1101, 1140, 1180, 1216, 1230, 1273, 1243, 1224, 1258, 1264, 1292, 1300, 1304, 1285, 1261, 1262, 1154, 1121, 1110, 1086, 1070]
+            },
+            "saved_date": "15-Feb-2013 22:00:44"
+        }, {
+            "id": 9,
+            "name": "toilet, can, commode, crapper, pot, potty, stool, throne",
+            "name_ndx": 2793,
+            "hypernym": ["toilet, can, commode, crapper, pot, potty, stool, throne", "plumbing fixture", "fixture", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "toilet",
+            "attributes": [],
+            "depth_ordering_rank": 10,
+            "occluded": [],
+            "crop": "1",
+            "parts": {
+                "hasparts": [24, 25],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_009_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1552, 1498, 1476, 1465, 1467, 1498, 1552, 1617, 1673, 1699, 1720, 1770, 1790, 1802, 1764, 1763, 1748, 1748, 1754, 1782, 1859, 1935, 2036, 2117, 2191, 2191, 2151, 2117, 2086, 2046, 2014, 1973, 1961, 1896, 1891, 1870, 1833, 1847, 1830],
+                "y": [1765, 1725, 1686, 1633, 1574, 1522, 1474, 1440, 1426, 1422, 1423, 1415, 1393, 1373, 1322, 1151, 1129, 1117, 1099, 1080, 1042, 1076, 1137, 1196, 1259, 1322, 1401, 1467, 1496, 1518, 1527, 1516, 1507, 1600, 1619, 1636, 1686, 1731, 1763]
+            },
+            "saved_date": "15-Feb-2013 22:01:27"
+        }, {
+            "id": 10,
+            "name": "shower stall, shower bath",
+            "name_ndx": 2362,
+            "hypernym": ["shower stall, shower bath", "booth, cubicle, stall, kiosk", "closet", "room", "area", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "shower stall",
+            "attributes": [],
+            "depth_ordering_rank": 11,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_010_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1430, 1607, 1609, 1599, 1583, 1583, 1415, 1404, 1346, 1347, 1300, 962, 983, 973, 919, 841, 824, 833, 874, 922, 989, 1070, 1188, 1294, 1387],
+                "y": [1421, 1331, 1274, 1258, 1259, 1251, 1319, 1314, 1336, 1034, 986, 1109, 1263, 1283, 1244, 1154, 1163, 1214, 1275, 1351, 1409, 1441, 1468, 1465, 1438]
+            },
+            "saved_date": "15-Feb-2013 22:02:45"
+        }, {
+            "id": 11,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 12,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 13,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_011_ADE_train_00000015.png",
+            "polygon": {
+                "x": [604, 624, 628, 643, 641, 630, 628, 630, 641, 638, 628, 619, 605, 600, 594, 594, 602, 607, 613, 613],
+                "y": [832, 835, 847, 844, 829, 818, 791, 782, 775, 768, 767, 762, 762, 770, 778, 784, 784, 798, 814, 825]
+            },
+            "saved_date": "15-Feb-2013 22:04:52"
+        }, {
+            "id": 12,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 13,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 13,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_012_ADE_train_00000015.png",
+            "polygon": {
+                "x": [476, 491, 499, 514, 513, 506, 504, 502, 506, 507, 491, 483, 474, 471, 474, 463, 467, 480, 482, 486, 488],
+                "y": [867, 872, 883, 879, 866, 863, 844, 824, 817, 801, 806, 796, 801, 807, 815, 820, 825, 825, 843, 852, 860]
+            },
+            "saved_date": "15-Feb-2013 22:05:40"
+        }, {
+            "id": 13,
+            "name": "sink",
+            "name_ndx": 2388,
+            "hypernym": ["sink", "plumbing fixture", "fixture", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "sink",
+            "attributes": "pedestal",
+            "depth_ordering_rank": 14,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [11, 12],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_013_ADE_train_00000015.png",
+            "polygon": {
+                "x": [613, 619, 625, 641, 654, 683, 733, 754, 762, 764, 757, 743, 740, 681, 737, 775, 798, 815, 818, 806, 717, 701, 633, 631, 638, 643, 628, 625, 612, 607, 612, 609, 506, 506, 513, 516, 504, 494, 482, 479, 487, 480, 482, 378, 370, 365, 373, 378, 375, 383, 406, 448, 505, 560],
+                "y": [1322, 1354, 1367, 1383, 1386, 1393, 1381, 1358, 1336, 1303, 1297, 1267, 1269, 1028, 1004, 973, 954, 914, 886, 846, 782, 780, 796, 815, 824, 846, 849, 837, 836, 825, 818, 804, 830, 860, 866, 877, 883, 871, 871, 864, 863, 844, 838, 882, 889, 913, 938, 949, 975, 1001, 1033, 1051, 1060, 1065]
+            },
+            "saved_date": "15-Feb-2013 22:06:13"
+        }, {
+            "id": 14,
+            "name": "bottle",
+            "name_ndx": 249,
+            "hypernym": ["bottle", "vessel", "container", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "bottle",
+            "attributes": [],
+            "depth_ordering_rank": 15,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_014_ADE_train_00000015.png",
+            "polygon": {
+                "x": [546, 543, 512, 498, 495, 486, 472, 474, 457, 485, 494],
+                "y": [1342, 1319, 1233, 1238, 1230, 1230, 1236, 1246, 1254, 1354, 1361]
+            },
+            "saved_date": "15-Feb-2013 22:08:04"
+        }, {
+            "id": 15,
+            "name": "candle, taper, wax light",
+            "name_ndx": 376,
+            "hypernym": ["candle, taper, wax light", "lamp", "source of illumination", "device", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "candle",
+            "attributes": [],
+            "depth_ordering_rank": 16,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_015_ADE_train_00000015.png",
+            "polygon": {
+                "x": [325, 342, 336, 319, 309, 292, 277, 270, 266, 286, 305],
+                "y": [1095, 1084, 1067, 1015, 1009, 1011, 1017, 1026, 1036, 1103, 1103]
+            },
+            "saved_date": "15-Feb-2013 22:08:22"
+        }, {
+            "id": 16,
+            "name": "bathtub, bathing tub, bath, tub",
+            "name_ndx": 155,
+            "hypernym": ["bathtub, bathing tub, bath, tub", "vessel", "container", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "bathtub",
+            "attributes": [],
+            "depth_ordering_rank": 17,
+            "occluded": "no",
+            "crop": "1",
+            "parts": {
+                "hasparts": [17, 18],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_016_ADE_train_00000015.png",
+            "polygon": {
+                "x": [624, 516, 472, 358, 350, 341, 342, 325, 311, 286, 275, 165, 178, 180, 165, 168, 152, 148, 143, 141, 145, 26, 27, 38, 41, 27, 28, 17, 14, 0, 3],
+                "y": [1767, 1460, 1317, 1084, 1068, 1068, 1080, 1096, 1102, 1099, 1080, 1121, 1126, 1140, 1154, 1163, 1168, 1162, 1156, 1146, 1129, 1167, 1174, 1175, 1188, 1196, 1209, 1213, 1199, 1197, 1767]
+            },
+            "saved_date": "15-Feb-2013 22:08:42"
+        }, {
+            "id": 17,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 18,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 16,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_017_ADE_train_00000015.png",
+            "polygon": {
+                "x": [176, 176, 164, 151, 164, 164, 146, 151, 143, 143, 136, 134, 117, 117, 134, 141, 143, 143, 152, 154, 168, 167],
+                "y": [1138, 1125, 1120, 1095, 1092, 1084, 1087, 1076, 1075, 1083, 1080, 1088, 1093, 1103, 1102, 1114, 1128, 1144, 1157, 1167, 1166, 1155]
+            },
+            "saved_date": "15-Feb-2013 22:09:23"
+        }, {
+            "id": 18,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 19,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 16,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_018_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1, 1, 12, 17, 28, 27, 38, 42, 31, 16, 26, 25, 12, 12, 0],
+                "y": [1164, 1199, 1197, 1214, 1209, 1197, 1188, 1178, 1175, 1146, 1145, 1134, 1130, 1121, 1121]
+            },
+            "saved_date": "15-Feb-2013 22:09:50"
+        }, {
+            "id": 19,
+            "name": "soap",
+            "name_ndx": 2462,
+            "hypernym": ["soap", "cleansing agent, cleanser, cleaner", "formulation, preparation", "compound, chemical compound", "chemical, chemical substance", "material, stuff", "substance", "matter", "physical entity", "entity"],
+            "raw_name": "soap",
+            "attributes": [],
+            "depth_ordering_rank": 20,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_019_ADE_train_00000015.png",
+            "polygon": {
+                "x": [246, 258, 275, 291, 305, 312, 312, 305, 291, 278, 262, 252],
+                "y": [1125, 1140, 1143, 1141, 1137, 1126, 1115, 1104, 1101, 1099, 1103, 1112]
+            },
+            "saved_date": "15-Feb-2013 22:10:08"
+        }, {
+            "id": 20,
+            "name": "bucket, pail",
+            "name_ndx": 303,
+            "hypernym": ["bucket, pail", "vessel", "container", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "bucket",
+            "attributes": [],
+            "depth_ordering_rank": 21,
+            "occluded": "yes",
+            "crop": "1",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_020_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1931, 1936, 1928, 1936, 1957, 1997, 2026, 2051, 2093, 2120, 2143, 2107],
+                "y": [1767, 1728, 1698, 1650, 1625, 1591, 1575, 1572, 1588, 1607, 1633, 1767]
+            },
+            "saved_date": "15-Feb-2013 22:10:30"
+        }, {
+            "id": 21,
+            "name": "cabinet",
+            "name_ndx": 350,
+            "hypernym": ["cabinet", "furniture, piece of furniture, article of furniture", "furnishing", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "cabinet",
+            "attributes": [],
+            "depth_ordering_rank": 22,
+            "occluded": [],
+            "crop": "1",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_021_ADE_train_00000015.png",
+            "polygon": {
+                "x": [2196, 2107, 2170, 2177, 2179, 2199],
+                "y": [1767, 1767, 1558, 1558, 1543, 1528]
+            },
+            "saved_date": "15-Feb-2013 22:11:00"
+        }, {
+            "id": 22,
+            "name": "floor, flooring",
+            "name_ndx": 976,
+            "hypernym": ["floor, flooring", "horizontal surface, level", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "floor",
+            "attributes": "tile",
+            "depth_ordering_rank": 23,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_022_ADE_train_00000015.png",
+            "polygon": {
+                "x": [772, 622, 488, 546, 546, 540, 604, 613, 619, 638, 667, 698, 746, 756, 762, 762, 756, 748, 743, 736, 832, 863, 897, 957, 1030, 1110, 1204, 1291, 1367, 1485, 1612, 1707, 1614, 1549, 1504, 1478, 1464, 1464, 1474, 1496, 1551, 1833, 1849, 1838, 1889, 1899, 1933, 1930, 1922, 1933, 1933],
+                "y": [1767, 1767, 1364, 1342, 1325, 1315, 1294, 1334, 1357, 1384, 1391, 1390, 1367, 1349, 1326, 1304, 1288, 1263, 1264, 1244, 1214, 1258, 1312, 1383, 1426, 1454, 1468, 1464, 1445, 1393, 1330, 1421, 1443, 1480, 1521, 1552, 1594, 1646, 1681, 1728, 1765, 1764, 1729, 1686, 1619, 1599, 1645, 1661, 1699, 1733, 1765]
+            },
+            "saved_date": "15-Feb-2013 22:11:20"
+        }, {
+            "id": 23,
+            "name": "mirror",
+            "name_ndx": 1564,
+            "hypernym": ["mirror", "reflector", "device", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "mirror",
+            "attributes": [],
+            "depth_ordering_rank": 24,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000015/instance_023_ADE_train_00000015.png",
+            "polygon": {
+                "x": [186, 594, 666, 296],
+                "y": [129, 67, 448, 532]
+            },
+            "saved_date": "15-Feb-2013 22:14:42"
+        }, {
+            "id": 24,
+            "name": "lid",
+            "name_ndx": 1441,
+            "hypernym": [],
+            "raw_name": "lid",
+            "attributes": [],
+            "depth_ordering_rank": 25,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "ispartof": 9,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_024_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1772, 1729, 1664, 1578, 1510, 1471, 1462, 1481, 1512, 1547, 1617, 1707, 1770, 1850, 1883],
+                "y": [1450, 1420, 1428, 1456, 1502, 1586, 1630, 1668, 1704, 1737, 1749, 1735, 1704, 1637, 1553]
+            },
+            "saved_date": "16-May-2014 22:10:04"
+        }, {
+            "id": 25,
+            "name": "cistern",
+            "name_ndx": 518,
+            "hypernym": [],
+            "raw_name": "cistern",
+            "attributes": "tank",
+            "depth_ordering_rank": 26,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "ispartof": 9,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000015/instance_025_ADE_train_00000015.png",
+            "polygon": {
+                "x": [1872, 1759, 1754, 1746, 1751, 1860, 2169, 2192, 2184, 2120, 2077, 2022, 1991, 1962],
+                "y": [1471, 1360, 1167, 1137, 1102, 1039, 1227, 1252, 1317, 1469, 1502, 1528, 1530, 1512]
+            },
+            "saved_date": "16-May-2014 22:10:24"
+        }]
+    }
+}
