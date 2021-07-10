@@ -75,8 +75,8 @@ class DatasetInfo():
                     else:
                         scenes[scene] += 1
                 
-                for obj in img_objs:
-                    if scene in self.scenes:
+                    for obj in img_objs:
+                        
                         if obj['raw_name'] not in mapping:
                             old_label = obj['name_ndx']
                             mapped_values += 1
@@ -87,8 +87,7 @@ class DatasetInfo():
                             instance_objs[obj['raw_name']] = 1
                         else:
                             instance_objs[obj['raw_name']] += 1
-                    else:
-                        break # se la scena non ci interessa non ha senso continuare
+                        
         
         info['dataset_size'] = dataset_size
         info['instances_per_obj'] = instance_objs
