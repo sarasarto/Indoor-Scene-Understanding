@@ -47,7 +47,7 @@ class Classification_Helper():
 
         return dataset #include labels in the last column
 
-    def construct_dataset_ALL_OBJS():
+    def construct_dataset_ALL_OBJS(self):
         root_path = 'ADE_20K/annotations'
         with open('dataset_processing/ALL_OBJs_dataset_info.json', 'r') as f:
             dataset_info = json.load(f)
@@ -75,20 +75,20 @@ class Classification_Helper():
 
         return dataset #include labels in the last column
 
-    def make_balanced(dataset, X, Y):
+    def make_balanced(self , X, Y , dataset):
         x_train, x_test, y_train, y_test = train_test_split(X,Y, train_size=2/3)
         unique, counts = np.unique(y_test, return_counts=True)
         data_bal = dataset.copy()
         for c in range(len(unique)):
             # la classe piu grande ha 1600 circa elementi
             # ho deciso di bilanciare solo quelle che avevano metà degli esempi
-            if counts[c] <= 800:
-                medium  = resample(dataset[Y1==unique[c]], replace=True, n_samples=900)
+            if counts[c] <= np.max(counts)/2:
+                medium  = resample(dataset[Y==unique[c]], replace=True, n_samples=900)
 
                 data_bal = pd.concat([data_bal, medium])
         return data_bal
 
-    def train_RandomForestClassifier(dataset):
+    def train_RandomForestClassifier(self , dataset):
         Y = dataset.iloc[:,-1]
         X = dataset.iloc[:,:-1]
 
@@ -100,7 +100,22 @@ class Classification_Helper():
 
         model.fit(x_train, y_train)
         predictions = model.predict(x_test)
+        accuracy = accuracy_score(y_test, predictions)
+        #print(f'Accuracy è: {accuracy_score(y_test, predictions)}')
 
-        print(f'Accuracy è: {accuracy_score(y_test, predictions)}')
+        print("ora provo i parametri con il GridSearch \n")
+        # con il GridSearch troviamo i parametri migliori 
+        parameters = {
+            'n_estimators' : [10 , 50 , 100],
+            #'criterion' : ['gini', 'entropy'], 
+            'max_depth' : [10 , 30 , 60], 
+            'max_features' : ['auto', 'sqrt', 'log2'],
+        }
 
-        return accuracy_score(y_test, predictions)
+        gs_clf = GridSearchCV(model, parameters)
+        gs_clf.fit(x_train, y_train)
+        y_pred = gs_clf.predict(x_test)
+        #print("Best score:" + str(metrics.accuracy_score(y_test, y_pred)))
+        accuracy_grid = accuracy_score(y_test, y_pred)
+        final_acc = np.max([accuracy, accuracy_grid])
+        return final_acc , model
