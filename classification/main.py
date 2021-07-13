@@ -11,10 +11,15 @@ def main():
     classifier = Classification_Helper()
 
     #creo il dataset con solo i nostri oggetti
+    
     d1 = classifier.construct_dataset()
+    np.savetxt("FEW_OBJS_dataset.csv", d1, delimiter=",")
 
     #creo il dataset con tutti gli oggetti delle scene che ci interessano
-    d_all = classifier.construct_dataset_ALL_OBJS()
+    
+    #d_all = classifier.construct_dataset_ALL_OBJS()
+    #np.savetxt("ALL_OBJS_dataset.csv", d_all, delimiter=",")
+
 
     #leggo uno dei csv che ho
     # --> modifica il nome csv
