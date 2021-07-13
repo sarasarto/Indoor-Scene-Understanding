@@ -13,6 +13,7 @@ for folder in folder_list:
     if not os.path.exists(os.path.join(new_path, folder)):
         os.makedirs(os.path.join(new_path, folder))
 
+
 root_path = 'ADE20K_2021_17_01'
 
 for root, dirs, files in os.walk(root_path):

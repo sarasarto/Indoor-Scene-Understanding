@@ -1,7 +1,7 @@
-import os
 import torch
-import json
 import numpy as np
+import os
+import json
 from PIL import Image
 
 
@@ -14,11 +14,8 @@ class HomeScenesDataset(torch.utils.data.Dataset):
         self.imgs = list(sorted(os.listdir(os.path.join(root, "images"))))
         self.masks = list(sorted(os.listdir(os.path.join(root, "masks"))))
 
-        try:
-            with open('data_processing/mapping.json', 'r') as f:
-                self.mapping = json.load(f)
-        except: 
-            raise ValueError('Failed to open mappin.json file. It must be inside data_processing dicrectory!')
+        with open('dataset_processing/mapping.json', 'r') as f:
+            self.mapping = json.load(f)
 
     def __getitem__(self, idx):
         # load images and masks
@@ -35,10 +32,8 @@ class HomeScenesDataset(torch.utils.data.Dataset):
         # instances are encoded as different colors
         obj_ids = np.unique(mask[:,:,2]) #con ADE le istanze sono salvate nel canale B della mask
         # first id is the background, so remove it
-        obj_ids = obj_ids[1:]  #il primo valore è "0" e indica le piccole parti nero non segmentate 
-                                #che quindi non mi interessano
+        obj_ids = obj_ids[1:] 
         
-
         # split the color-encoded mask into a set
         # of binary masks
         masks = mask[:,:,2] == obj_ids[:, None, None]
@@ -46,21 +41,20 @@ class HomeScenesDataset(torch.utils.data.Dataset):
         # get bounding box coordinates for each mask
         num_objs = len(obj_ids)
 
-    
         labels = []
-        idx_to_keep = [] #in order to delete masks associated to not interesting objects(defined in the file).
+        idx_to_keep = []
    
         for i in range(len(masks)):
             coordinates = np.argwhere(masks[i] == 1)[0]
             R = mask[coordinates[0],coordinates[1],0]
             G = mask[coordinates[0],coordinates[1],1]
-            instance_class = (R/10).astype(np.int32)*256+(G.astype(np.int32))
+            instance_class = (R/10).astype(np.int32)*256+(G.astype(np.int32)) #obj class
     
             for key in self.mapping:
               if instance_class == self.mapping[key]['old_label']:  
                 idx_to_keep.append(i)
                 labels.append(self.mapping[key]['new_label'])
-                break   
+                break   #keys are unique so we can stop
        
         masks = masks[idx_to_keep,:,:]
         labels = torch.tensor(labels)
@@ -74,7 +68,7 @@ class HomeScenesDataset(torch.utils.data.Dataset):
             ymax = np.max(pos[0])
             boxes.append([xmin, ymin, xmax, ymax])
             if xmin == xmax or ymin == ymax:
-              raise ValueError(f'Invalid bounding box in the image {img_path}. xmin is equal to xmax or ymin equal to ymax')
+              raise ValueError('Invalid bounding box!')
 
         # convert everything into a torch.Tensor
         boxes = torch.as_tensor(boxes, dtype=torch.float32)

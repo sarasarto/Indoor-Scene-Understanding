@@ -14,11 +14,12 @@ class DatasetInfo():
         with open(self.obj_classes_file, 'r') as f:
             self.obj_classes = f.read().splitlines()
 
-    def get_dataset_info_and_obj_mapping(self): 
+    def get_dataset_info_and_obj_mapping(self, all_objects=False): 
         info = {}
         mapping = {}
         scenes = {}
         instance_objs = {}
+        self.all_objects = all_objects
         dataset_size = 0
         mapped_values = 0
 
@@ -35,8 +36,22 @@ class DatasetInfo():
                     else:
                         scenes[scene] += 1
 
-            for obj in img_objs:
-                if obj['raw_name'] in self.obj_classes:
+
+            if not all_objects:
+                for obj in img_objs:
+                    if obj['raw_name'] in self.obj_classes:
+                        if obj['raw_name'] not in mapping:
+                            old_label = obj['name_ndx']
+                            mapped_values += 1
+                            new_label = mapped_values
+                            mapping[obj['raw_name']] = {'old_label':old_label, 'new_label':new_label}
+
+                        if obj['raw_name'] not in instance_objs:
+                            instance_objs[obj['raw_name']] = 1
+                        else:
+                            instance_objs[obj['raw_name']] += 1
+            else:
+                for obj in img_objs:
                     if obj['raw_name'] not in mapping:
                         old_label = obj['name_ndx']
                         mapped_values += 1
@@ -47,6 +62,7 @@ class DatasetInfo():
                         instance_objs[obj['raw_name']] = 1
                     else:
                         instance_objs[obj['raw_name']] += 1
+
         
         info['dataset_size'] = dataset_size
         info['instances_per_obj'] = instance_objs
@@ -54,6 +70,7 @@ class DatasetInfo():
 
         return info, mapping
 
+'''
     def get_dataset_info_and_ALL_OBJS(self): 
         info = {}
         mapping = {}
@@ -94,5 +111,5 @@ class DatasetInfo():
         info['instances_per_scene'] = scenes
 
         return info, mapping
-
+'''
 
