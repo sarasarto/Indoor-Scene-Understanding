@@ -1,8 +1,8 @@
 import argparse
 from PIL import Image
-from matplotlib import cm
 import torchvision
 import torch
+import json
 from torchvision import transforms as T
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
@@ -10,10 +10,9 @@ from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 import numpy as np
 import torchvision.transforms.functional as F
-from torchvision.utils import draw_bounding_boxes
-import cv2
 import colorsys
 import random
+from classification.classification_utils import Classification_Helper
     
 def random_colors(N, brightness=0.01):
     """
@@ -94,7 +93,7 @@ model.eval()
 prediction = model([img])
 
 scores = prediction[0]['scores']
-scores = scores > 0.8
+scores = scores > 0.2
 scores = scores.nonzero()
 num_objs = len(scores)
 
@@ -111,6 +110,23 @@ img = np.swapaxes(img, 0,2)
 img = np.swapaxes(img, 0,1)
 
 show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
+
+#classification phase
+
+#construct vector
+#i load the dataset info
+with open('dataset_processing/dataset_info_all_objs.json', 'r') as f:
+    data = json.load(f)
+
+num_objs = len(data['instances_per_obj'])
+vector = np.zeros((1,num_objs))
+labels = np.unique(labels) - 1 #-1 because labels start from 1 but array indexing from 0
+vector[:,labels] = 1
+
+classification_helper = Classification_Helper()
+predicted_room = classification_helper.predict_room(vector)
+
+print(f'The predicted room is: {predicted_room}')
 
 
 

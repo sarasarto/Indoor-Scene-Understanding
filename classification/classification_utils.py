@@ -7,16 +7,17 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.utils import resample
 from sklearn.model_selection import GridSearchCV
-from sklearn import metrics
 import json
 import pandas as pd
 import os
+import pickle
 
 class Classification_Helper():
     def __init__(self, root_path='ADE_20K/annotations'):
         self.root_path = root_path       
         self.scenes = []
         self.obj_classes = []
+
 
     def construct_dataset(self, all_objects=False):
         root_path = self.root_path
@@ -47,8 +48,17 @@ class Classification_Helper():
         
         #encode labels with sklearn
         lb = LabelEncoder()
-        labels = lb.fit_transform(labels) 
-        dataset = np.c_[dataset, labels]
+        keys_list = labels
+        values_list = lb.fit_transform(labels)
+        values_list_str = map(str, values_list)
+        zip_iterator = zip(keys_list, values_list_str)
+        dictionary = dict(zip_iterator)
+
+        #save mapping on file
+        with open('classification/rooms_mapping.json', 'w') as f:
+            json.dump(dictionary, f)
+
+        dataset = np.c_[dataset, values_list]
 
         return dataset #include labels in the last column
 
@@ -98,3 +108,14 @@ class Classification_Helper():
         best_params = gs_clf.best_params_
         best_estimator = gs_clf.best_estimator_
         return best_estimator, final_acc, best_params
+
+    def predict_room(self, vector):
+        try:
+            with open('classification/randomforest_model.pkl', 'rb') as fid:
+                classifier = pickle.load(fid)
+        except:
+
+            raise ValueError('Impossibile to load the model. First you must train it!.')
+        
+        prediction = classifier.predict(vector)
+        return prediction

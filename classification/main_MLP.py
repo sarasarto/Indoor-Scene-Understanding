@@ -68,8 +68,6 @@ def main():
             #print(str(corr.item()))
         if(e%10 == 0 or e==epochs-1):
             print(f"Accuracy for epoch {e}:{corr.item() /test.shape[0]}")
-
-    #test phase
     
 
     # ATTENZIONE SE SI CREA CSV CON TUTTI GLI OGGETTI --> NON CARICARE SU GIT!!!

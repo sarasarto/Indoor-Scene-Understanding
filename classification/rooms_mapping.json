@@ -1,0 +1,13 @@
+{
+    "bathroom": "0",
+    "bedroom": "1",
+    "kitchen": "7",
+    "living_room": "8",
+    "childs_room": "2",
+    "dining_room": "3",
+    "dorm_room": "4",
+    "garage indoor": "5",
+    "home_office": "6",
+    "nursery": "9",
+    "utility_room": "10"
+}
