@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random as rng
 from PIL import Image
+from scipy import ndimage
 from numpy.lib.type_check import _imag_dispatcher
 
 img_path = 'dataset_ade20k_filtered\images\ADE_train_00011497.jpg'
@@ -35,11 +36,13 @@ roi = np.where(roi==0, 0, 255)
 roi = np.float32(roi)
 img[roi==0] = 255
 
+rotated = ndimage.rotate(img, 45)
+print(rotated)
+cv2.imshow('immagine ruotata', rotated)
+cv2.waitKey()
 
-gray_l = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 sift = cv2.SIFT_create()
 kp1, des1 = sift.detectAndCompute(img,None)
-
 
 '''
 keypoints_matrix = np.zeros((len(kp1),2))
@@ -49,9 +52,11 @@ for i, keypoint in enumerate(kp1):
 '''
 
 test1 = cv2.drawKeypoints(img, kp1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-plt.imshow(test1)
-plt.show()
+rotated = ndimage.rotate(test1, 45)
+cv2.imshow('test ruotato', 45)
+cv2.waitKey()
 
+#rotation angle in degree
 
 
 path = 'retrieval_sift/data_sofa/'
@@ -60,11 +65,11 @@ for f in os.listdir(path):
 
     path2 = os.path.join(path, str(f))
     img2 = cv2.imread(path2, cv2.COLOR_BGR2RGB)
-    gray_2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
 
     sift = cv2.SIFT_create()
     kp2, des2 = sift.detectAndCompute(img2,None)
     test2 = cv2.drawKeypoints(img2, kp2, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    test2 = cv2.cvtColor(test2, cv2.COLOR_BGR2RGB)
     #plt.imshow(test2)
     #plt.show()
 
@@ -84,7 +89,7 @@ for f in os.listdir(path):
     #print("match buoni trovati: " + str(len(good)))
     img3 = cv2.drawMatchesKnn(img,kp1,img2,kp2, good,None, flags=2)
     img3 = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
-    plt.imshow(img3),plt.show()
+    plt.imshow(img3), plt.show()
 
 # stampo i punti che soddisfano la percentuale per ogni immagine
 for i , img in enumerate(os.listdir(path)):
