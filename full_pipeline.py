@@ -93,7 +93,9 @@ except FileNotFoundError:
 model = get_instance_segmentation_model(102)
 model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu'))['model_state_dict'])
 model.eval()
+
 prediction = model([img])
+
 
 scores = prediction[0]['scores']
 scores = scores > 0.6

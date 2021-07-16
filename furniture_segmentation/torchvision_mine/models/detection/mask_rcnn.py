@@ -247,18 +247,43 @@ class MaskRCNNHeads(nn.Sequential):
 
 class MaskRCNNPredictor(nn.Sequential):
     def __init__(self, in_channels, dim_reduced, num_classes):
+        '''
         super(MaskRCNNPredictor, self).__init__(OrderedDict([
-            ("conv5_mask", nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)),
+            ("conv5_mask1", nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)),
             ("relu", nn.ReLU(inplace=True)),
-            ("mask_fcn_logits", nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)),
+            ("conv5_mask2", nn.ConvTranspose2d(dim_reduced, dim_reduced, 2, 2, 0, dilation=2)),
+            ("relu", nn.ReLU(inplace=True)),
+            ("mask_fcn_logits1", nn.Conv2d(dim_reduced, dim_reduced, 3, 2, 0, dilation=2)),
+            ("relu", nn.ReLU(inplace=True)),
+            ("mask_fcn_logits2", nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)),
         ]))
+        '''
+        super(MaskRCNNPredictor, self).__init__()
 
+        #init
+
+        self.transpose1 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
+        self.transpose2 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
+        self.relu = nn.ReLU()
+        self.conv1 = nn.Conv2d(dim_reduced, dim_reduced, 3, 2, 0, dilation=2)
+        self.conv2 = nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)
+
+     
+        
         for name, param in self.named_parameters():
             if "weight" in name:
                 nn.init.kaiming_normal_(param, mode="fan_out", nonlinearity="relu")
             # elif "bias" in name:
             #     nn.init.constant_(param, 0)
+        
 
+    def forward(self, input):
+        self.out = self.relu(self.transpose1(input))
+        self.out = self.relu(self.transpose2(self.out))
+        self.out = self.relu(self.conv1(self.out))
+        self.out = self.conv2(self.out)
+
+        return self.out
 
 model_urls = {
     'maskrcnn_resnet50_fpn_coco':
@@ -333,6 +358,6 @@ def maskrcnn_resnet50_fpn(pretrained=False, progress=True,
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls['maskrcnn_resnet50_fpn_coco'],
                                               progress=progress)
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=False)
         overwrite_eps(model, 0.0)
     return model

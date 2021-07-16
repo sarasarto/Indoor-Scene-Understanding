@@ -5,11 +5,12 @@ from references.detection import utils
 from references.detection.engine import train_one_epoch, evaluate
 from references.detection import transforms as T
 
-root = 'dataset_ade20k_filtered'
+root = '../dataset_ade20k_filtered'
 
 # use our dataset and defined transformations
 dataset = HomeScenesDataset(root, get_transform(train=True))
 dataset_test = HomeScenesDataset(root, get_transform(train=False))
+
 
 # split the dataset in train and test set
 batch_size_train = 2
@@ -38,31 +39,21 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 num_classes = 102 #101 interesting objects plus background
 model = get_instance_segmentation_model(num_classes)
 
-'''
 # move model to the right device
 model.to(device)
-
 # construct an optimizer
 params = [p for p in model.parameters() if p.requires_grad]
-optimizer = torch.optim.SGD(params, lr=0.005,
-                            momentum=0.9, weight_decay=0.0005)
-
-# and a learning rate scheduler
-lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
-                                                step_size=3,
-                                                gamma=0.1)
-
-                    
+optimizer = torch.optim.Adam(params)
+     
+PATH = 'model_mask_modified.pt'
 # let's train it for 10 epochs
-num_epochs = 2
-PATH = "furniture_segmentation/model.pt"
-torch.save(model.state_dict(), PATH)
+num_epochs = 5
 
 for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
         train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
         # update the learning rate
-        lr_scheduler.step()
+        #lr_scheduler.step()
         # evaluate on the test dataset
         evaluate(model, test_loader, device=device)
       
@@ -72,4 +63,3 @@ for epoch in range(num_epochs):
         'optimizer_state_dict': optimizer.state_dict(),
         #'loss': loss,
         }, PATH)
-'''

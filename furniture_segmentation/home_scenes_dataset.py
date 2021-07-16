@@ -14,7 +14,7 @@ class HomeScenesDataset(torch.utils.data.Dataset):
         self.imgs = list(sorted(os.listdir(os.path.join(root, "images"))))
         self.masks = list(sorted(os.listdir(os.path.join(root, "masks"))))
 
-        with open('dataset_processing/mapping.json', 'r') as f:
+        with open('../dataset_processing/mapping.json', 'r') as f:
             self.mapping = json.load(f)
 
     def __getitem__(self, idx):
