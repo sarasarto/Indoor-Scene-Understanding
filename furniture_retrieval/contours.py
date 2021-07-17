@@ -11,6 +11,8 @@ rng.seed(12345)
 def thresh_callback(val):
     threshold = val
     
+    print(type(src_gray))
+    print(np.unique(src_gray))
     canny_output = cv.Canny(src_gray, threshold, threshold * 3)
  
     #cv.imshow('Contours', canny_output)
@@ -23,7 +25,7 @@ def thresh_callback(val):
     # CHAIN_APPROX_NONE: The outline is output in the form of Freeman chain code, and all other methods output polygons (sequence of vertices).
     # CHAIN_APPROX_SIMPLE (most commonly used): Compress the horizontal, vertical and diagonal parts, that is, the function only retains their end parts.
     
-    contours, _ = cv.findContours(dilated, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+    contours, _ = cv.findContours(canny_output, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     #contours, hierarchy = cv.findContours(canny_output, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
     contours_poly = [None]*len(contours)
