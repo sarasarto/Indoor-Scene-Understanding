@@ -169,29 +169,44 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         #result is dilated for marking the corners, not important
         dst = cv2.dilate(dst,None)
         # Threshold for an optimal value, it may vary depending on the image.
+        
+        #cropped_image[dst>0.01*dst.max()]=[0,0,255]
         coordinates = np.argwhere(dst > 0.01*dst.max())
+
+        top = coordinates[0]
+        bottom = coordinates[-1]
+        left = coordinates[np.argmin(coordinates[:,1])]
+        right = coordinates[np.argmax(coordinates[:,1])]
+
+        corners = np.array([top,
+                            bottom,
+                            left,
+                            right])
+
+        #tl = (np.min(coordinates[:,0]), np.max(coordinates[:,1]))
+        #tr = (np.max(coordinates[:,0]), np.max(coordinates[:,1]))
+        #br = (np.max(coordinates[:,0]), np.min(coordinates[:,1]))
+        #bl = (np.min(coordinates[:,0]), np.min(coordinates[:,1]))
         print(coordinates.shape)
         print(coordinates)
+        plt.imshow(cropped_image)
+        plt.show()
 
-        tl = (np.min(coordinates[:,0]), np.max(coordinates[:,1]))
-        tr = (np.max(coordinates[:,0]), np.max(coordinates[:,1]))
-        br = (np.max(coordinates[:,0]), np.min(coordinates[:,1]))
-        bl = (np.min(coordinates[:,0]), np.min(coordinates[:,1]))
-        #cropped_image[dst>0.01*dst.max()]=[0,0,255]
-
-        x = [tl[0], tr[0], br[0], bl[0]]
+        x = [top[1], bottom[1], left[1],right[1]]
         #print(x)
-        y = [tl[1], tr[1], br[1], bl[1]]
-        print(y)
+        y = [top[0], bottom[0], left[0],right[0]]
+        print(x,y)
 
         #test1 = cv2.drawKeypoints(img, kp1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
         #print(kp1[0].pt)
         implot = plt.imshow(cropped_image)
         plt.scatter(x,y, c='r')
         plt.show()
-        
-        #plt.imshow(cropped_image)
-        #plt.show()
+
+        rectified_furniture = gt.furniture_rectification(cropped_image, corners)
+        plt.imshow(rectified_furniture)
+        plt.show()
+
 
 
         '''
