@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random as rng
 from PIL import Image
-from scipy import ndimage
+#from scipy import ndimage
 from numpy.lib.type_check import _imag_dispatcher
 
 
