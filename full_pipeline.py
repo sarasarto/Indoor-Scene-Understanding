@@ -217,10 +217,20 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         #right = mask_points_coord[np.argmax(mask_points_coord[:,0])]
         '''
         top = intersection[intersection[:,1].argmin()]
-        bottom = intersection[intersection[:,1].argmax()]
-        left = intersection[intersection[0,:].argmin()]
-        right = intersection[intersection[0,:].argmax()]
 
+        print('top')
+        print(top)
+        bottom = intersection[intersection[:,1].argmax()]
+        print('booton')
+        print(bottom)
+        left = intersection[intersection[:, 0].argmin()]
+        print('left')
+        print(left)
+        right = intersection[intersection[:, 0].argmax()]
+        print("right")
+        print(right)
+
+        print('ok')
     
         '''
         #tl, bl, br, tr
