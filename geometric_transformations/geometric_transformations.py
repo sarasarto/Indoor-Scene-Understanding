@@ -1,10 +1,6 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import random as rng
-from PIL import Image
-from scipy import ndimage
-from numpy.lib.type_check import _imag_dispatcher
+import math
 
 
 class GeometryTransformer():
@@ -114,31 +110,41 @@ class GeometryTransformer():
     
 
     def furniture_rectification(self, img, corners):
-        #corners order: top, bottom, left, right
-        '''
-        rect = self.order_points(corners)
-        tl, tr, br, bl = rect
-        whRatio = self.aspect_ratio(corners, img)
-        if math.isnan(whRatio):
-            return None
-        width, height = self.perspective_dim_ratio(whRatio, tl, tr, br, bl)
-        if width is None or height is None:
-            return None
-        '''
-        H = img.shape[0]
-        W = img.shape[1]
+        #corners order: tl, bl, br, tr
 
         corners = corners.astype(np.float32)
-        dst_pts = np.array([[0,H],
-                            [0,W],
-                            [0,0],
-                            [H,W]], dtype='float32')
 
-        M = cv2.getPerspectiveTransform(corners, dst_pts)
-        warped_img = cv2.warpPerspective(img,M,(700,700))
-        return warped_img
 
+        # Here, I have used L2 norm. You can use L1 also.
+        width_AD = np.sqrt(((corners[0][0] - corners[-1][0]) ** 2) + ((corners[0][1] - corners[-1][1]) ** 2))
+        width_BC = np.sqrt(((corners[1][0] - corners[2][0]) ** 2) + ((corners[1][1] - corners[2][1]) ** 2))
+        maxWidth = max(int(width_AD), int(width_BC))
         
+        height_AB = np.sqrt(((corners[0][0] - corners[1][0]) ** 2) + ((corners[0][1] - corners[1][1]) ** 2))
+        height_CD = np.sqrt(((corners[2][0] - corners[-1][0]) ** 2) + ((corners[2][1] - corners[-1][1]) ** 2))
+        maxHeight = max(int(height_AB), int(height_CD))
+
+        '''
+        dst_pts = np.array([[0,0], #top
+                            [width-1,0], #bottom
+                            [height-1,width-1],  #left
+                            [0,height-1]], dtype='float32') #right
+
+         
+        '''          
+        
+        
+        output_pts = np.float32([[0, 0],
+                                [0, maxHeight - 1],
+                                [maxWidth - 1, maxHeight - 1],
+                                [maxWidth - 1, 0]])
+
+
+        M = cv2.getPerspectiveTransform(corners, output_pts)
+
+        warped_img = cv2.warpPerspective(img,M,(maxWidth, maxHeight),flags=cv2.INTER_LINEAR)
+        print(warped_img.shape)
+        return warped_img
 
 '''
 segmentation = cv2.imread(masks_path)

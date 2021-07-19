@@ -134,12 +134,13 @@ img = img.detach().numpy()
 img = np.swapaxes(img, 0,2)
 img = np.swapaxes(img, 0,1)
 
-#show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
+show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
 
 #parte di processing prima di estrarre i keypoint per il retrieval
 gt = GeometryTransformer()
 
 img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
+
 
 for box, mask, text_label in zip(boxes, masks, text_labels):
     #result = gt.transform_bbox(box)
@@ -164,86 +165,100 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         #plt.imshow(canny_output, cmap='gray')
         #plt.show()
 
-    
         dst = cv2.cornerHarris(src_gray,2,3,0.04)
         #result is dilated for marking the corners, not important
         dst = cv2.dilate(dst,None)
         # Threshold for an optimal value, it may vary depending on the image.
         
-        #cropped_image[dst>0.01*dst.max()]=[0,0,255]
+        
         coordinates = np.argwhere(dst > 0.01*dst.max())
-
-        top = coordinates[0]
-        bottom = coordinates[-1]
-        left = coordinates[np.argmin(coordinates[:,1])]
-        right = coordinates[np.argmax(coordinates[:,1])]
-
-        corners = np.array([top,
-                            bottom,
-                            left,
-                            right])
-
-        #tl = (np.min(coordinates[:,0]), np.max(coordinates[:,1]))
-        #tr = (np.max(coordinates[:,0]), np.max(coordinates[:,1]))
-        #br = (np.max(coordinates[:,0]), np.min(coordinates[:,1]))
-        #bl = (np.min(coordinates[:,0]), np.min(coordinates[:,1]))
-        print(coordinates.shape)
+    
+        mask_x, mask_y = np.where(cropped_mask==1)
+        print(mask_x.shape)
+        mask_x = mask_x.reshape((-1,1))
+        print(mask_x.shape)
+        mask_y = mask_y.reshape((-1,1))
+        mask_points_coord = np.hstack((mask_x, mask_y))
+        coordinates[:, [1, 0]] = coordinates[:, [0, 1]]
+        mask_points_coord[:, [1, 0]] = mask_points_coord[:, [0, 1]]
         print(coordinates)
+        print(mask_points_coord)
+
+
+        aset = set([tuple(x) for x in coordinates])
+        bset = set([tuple(x) for x in mask_points_coord])
+        intersection = [x for x in aset & bset]
+        print('iniziatooo')
+        print(intersection)
+
+        for item_a in aset:
+            x_a, y_a = item_a[0], item_a[1]
+            for item_b in bset:
+                x_b, y_b = item_b[0], item_b[1]
+                if x_a - 3 <= x_b <= x_a + 3 and y_a - 3 <= y_b <= y_a + 3:
+                    intersection.append((x_b, y_b))
+
+
+        #nb trasformare in array
+        intersection = np.array(intersection)
+        #intersection = intersection[np.lexsort(intersection[:,::-1]).T]
+        #intersection[:, [1, 0]] = intersection[:, [0, 1]]
+
+        print(intersection)
+        '''
+        top = intersection[0]
+        bottom = intersection[-1]
+        left = intersection[np.argmin(intersection[:,0])]
+        right = intersection[np.argmax(intersection[:,0])]
+
+        #top = mask_points_coord[0]
+        #bottom = mask_points_coord[-1]
+        #left = mask_points_coord[np.argmin(mask_points_coord[:,0])]
+        #right = mask_points_coord[np.argmax(mask_points_coord[:,0])]
+        '''
+        top = intersection[intersection[:,1].argmin()]
+        bottom = intersection[intersection[:,1].argmax()]
+        left = intersection[intersection[0,:].argmin()]
+        right = intersection[intersection[0,:].argmax()]
+
+    
+        '''
+        #tl, bl, br, tr
+        corners = np.array([[1,10],
+                            [6,92],
+                            [275,105],
+                            [289,9]])
+        '''
+        '''
+        corners = np.array([[left[0],top[1]],
+                            [left[0], bottom[1]],
+                            [right[0],bottom[1]],
+                            [right[0], top[1]]])
+        '''
+
+
+        
+        x = [left[0], left[0], right[0],right[0]]
+        y = [top[1], bottom[1], bottom[1],top[1]]
+        print(x, y)
+
+        #x = intersection[:,0]
+        #y = intersection[:,1]
+
         plt.imshow(cropped_image)
-        plt.show()
-
-        x = [top[1], bottom[1], left[1],right[1]]
-        #print(x)
-        y = [top[0], bottom[0], left[0],right[0]]
-        print(x,y)
-
-        #test1 = cv2.drawKeypoints(img, kp1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-        #print(kp1[0].pt)
-        implot = plt.imshow(cropped_image)
         plt.scatter(x,y, c='r')
         plt.show()
 
         rectified_furniture = gt.furniture_rectification(cropped_image, corners)
-        plt.imshow(rectified_furniture)
-        plt.show()
+        plt.imsave('img_rectified.jpg', rectified_furniture)
 
-
-
-        '''
-        rotated_image = ndimage.rotate(cropped_image, 45)
-        sift = cv2.SIFT_create()
-        kp1, des1 = sift.detectAndCompute(rotated_image,None)
-        test = cv2.drawKeypoints(img, kp1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-        sift = cv2.SIFT_create()
-        kp1, des1 = sift.detectAndCompute(ndimage.rotate(cropped_image, -45),None)
-        test = cv2.drawKeypoints(img, kp1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-        '''
-
-        '''
-        plt.imshow(cropped_image)
-        plt.show()
-        src_gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
-        plt.imshow(src_gray, cmap='gray')
-        plt.show()
-        src_gray = np.round(src_gray).astype(np.uint8)
-        src_gray = np.where(src_gray==1, 255, 0).astype(np.uint8)
-  
-        
-        fig, axs = plt.subplots(1,2)
-        axs[0,0].imshow(box)
-        axs[0,1].imshhow(box)
-        axs.show()
-        
-        canny_output = cv2.Canny(src_gray, 30, 50 * 3)
-        plt.imshow(canny_output, cmap='gray')
-        plt.show()
-        '''
+        cropped_image[dst>0.01*dst.max()]=[0,0,255]
+        plt.imsave('harris.jpg', cropped_image)
 
 
 
 
-
+'''
 #classification phase
 #construct vector
 #i load the dataset info
@@ -269,7 +284,7 @@ classification_helper = Classification_Helper()
 predicted_room = classification_helper.predict_room(vector)
 
 print(f'The predicted room is: {predicted_room}')
-
+'''
 
 
 
