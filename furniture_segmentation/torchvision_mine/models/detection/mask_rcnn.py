@@ -247,21 +247,8 @@ class MaskRCNNHeads(nn.Sequential):
 
 class MaskRCNNPredictor(nn.Sequential):
     def __init__(self, in_channels, dim_reduced, num_classes):
-        '''
-        super(MaskRCNNPredictor, self).__init__(OrderedDict([
-            ("conv5_mask1", nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)),
-            ("relu", nn.ReLU(inplace=True)),
-            ("conv5_mask2", nn.ConvTranspose2d(dim_reduced, dim_reduced, 2, 2, 0, dilation=2)),
-            ("relu", nn.ReLU(inplace=True)),
-            ("mask_fcn_logits1", nn.Conv2d(dim_reduced, dim_reduced, 3, 2, 0, dilation=2)),
-            ("relu", nn.ReLU(inplace=True)),
-            ("mask_fcn_logits2", nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)),
-        ]))
-        '''
         super(MaskRCNNPredictor, self).__init__()
-
-        #init
-
+        
         self.transpose1 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
         self.transpose2 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
         self.relu = nn.ReLU()
