@@ -269,7 +269,6 @@ class MaskRCNNPredictor(nn.Sequential):
         self.conv2 = nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)
 
      
-        
         for name, param in self.named_parameters():
             if "weight" in name:
                 nn.init.kaiming_normal_(param, mode="fan_out", nonlinearity="relu")

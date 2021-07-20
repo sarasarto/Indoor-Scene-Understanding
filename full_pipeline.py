@@ -1,11 +1,12 @@
 import argparse
+from furniture_segmentation.training_utils import get_instance_segmentation_model
+
+
 from PIL import Image
 import torchvision
 import torch
 import json
 from torchvision import transforms as T
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 import random as rng
 from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
@@ -31,27 +32,6 @@ def random_colors(N, brightness=0.01):
     return colors
 
 
-def get_instance_segmentation_model(num_classes):
-    # load an instance segmentation model pre-trained on COCO
-    model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
-
-  
-    # get the number of input features for the classifier
-    in_features = model.roi_heads.box_predictor.cls_score.in_features
-    print(f'in_features: {in_features}')
-    # replace the pre-trained head with a new one
-    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-
-    # now get the number of input features for the mask classifier
-    in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
-    print(f'in_features_mask: {in_features_mask}')
-    hidden_layer = 256
-    # and replace the mask predictor with a new one
-    model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask,
-                                                       hidden_layer,
-                                                       num_classes)
-
-    return model
 
 def show_bboxes_and_masks(image, boxes, masks, colors, alpha=0.2):
     for i,mask, bbox in zip(range(len(masks)), masks, boxes):
@@ -99,7 +79,7 @@ except FileNotFoundError:
 #now I can use my model to segment the image(for the moment we use a fully pretrained maskrcnn)
 #model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
 model = get_instance_segmentation_model(102)
-model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu'))['model_state_dict'])
+model.load_state_dict(torch.load('model_mask_modified.pt', map_location=torch.device('cpu'))['model_state_dict'])
 model.eval()
 
 prediction = model([img])
@@ -127,14 +107,18 @@ for label in labels:
 boxes = boxes.detach().numpy()
 masks = prediction[0]['masks'][:num_objs,:,:]
 masks = masks.detach().numpy().round()
-masks = np.squeeze(masks)
+if len(masks) > 1:
+    masks = np.squeeze(masks)
+else:
+    masks = np.squeeze(masks, axis=0)
+    print(masks.shape)
 
 
 img = img.detach().numpy()
 img = np.swapaxes(img, 0,2)
 img = np.swapaxes(img, 0,1)
 
-#show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
+show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
 
 #parte di processing prima di estrarre i keypoint per il retrieval
 gt = GeometryTransformer()
@@ -143,6 +127,9 @@ img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 
 
 for box, mask, text_label in zip(boxes, masks, text_labels):
+    print(text_label)
+    print(mask.shape)
+    print(np.unique(mask))
     #result = gt.transform_bbox(box)
     if text_label == 'sofa':
         #box = np.round(box)
@@ -261,8 +248,6 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
                             [left[0], bottom[1]],
                             [right[0],bottom[1]],
                             [right[0], top[1]]])
-
-
 
         
         x = [left[0], left[0], right[0],right[0]]

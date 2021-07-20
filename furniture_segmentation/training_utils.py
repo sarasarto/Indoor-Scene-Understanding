@@ -1,12 +1,12 @@
-import torchvision_mine
-from torchvision_mine.models.detection.faster_rcnn import FastRCNNPredictor
-from torchvision_mine.models.detection.mask_rcnn import MaskRCNNPredictor
-from references.detection import transforms as T
+from furniture_segmentation.torchvision_mine.models.detection import maskrcnn_resnet50_fpn
+from furniture_segmentation.torchvision_mine.models.detection.faster_rcnn import FastRCNNPredictor
+from furniture_segmentation.torchvision_mine.models.detection.mask_rcnn import MaskRCNNPredictor
+from .references.detection import transforms as T
 
       
 def get_instance_segmentation_model(num_classes):
     # load an instance segmentation model pre-trained on COCO
-    model = torchvision_mine.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
+    model = maskrcnn_resnet50_fpn(pretrained=True)
   
     # get the number of input features for the classifier
     in_features = model.roi_heads.box_predictor.cls_score.in_features

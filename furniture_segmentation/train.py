@@ -39,6 +39,7 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 num_classes = 102 #101 interesting objects plus background
 model = get_instance_segmentation_model(num_classes)
 
+
 # move model to the right device
 model.to(device)
 # construct an optimizer

@@ -114,7 +114,6 @@ class GeometryTransformer():
 
         corners = corners.astype(np.float32)
 
-
         # Here, I have used L2 norm. You can use L1 also.
         width_AD = np.sqrt(((corners[0][0] - corners[-1][0]) ** 2) + ((corners[0][1] - corners[-1][1]) ** 2))
         width_BC = np.sqrt(((corners[1][0] - corners[2][0]) ** 2) + ((corners[1][1] - corners[2][1]) ** 2))
@@ -132,8 +131,7 @@ class GeometryTransformer():
 
          
         '''          
-        
-        
+    
         output_pts = np.float32([[0, 0],
                                 [0, maxHeight - 1],
                                 [maxWidth - 1, maxHeight - 1],
