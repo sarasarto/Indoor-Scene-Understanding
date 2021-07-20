@@ -3,7 +3,6 @@ from training_utils import collate_fn, get_transform, get_instance_model_default
 import torch
 from references.detection import utils
 from references.detection.engine import train_one_epoch, evaluate
-from references.detection import transforms as T
 
 root = '../dataset_ade20k_filtered'
 

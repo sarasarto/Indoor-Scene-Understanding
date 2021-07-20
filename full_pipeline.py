@@ -1,23 +1,14 @@
 import argparse
-from furniture_segmentation.training_utils import get_instance_segmentation_model
-
-
+from furniture_segmentation.training_utils import get_instance_model_default, get_instance_model_modified
 from PIL import Image
-import torchvision
 import torch
-import json
-from torchvision import transforms as T
-import random as rng
 from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 import numpy as np
-import torchvision.transforms.functional as F
 import colorsys
-import cv2
-from scipy import ndimage
 import random
 from geometric_transformations.geometric_transformations import GeometryTransformer
-from classification.classification_utils import Classification_Helper
+
     
 def random_colors(N, brightness=0.01):
     """
@@ -78,13 +69,13 @@ except FileNotFoundError:
 
 #now I can use my model to segment the image(for the moment we use a fully pretrained maskrcnn)
 #model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
-model = get_instance_segmentation_model(102)
-model.load_state_dict(torch.load('model_mask_modified.pt', map_location=torch.device('cpu'))['model_state_dict'])
+model = get_instance_model_default(102)
+model.load_state_dict(torch.load('model.pt', map_location=torch.device('cpu'))['model_state_dict'])
 model.eval()
 
 prediction = model([img])
 
-
+'''
 scores = prediction[0]['scores']
 scores = scores > 0.7
 scores = scores.nonzero()
@@ -192,7 +183,7 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         #intersection[:, [1, 0]] = intersection[:, [0, 1]]
 
         print(intersection)
-        '''
+     
         top = coordinates[coordinates[:,1].argmin()]
         bottom = coordinates[coordinates[:,1].argmax()]
         left = coordinates[np.argmin(coordinates[:,0])]
@@ -220,57 +211,18 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         plt.scatter(x, y, c='r')
         plt.show()
 
-        '''
-        top = intersection[intersection[:,1].argmin()]
-        print('top')
-        print(top)
-        bottom = intersection[intersection[:,1].argmax()]
-        print('booton')
-        print(bottom)
-        left = intersection[intersection[:, 0].argmin()]
-        print('left')
-        print(left)
-        right = intersection[intersection[:, 0].argmax()]
-        print("right")
-        print(right)
-
-        print('ok')
-
-        '''
+      
         #tl, bl, br, tr
         corners = np.array([[1,10],
                             [6,92],
                             [275,105],
                             [289,9]])
-        '''
-
-        corners = np.array([[left[0],top[1]],
-                            [left[0], bottom[1]],
-                            [right[0],bottom[1]],
-                            [right[0], top[1]]])
-
-        
-        x = [left[0], left[0], right[0],right[0]]
-        y = [top[1], bottom[1], bottom[1],top[1]]
-        print(x, y)
-
-        #x = intersection[:,0]
-        #y = intersection[:,1]
-
-        plt.imshow(cropped_image)
-        plt.scatter(x,y, c='r')
-        plt.show()
-
-        rectified_furniture = gt.furniture_rectification(cropped_image, corners)
-        plt.imsave('img_rectified.jpg', rectified_furniture)
-
-        cropped_image[dst>0.01*dst.max()]=[0,0,255]
-        plt.imsave('harris.jpg', cropped_image)
+     
 
 
 
 
-'''
+
 #classification phase
 #construct vector
 #i load the dataset info
@@ -294,7 +246,6 @@ for label in labels:
 vector[:,idxs] = 1
 classification_helper = Classification_Helper()
 predicted_room = classification_helper.predict_room(vector)
-
 print(f'The predicted room is: {predicted_room}')
 '''
 
