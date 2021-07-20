@@ -134,7 +134,7 @@ img = img.detach().numpy()
 img = np.swapaxes(img, 0,2)
 img = np.swapaxes(img, 0,1)
 
-show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
+#show_bboxes_and_masks(img, boxes, masks, random_colors(num_objs))
 
 #parte di processing prima di estrarre i keypoint per il retrieval
 gt = GeometryTransformer()
@@ -188,14 +188,14 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         aset = set([tuple(x) for x in coordinates])
         bset = set([tuple(x) for x in mask_points_coord])
         intersection = [x for x in aset & bset]
-        print('iniziatooo')
-        print(intersection)
+        #print('iniziatooo')
+        #print(intersection)
 
         for item_a in aset:
             x_a, y_a = item_a[0], item_a[1]
             for item_b in bset:
                 x_b, y_b = item_b[0], item_b[1]
-                if x_a - 3 <= x_b <= x_a + 3 and y_a - 3 <= y_b <= y_a + 3:
+                if x_a - 5 <= x_b <= x_a + 5 and y_a - 5<= y_b <= y_a + 5:
                     intersection.append((x_b, y_b))
 
 
@@ -206,18 +206,35 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
 
         print(intersection)
         '''
-        top = intersection[0]
-        bottom = intersection[-1]
-        left = intersection[np.argmin(intersection[:,0])]
-        right = intersection[np.argmax(intersection[:,0])]
+        top = coordinates[coordinates[:,1].argmin()]
+        bottom = coordinates[coordinates[:,1].argmax()]
+        left = coordinates[np.argmin(coordinates[:,0])]
+        right = coordinates[np.argmax(coordinates[:,0])]
 
-        #top = mask_points_coord[0]
-        #bottom = mask_points_coord[-1]
-        #left = mask_points_coord[np.argmin(mask_points_coord[:,0])]
-        #right = mask_points_coord[np.argmax(mask_points_coord[:,0])]
+        x = [left[0], bottom[0], right[0], top[0]]
+        y = [left[1], bottom[1], right[1], top[1]]
+        print(x, y)
+
+        plt.imshow(cropped_image)
+        plt.scatter(x, y, c='r')
+        plt.show()
+
+
+        top = mask_points_coord[mask_points_coord[:,1].argmin()]
+        bottom = mask_points_coord[mask_points_coord[:,1].argmax()]
+        left = mask_points_coord[mask_points_coord[:, 0].argmin()]
+        right = mask_points_coord[(mask_points_coord[:,0]).argmax()]
+
+        x = [left[0], bottom[0], right[0], top[0]]
+        y = [left[1], bottom[1], right[1], top[1]]
+        print(x, y)
+
+        plt.imshow(cropped_image)
+        plt.scatter(x, y, c='r')
+        plt.show()
+
         '''
         top = intersection[intersection[:,1].argmin()]
-
         print('top')
         print(top)
         bottom = intersection[intersection[:,1].argmax()]
@@ -231,7 +248,7 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
         print(right)
 
         print('ok')
-    
+
         '''
         #tl, bl, br, tr
         corners = np.array([[1,10],
@@ -239,12 +256,12 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
                             [275,105],
                             [289,9]])
         '''
-        '''
+
         corners = np.array([[left[0],top[1]],
                             [left[0], bottom[1]],
                             [right[0],bottom[1]],
                             [right[0], top[1]]])
-        '''
+
 
 
         
