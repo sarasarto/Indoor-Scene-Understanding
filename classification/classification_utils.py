@@ -1,5 +1,4 @@
-import os
-import json
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder

@@ -1,5 +1,5 @@
-from classification_utils import Classification_Helper
-from MLP_model import HomeScenesClassifier
+from classification.classification_utils import Classification_Helper
+from classification.MLP_model import HomeScenesClassifier
 import pandas as pd
 import numpy as np
 import torch
