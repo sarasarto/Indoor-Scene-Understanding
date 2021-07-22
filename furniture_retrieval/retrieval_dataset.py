@@ -17,7 +17,7 @@ class RetrievalDataset(torch.utils.data.Dataset):
         if self.transforms is not None:
             img = self.transforms(img)
 
-        return img
+        return img, img
         # , target
 
     def __len__(self):

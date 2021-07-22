@@ -3,6 +3,8 @@ import torch
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import torch.nn as nn
+from torch import optim
+from furniture_retrieval.autoencoder import ConvEncoder, ConvDecoder
 
 
 class AutoencoderHelper():
@@ -29,13 +31,23 @@ class AutoencoderHelper():
             plt.imshow(prova)
             plt.show()
 
-    def training_autoencoder(self, model, train_loader):
+    def training_autoencoder(self, train_loader, device):
 
         print('starting training')
         # in questo vettore mi salvo solo i features vector
         # dell 'ultima epoca
 
-        # Loss function
+        device = device
+        encoder = ConvEncoder()  # Our encoder model
+        decoder = ConvDecoder()  # Our decoder model
+        # Shift models to GPU
+        encoder.to(device)
+        decoder.to(device)
+        autoencoder_params = list(encoder.parameters()) + list(decoder.parameters())
+        optimizer = optim.Adam(autoencoder_params, lr=1e-3)  # Adam Optimizer
+        loss_fn = nn.MSELoss()
+
+        '''# Loss function
         criterion = nn.MSELoss()
 
         # Optimizer
@@ -72,7 +84,19 @@ class AutoencoderHelper():
 
         val = np.array(val)
         val = val.reshape(len(val), val.shape[1] * val.shape[2])
-        return val, model
+        return val, model'''
+        n_epochs = 1
+        #  Set networks to train mode.
+        for epoch in range(1, n_epochs + 1):
+            # monitor training loss
+            train_loss = self.train_step(
+                encoder, decoder, train_loader, loss_fn, optimizer, device=device
+            )
+
+            # Training
+            print(f"Epochs = {epoch}, Training Loss : {train_loss}")
+
+        return encoder, decoder
 
     def get_class_vector(self, model, dataset_classe):
 
@@ -91,3 +115,55 @@ class AutoencoderHelper():
         val_classe = np.array(val_classe)
         val_classe = val_classe.reshape(len(val_classe), val_classe.shape[1] * val_classe.shape[2])
         return val_classe
+
+    def create_embedding(self, encoder, full_loader, embedding_dim, device):
+        """
+        Creates embedding using encoder from dataloader.
+        encoder: A convolutional Encoder. E.g. torch_model ConvEncoder
+        full_loader: PyTorch dataloader, containing (images, images) over entire dataset.
+        embedding_dim: Tuple (c, h, w) Dimension of embedding = output of encoder dimesntions.
+        device: "cuda" or "cpu"
+        Returns: Embedding of size (num_images_in_loader + 1, c, h, w)
+        """
+        # Set encoder to eval mode.
+        encoder.eval()
+        # Just a place holder for our 0th image embedding.
+        embedding = torch.randn(embedding_dim)
+
+        # Again we do not compute loss here so. No gradients.
+        with torch.no_grad():
+            for batch_idx, (train_img, target_img) in enumerate(full_loader):
+                # We can compute this on GPU. be faster
+                train_img = train_img.to(device)
+
+                # Get encoder outputs and move outputs to cpu
+                enc_output = encoder(train_img).cpu()
+                # print(enc_output.shape)
+                # Keep adding these outputs to embeddings.
+                embedding = torch.cat((embedding, enc_output), 0)
+
+        # Return the embeddings
+        return embedding
+
+    def train_step(self, encoder, decoder, train_loader, loss_fn, optimizer, device):
+        # device = "cuda"
+        encoder.train()
+        decoder.train()
+
+        # print(device)
+
+        for batch_idx, (train_img, target_img) in enumerate(train_loader):
+            train_img = train_img.to(device)
+            target_img = target_img.to(device)
+
+            optimizer.zero_grad()
+
+            enc_output = encoder(train_img)
+            dec_output = decoder(enc_output)
+
+            loss = loss_fn(dec_output, target_img)
+            loss.backward()
+
+            optimizer.step()
+
+        return loss.item()
