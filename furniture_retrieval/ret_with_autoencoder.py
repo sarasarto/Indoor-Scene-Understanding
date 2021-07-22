@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 # dentro le immagini NON vanno divise per categoria
 # CARICATE AUTOENC_DATASET_JPG DAL DRIVE
 
-root = 'autoenc_data_jpg/'
+#root = 'autoenc_data_jpg/'
 #train_imgs = os.path.join(root, "train/")
 
 imgs_size = 224
