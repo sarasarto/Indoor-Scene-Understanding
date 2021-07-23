@@ -108,6 +108,27 @@ class Classification_Helper():
         best_estimator = gs_clf.best_estimator_
         return best_estimator, final_acc, best_params
 
+    def construct_fv_for_prediction(self, labels):
+        with open('dataset_processing/dataset_info_all_objs.json', 'r') as f:
+            data = json.load(f)
+
+        with open('dataset_processing/mapping.json', 'r') as f:
+            mapping = json.load(f)
+
+        num_objs = len(data['instances_per_obj'])
+        vector = np.zeros((1,num_objs))
+        labels = np.unique(labels) #-1 because labels start from 1 but array indexing from 0
+        idxs = []
+        for label in labels:
+            for map in mapping:
+                if mapping[map]['new_label'] == label:
+                    print(map)
+                    idxs.append(list(data['instances_per_obj']).index(map))
+                    print(list(data['instances_per_obj']).index(map))
+
+        vector[:,idxs] = 1
+        return vector
+
     def predict_room(self, vector):
         try:
             with open('classification/randomforest_model.pkl', 'rb') as fid:
@@ -117,4 +138,11 @@ class Classification_Helper():
             raise ValueError('Impossibile to load the model. First you must train it!.')
         
         prediction = classifier.predict(vector)
-        return prediction
+        with open('classification/rooms_mapping.json', 'r') as f:
+            room_mapping = json.load(f)
+        
+        for room in room_mapping:
+            code_label = int(room_mapping[room])
+            if code_label == prediction:
+                return prediction, room
+        

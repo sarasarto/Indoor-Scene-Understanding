@@ -4,6 +4,7 @@ childs_room
 dining_room
 dorm_room
 garage indoor
+garage__indoor
 home_office
 kitchen
 living_room

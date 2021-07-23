@@ -47,6 +47,7 @@ optimizer = torch.optim.SGD(params, lr=0.005,
 lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                    step_size=3,
                                                    gamma=0.1)
+
      
 PATH = 'model_mask_default.pt'
 # let's train it for 15 epochs
