@@ -27,11 +27,11 @@ try:
 except FileNotFoundError:
     print('Impossible to open the specified file. Check the name and try again.')
 
-pm = PredictionModel('model_copied.pt', 102, default_model=True)
+pm = PredictionModel('model_mask_modified.pt', 102, default_model=False)
 prediction = pm.segment_image(img)
-boxes, masks, labels, scores = pm.extract_furniture(prediction)
+boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.8)
 
-with open('dataset_processing/mapping.json', 'r') as f:
+with open('ADE20K_filtering/_old_mapping.json', 'r') as f:
     data = json.load(f)
 
 #funtion to make the mapping in text

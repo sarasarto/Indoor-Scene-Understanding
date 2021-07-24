@@ -79,7 +79,7 @@ class DatasetExplorer():
             json.dump(data, f)
 
 
-    def check_invalid_bboxes(self, masks_root_path):
+    def check_invalid_bboxes(self, masks_root_path, invalid_mask_file_out):
         count = 0
         invalid_mask_imgs = [] #there are some faulty bounding boxes
         for file_name in os.listdir(masks_root_path): 
@@ -112,7 +112,7 @@ class DatasetExplorer():
                     invalid_mask_imgs.append(file_name)
                     break
 
-        with open('ADE20K_filtering/invalid_masks.json', 'w') as f:
+        with open(invalid_mask_file_out, 'w') as f:
             invalid_masks = {'invalid_masks':invalid_mask_imgs}
             json.dump(invalid_masks, f)
         return invalid_masks
@@ -133,3 +133,4 @@ class DatasetExplorer():
                 os.remove(os.path.join(images_path, img_file))
             if os.path.exists(os.path.join(annotations_path, annotation_file)):
                 os.remove(os.path.join(annotations_path, annotation_file))
+

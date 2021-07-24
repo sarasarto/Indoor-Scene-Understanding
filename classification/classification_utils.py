@@ -1,4 +1,3 @@
-
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
@@ -25,7 +24,7 @@ class Classification_Helper():
             file = 'dataset_info_all_objs.json'
         else:
             file = 'dataset_info.json'
-        with open('dataset_processing/' + file, 'r') as f:
+        with open('ADE20K_filtering/' + file, 'r') as f:
             dataset_info = json.load(f)
 
         dataset_size = dataset_info['dataset_size']
@@ -109,10 +108,10 @@ class Classification_Helper():
         return best_estimator, final_acc, best_params
 
     def construct_fv_for_prediction(self, labels):
-        with open('dataset_processing/dataset_info_all_objs.json', 'r') as f:
+        with open('ADE20K_filtering/dataset_info_all_objs.json', 'r') as f:
             data = json.load(f)
 
-        with open('dataset_processing/mapping.json', 'r') as f:
+        with open('ADE20K_filtering/mapping.json', 'r') as f:
             mapping = json.load(f)
 
         num_objs = len(data['instances_per_obj'])

@@ -20,21 +20,23 @@ def main():
 
     #now we construct the filtered dataset
     if not os.path.exists(filtered_dataset):
-        dc = DatasetConstructor()
+        dc = DatasetConstructor(filtered_dataset)
         dc.construct_filtered_dataset(interesting_scenes)
     
-    #extract info from filtered dataset
-    if not os.path.exists(filtered_dataset_info):
-        dxl.filtered_dataset_info(filtered_dataset + '/annotations')
-
     #check invalid bboxes
     if not os.path.exists('ADE20K_filtering/invalid_masks.json'):
-        invalid_mask_imgs = dxl.check_invalid_bboxes(filtered_dataset + '/masks')
+        invalid_mask_imgs = dxl.check_invalid_bboxes(filtered_dataset + '/masks', 'ADE20K_filtering/invalid_masks.json')
     else:
         with open('ADE20K_filtering/invalid_masks.json') as f:
             invalid_mask_imgs = json.load(f)
     
     dxl.delete_faulty_examples(filtered_dataset, invalid_mask_imgs['invalid_masks'])
+
+    #extract info from filtered dataset
+    if not os.path.exists(filtered_dataset_info):
+        dxl.filtered_dataset_info(filtered_dataset + '/annotations')
+
+
 
 if __name__ == '__main__':
     main()

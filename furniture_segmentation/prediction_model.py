@@ -25,7 +25,7 @@ class PredictionModel():
             raise ValueError('Error: first you must segment the image!')
         
         scores = prediction[0]['scores']
-        scores = scores[scores > 0.7]
+        scores = scores[scores > score_threshold]
         num_objs = len(scores)
         labels = prediction[0]['labels'][:num_objs].detach().numpy()
         boxes = prediction[0]['boxes'][:num_objs,:].detach().numpy()

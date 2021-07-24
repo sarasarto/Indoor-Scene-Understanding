@@ -3,8 +3,8 @@ from shutil import copy
         
 
 class DatasetConstructor():
-    def __init__(self) -> None:
-        self.new_path = 'dataset_ade20k_filtered'
+    def __init__(self, new_path) -> None:
+        self.new_path = new_path
         self.images_folder = 'images'
         self.masks_folder = 'masks'
         self.annotations_folder = 'annotations'
