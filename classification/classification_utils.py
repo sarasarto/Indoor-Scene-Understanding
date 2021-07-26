@@ -111,7 +111,8 @@ class Classification_Helper():
         with open('ADE20K_filtering/dataset_info_all_objs.json', 'r') as f:
             data = json.load(f)
 
-        with open('ADE20K_filtering/mapping.json', 'r') as f:
+        with open('ADE20K_filtering/mapping.json',
+                  'r') as f:
             mapping = json.load(f)
 
         num_objs = len(data['instances_per_obj'])
