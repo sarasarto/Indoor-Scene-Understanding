@@ -1,13 +1,13 @@
 {
-    "num_images": 5298,
+    "num_images": 5297,
     "objects": {
         "447": {
-            "num_instances": 4047,
+            "num_instances": 4046,
             "labels": ["ceiling"],
             "new_label": 1
         },
         "2978": {
-            "num_instances": 15614,
+            "num_instances": 15611,
             "labels": ["wall"],
             "new_label": 2
         },
@@ -37,12 +37,12 @@
             "new_label": 7
         },
         "3055": {
-            "num_instances": 5163,
+            "num_instances": 5162,
             "labels": ["window", "windows"],
             "new_label": 8
         },
         "976": {
-            "num_instances": 5298,
+            "num_instances": 5296,
             "labels": ["floor"],
             "new_label": 9
         },
@@ -62,7 +62,7 @@
             "new_label": 12
         },
         "266": {
-            "num_instances": 1384,
+            "num_instances": 1383,
             "labels": ["box", "tissue box", "boxes"],
             "new_label": 13
         },
@@ -97,7 +97,7 @@
             "new_label": 19
         },
         "350": {
-            "num_instances": 7120,
+            "num_instances": 7116,
             "labels": ["cabinet", "cabinets"],
             "new_label": 20
         },
@@ -142,7 +142,7 @@
             "new_label": 28
         },
         "774": {
-            "num_instances": 7820,
+            "num_instances": 7819,
             "labels": ["door", "doors", "garage door"],
             "new_label": 29
         },
@@ -172,7 +172,7 @@
             "new_label": 34
         },
         "1451": {
-            "num_instances": 3635,
+            "num_instances": 3632,
             "labels": ["semi-flush mount light", "flush mount light", "light troffer", "ceiling recessed light", "wall recessed light", "light source"],
             "new_label": 35
         },
@@ -187,7 +187,7 @@
             "new_label": 37
         },
         "249": {
-            "num_instances": 1266,
+            "num_instances": 1265,
             "labels": ["bottle", "soap bottle", "bottles"],
             "new_label": 38
         },
@@ -237,7 +237,7 @@
             "new_label": 47
         },
         "1445": {
-            "num_instances": 59,
+            "num_instances": 58,
             "labels": ["bulb"],
             "new_label": 48
         },
@@ -247,7 +247,7 @@
             "new_label": 49
         },
         "1448": {
-            "num_instances": 4152,
+            "num_instances": 4149,
             "labels": ["light source"],
             "new_label": 50
         },
@@ -302,7 +302,7 @@
             "new_label": 60
         },
         "2982": {
-            "num_instances": 1452,
+            "num_instances": 1449,
             "labels": ["outlet"],
             "new_label": 61
         },
@@ -322,7 +322,7 @@
             "new_label": 64
         },
         "2329": {
-            "num_instances": 1804,
+            "num_instances": 1803,
             "labels": ["shelf", "shelves"],
             "new_label": 65
         },
@@ -1387,7 +1387,7 @@
             "new_label": 277
         },
         "3087": {
-            "num_instances": 1341,
+            "num_instances": 1340,
             "labels": ["work surface"],
             "new_label": 278
         },
@@ -2772,7 +2772,7 @@
             "new_label": 554
         },
         "839": {
-            "num_instances": 3,
+            "num_instances": 2,
             "labels": ["easel"],
             "new_label": 555
         },
@@ -5901,726 +5901,721 @@
             "labels": ["kitchen"],
             "new_label": 1180
         },
-        "3263": {
-            "num_instances": 1,
-            "labels": ["cabinet\u00e7"],
-            "new_label": 1181
-        },
-        "2233": {
-            "num_instances": 2,
-            "labels": ["saw"],
-            "new_label": 1182
-        },
         "3264": {
             "num_instances": 1,
             "labels": ["egg cup"],
-            "new_label": 1183
+            "new_label": 1181
         },
         "3265": {
             "num_instances": 1,
             "labels": ["outet"],
-            "new_label": 1184
+            "new_label": 1182
         },
         "1137": {
             "num_instances": 2,
             "labels": ["griddle"],
-            "new_label": 1185
+            "new_label": 1183
         },
         "3266": {
             "num_instances": 1,
             "labels": ["lobster"],
-            "new_label": 1186
+            "new_label": 1184
         },
         "3267": {
             "num_instances": 1,
             "labels": ["papers roll"],
-            "new_label": 1187
+            "new_label": 1185
         },
         "2009": {
             "num_instances": 1,
             "labels": ["processing machine"],
-            "new_label": 1188
+            "new_label": 1186
         },
         "558": {
             "num_instances": 1,
             "labels": ["cock"],
-            "new_label": 1189
+            "new_label": 1187
         },
         "3268": {
             "num_instances": 1,
             "labels": ["rolling pin"],
-            "new_label": 1190
+            "new_label": 1188
         },
         "3269": {
             "num_instances": 21,
             "labels": ["teddy"],
-            "new_label": 1191
+            "new_label": 1189
         },
         "3270": {
             "num_instances": 1,
             "labels": ["plaate"],
-            "new_label": 1192
+            "new_label": 1190
         },
         "3271": {
             "num_instances": 1,
             "labels": ["berbiqui"],
-            "new_label": 1193
+            "new_label": 1191
+        },
+        "2233": {
+            "num_instances": 1,
+            "labels": ["saw"],
+            "new_label": 1192
         },
         "3272": {
             "num_instances": 1,
             "labels": ["oytlet"],
-            "new_label": 1194
+            "new_label": 1193
         },
         "3273": {
             "num_instances": 1,
             "labels": ["winddow"],
-            "new_label": 1195
+            "new_label": 1194
         },
         "3274": {
             "num_instances": 1,
             "labels": ["cabomet"],
-            "new_label": 1196
+            "new_label": 1195
         },
         "3275": {
             "num_instances": 2,
             "labels": ["caabinet"],
-            "new_label": 1197
+            "new_label": 1196
         },
         "3276": {
             "num_instances": 1,
             "labels": ["worctop"],
-            "new_label": 1198
+            "new_label": 1197
         },
         "3277": {
             "num_instances": 1,
             "labels": ["cabubet"],
-            "new_label": 1199
+            "new_label": 1198
         },
         "3278": {
             "num_instances": 1,
             "labels": ["cceiling"],
-            "new_label": 1200
+            "new_label": 1199
         },
         "3279": {
             "num_instances": 1,
             "labels": ["plae"],
-            "new_label": 1201
+            "new_label": 1200
         },
         "3280": {
             "num_instances": 1,
             "labels": ["teacups"],
-            "new_label": 1202
+            "new_label": 1201
         },
         "3281": {
             "num_instances": 1,
             "labels": ["lemons"],
-            "new_label": 1203
+            "new_label": 1202
         },
         "3282": {
             "num_instances": 3,
             "labels": ["casse"],
-            "new_label": 1204
+            "new_label": 1203
         },
         "3283": {
             "num_instances": 1,
             "labels": ["bottlr"],
-            "new_label": 1205
+            "new_label": 1204
         },
         "488": {
             "num_instances": 3,
             "labels": ["cheese dish"],
-            "new_label": 1206
+            "new_label": 1205
         },
         "3284": {
             "num_instances": 1,
             "labels": ["dog feeder"],
-            "new_label": 1207
+            "new_label": 1206
         },
         "3285": {
             "num_instances": 1,
             "labels": ["hotlp"],
-            "new_label": 1208
+            "new_label": 1207
         },
         "3257": {
             "num_instances": 1,
             "labels": ["doo"],
-            "new_label": 1209
+            "new_label": 1208
         },
         "3286": {
             "num_instances": 1,
             "labels": ["stoo"],
-            "new_label": 1210
+            "new_label": 1209
         },
         "3287": {
             "num_instances": 1,
             "labels": ["abinet"],
-            "new_label": 1211
+            "new_label": 1210
         },
         "821": {
             "num_instances": 1,
             "labels": ["dustpan"],
-            "new_label": 1212
+            "new_label": 1211
         },
         "3288": {
             "num_instances": 2,
             "labels": ["lettuce"],
-            "new_label": 1213
+            "new_label": 1212
         },
         "3289": {
             "num_instances": 1,
             "labels": ["paper r"],
-            "new_label": 1214
+            "new_label": 1213
         },
         "475": {
             "num_instances": 1,
             "labels": ["chairs lift"],
-            "new_label": 1215
+            "new_label": 1214
         },
         "3290": {
             "num_instances": 2,
             "labels": ["air freshener"],
-            "new_label": 1216
+            "new_label": 1215
         },
         "3291": {
             "num_instances": 1,
             "labels": ["botlle"],
-            "new_label": 1217
+            "new_label": 1216
         },
         "3292": {
             "num_instances": 1,
             "labels": ["teacup set"],
-            "new_label": 1218
+            "new_label": 1217
         },
         "3162": {
             "num_instances": 1,
             "labels": ["botijo"],
-            "new_label": 1219
+            "new_label": 1218
         },
         "3293": {
             "num_instances": 1,
             "labels": ["water tank"],
-            "new_label": 1220
+            "new_label": 1219
         },
         "3294": {
             "num_instances": 1,
             "labels": ["cabine"],
-            "new_label": 1221
+            "new_label": 1220
         },
         "1963": {
             "num_instances": 1,
             "labels": ["mailbox"],
-            "new_label": 1222
+            "new_label": 1221
         },
         "816": {
             "num_instances": 4,
             "labels": ["dumbbell"],
-            "new_label": 1223
+            "new_label": 1222
         },
         "984": {
             "num_instances": 1,
             "labels": ["flute"],
-            "new_label": 1224
+            "new_label": 1223
         },
         "3297": {
             "num_instances": 3,
             "labels": ["light sw"],
-            "new_label": 1225
+            "new_label": 1224
         },
         "3298": {
             "num_instances": 4,
             "labels": ["xxx"],
-            "new_label": 1226
+            "new_label": 1225
         },
         "809": {
             "num_instances": 2,
             "labels": ["drum"],
-            "new_label": 1227
+            "new_label": 1226
         },
         "2627": {
             "num_instances": 2,
             "labels": ["stuffed animal"],
-            "new_label": 1228
+            "new_label": 1227
         },
         "3299": {
             "num_instances": 1,
             "labels": ["sade"],
-            "new_label": 1229
+            "new_label": 1228
         },
         "996": {
             "num_instances": 2,
             "labels": ["folding doors"],
-            "new_label": 1230
+            "new_label": 1229
         },
         "3300": {
             "num_instances": 1,
             "labels": ["saxophone"],
-            "new_label": 1231
+            "new_label": 1230
         },
         "3301": {
             "num_instances": 1,
             "labels": ["firewood rack"],
-            "new_label": 1232
+            "new_label": 1231
         },
         "2692": {
             "num_instances": 2,
             "labels": ["table tennis"],
-            "new_label": 1233
+            "new_label": 1232
         },
         "3302": {
             "num_instances": 1,
             "labels": ["backplaete"],
-            "new_label": 1234
+            "new_label": 1233
         },
         "1851": {
             "num_instances": 1,
             "labels": ["picnic spot"],
-            "new_label": 1235
+            "new_label": 1234
         },
         "564": {
             "num_instances": 1,
             "labels": ["coffee"],
-            "new_label": 1236
+            "new_label": 1235
         },
         "3303": {
             "num_instances": 1,
             "labels": ["pant"],
-            "new_label": 1237
+            "new_label": 1236
         },
         "1908": {
             "num_instances": 2,
             "labels": ["plant pots"],
-            "new_label": 1238
+            "new_label": 1237
         },
         "132": {
             "num_instances": 1,
             "labels": ["barrels"],
-            "new_label": 1239
+            "new_label": 1238
         },
         "3304": {
             "num_instances": 2,
             "labels": ["caffee table"],
-            "new_label": 1240
+            "new_label": 1239
         },
         "355": {
             "num_instances": 1,
             "labels": ["cables"],
-            "new_label": 1241
+            "new_label": 1240
         },
         "3305": {
             "num_instances": 1,
             "labels": ["dve"],
-            "new_label": 1242
+            "new_label": 1241
         },
         "1915": {
             "num_instances": 2,
             "labels": ["plastic"],
-            "new_label": 1243
+            "new_label": 1242
         },
         "3306": {
             "num_instances": 1,
             "labels": ["soundbar"],
-            "new_label": 1244
+            "new_label": 1243
         },
         "557": {
             "num_instances": 1,
             "labels": ["cobbles"],
-            "new_label": 1245
+            "new_label": 1244
         },
         "1421": {
             "num_instances": 1,
             "labels": ["leather"],
-            "new_label": 1246
+            "new_label": 1245
         },
         "3307": {
             "num_instances": 2,
             "labels": ["floor fan"],
-            "new_label": 1247
+            "new_label": 1246
         },
         "2833": {
             "num_instances": 1,
             "labels": ["brand name"],
-            "new_label": 1248
+            "new_label": 1247
         },
         "3308": {
             "num_instances": 1,
             "labels": ["microw"],
-            "new_label": 1249
+            "new_label": 1248
         },
         "3309": {
             "num_instances": 1,
             "labels": ["case"],
-            "new_label": 1250
+            "new_label": 1249
         },
         "2979": {
             "num_instances": 1,
             "labels": ["wall clock"],
-            "new_label": 1251
+            "new_label": 1250
         },
         "32": {
             "num_instances": 3,
             "labels": ["aerial"],
-            "new_label": 1252
+            "new_label": 1251
         },
         "3310": {
             "num_instances": 3,
             "labels": ["siphon"],
-            "new_label": 1253
+            "new_label": 1252
         },
         "1153": {
             "num_instances": 1,
             "labels": ["guitar cover"],
-            "new_label": 1254
+            "new_label": 1253
         },
         "1846": {
             "num_instances": 1,
             "labels": ["photo machine"],
-            "new_label": 1255
+            "new_label": 1254
         },
         "3311": {
             "num_instances": 1,
             "labels": ["equalizer"],
-            "new_label": 1256
+            "new_label": 1255
         },
         "3312": {
             "num_instances": 1,
             "labels": ["sheets pack"],
-            "new_label": 1257
+            "new_label": 1256
         },
         "3313": {
             "num_instances": 1,
             "labels": ["sliding rod"],
-            "new_label": 1258
+            "new_label": 1257
         },
         "3314": {
             "num_instances": 1,
             "labels": ["ourlet"],
-            "new_label": 1259
+            "new_label": 1258
         },
         "3422": {
             "num_instances": 1,
             "labels": ["paper towels box"],
-            "new_label": 1260
+            "new_label": 1259
         },
         "3423": {
             "num_instances": 1,
             "labels": ["electric toothbrush"],
-            "new_label": 1261
+            "new_label": 1260
         },
         "3424": {
             "num_instances": 1,
             "labels": ["matchbox"],
-            "new_label": 1262
+            "new_label": 1261
         },
         "3425": {
             "num_instances": 1,
             "labels": ["widow"],
-            "new_label": 1263
+            "new_label": 1262
         },
         "2360": {
             "num_instances": 2,
             "labels": ["shower room"],
-            "new_label": 1264
+            "new_label": 1263
         },
         "3429": {
             "num_instances": 1,
             "labels": ["chais"],
-            "new_label": 1265
+            "new_label": 1264
         },
         "3430": {
             "num_instances": 1,
             "labels": ["bed runner"],
-            "new_label": 1266
+            "new_label": 1265
         },
         "3431": {
             "num_instances": 3,
             "labels": ["teddy bear"],
-            "new_label": 1267
+            "new_label": 1266
         },
         "974": {
             "num_instances": 2,
             "labels": ["floor recessed light"],
-            "new_label": 1268
+            "new_label": 1267
         },
         "3448": {
             "num_instances": 2,
             "labels": ["bunk bed"],
-            "new_label": 1269
+            "new_label": 1268
         },
         "3458": {
             "num_instances": 6,
             "labels": ["pear"],
-            "new_label": 1270
+            "new_label": 1269
         },
         "902": {
             "num_instances": 1,
             "labels": ["feeding bottle"],
-            "new_label": 1271
+            "new_label": 1270
         },
         "1345": {
             "num_instances": 1,
             "labels": ["jack"],
-            "new_label": 1272
+            "new_label": 1271
         },
         "537": {
             "num_instances": 3,
             "labels": ["clothes hanging"],
-            "new_label": 1273
+            "new_label": 1272
         },
         "3459": {
             "num_instances": 1,
             "labels": ["chothing"],
-            "new_label": 1274
+            "new_label": 1273
         },
         "2587": {
             "num_instances": 1,
             "labels": ["stools"],
-            "new_label": 1275
+            "new_label": 1274
         },
         "1818": {
             "num_instances": 1,
             "labels": ["pencils"],
-            "new_label": 1276
+            "new_label": 1275
         },
         "3500": {
             "num_instances": 1,
             "labels": ["marking pens"],
-            "new_label": 1277
+            "new_label": 1276
         },
         "3194": {
             "num_instances": 1,
             "labels": ["white board"],
-            "new_label": 1278
+            "new_label": 1277
         },
         "3501": {
             "num_instances": 1,
             "labels": ["egg tray"],
-            "new_label": 1279
+            "new_label": 1278
         },
         "3502": {
             "num_instances": 1,
             "labels": ["copper vessel"],
-            "new_label": 1280
+            "new_label": 1279
         },
         "3503": {
             "num_instances": 1,
             "labels": ["iron po"],
-            "new_label": 1281
+            "new_label": 1280
         },
         "3504": {
             "num_instances": 1,
             "labels": ["buns"],
-            "new_label": 1282
+            "new_label": 1281
         },
         "3505": {
             "num_instances": 1,
             "labels": ["iron pot"],
-            "new_label": 1283
+            "new_label": 1282
         },
         "2455": {
             "num_instances": 1,
             "labels": ["snowboard"],
-            "new_label": 1284
+            "new_label": 1283
         },
         "2967": {
             "num_instances": 1,
             "labels": ["visor"],
-            "new_label": 1285
+            "new_label": 1284
         },
         "3641": {
             "num_instances": 1,
             "labels": ["tulipa"],
-            "new_label": 1286
+            "new_label": 1285
         },
         "2163": {
             "num_instances": 1,
             "labels": ["rose"],
-            "new_label": 1287
+            "new_label": 1286
         },
         "3052": {
             "num_instances": 1,
             "labels": ["window latch"],
-            "new_label": 1288
+            "new_label": 1287
         },
         "2857": {
             "num_instances": 1,
             "labels": ["trellis"],
-            "new_label": 1289
+            "new_label": 1288
         },
         "3659": {
             "num_instances": 1,
             "labels": ["doble door"],
-            "new_label": 1290
+            "new_label": 1289
         },
         "3660": {
             "num_instances": 1,
             "labels": ["tuner"],
-            "new_label": 1291
+            "new_label": 1290
         },
         "1396": {
             "num_instances": 1,
             "labels": ["lamp cord"],
-            "new_label": 1292
+            "new_label": 1291
         },
         "539": {
             "num_instances": 1,
             "labels": ["clothes stand"],
-            "new_label": 1293
+            "new_label": 1292
         },
         "1912": {
             "num_instances": 1,
             "labels": ["plants"],
-            "new_label": 1294
+            "new_label": 1293
         },
         "2160": {
             "num_instances": 1,
             "labels": ["rope"],
-            "new_label": 1295
+            "new_label": 1294
         },
         "2964": {
             "num_instances": 1,
             "labels": ["violin"],
-            "new_label": 1296
+            "new_label": 1295
         },
         "1633": {
             "num_instances": 1,
             "labels": ["music stand"],
-            "new_label": 1297
+            "new_label": 1296
         },
         "2269": {
             "num_instances": 1,
             "labels": ["sealing roll"],
-            "new_label": 1298
+            "new_label": 1297
         },
         "1623": {
             "num_instances": 1,
             "labels": ["multiple plug"],
-            "new_label": 1299
+            "new_label": 1298
         },
         "2484": {
             "num_instances": 1,
             "labels": ["spanners"],
-            "new_label": 1300
+            "new_label": 1299
         },
         "2809": {
             "num_instances": 1,
             "labels": ["tools box"],
-            "new_label": 1301
+            "new_label": 1300
         },
         "1406": {
             "num_instances": 1,
             "labels": ["laptop bag"],
-            "new_label": 1302
+            "new_label": 1301
         },
         "920": {
             "num_instances": 1,
             "labels": ["file box"],
-            "new_label": 1303
+            "new_label": 1302
         },
         "235": {
             "num_instances": 1,
             "labels": ["bonnet"],
-            "new_label": 1304
+            "new_label": 1303
         },
         "2172": {
             "num_instances": 1,
             "labels": ["rubber glove"],
-            "new_label": 1305
+            "new_label": 1304
         },
         "89": {
             "num_instances": 1,
             "labels": ["background"],
-            "new_label": 1306
+            "new_label": 1305
         },
         "2256": {
             "num_instances": 6,
             "labels": ["screw"],
-            "new_label": 1307
+            "new_label": 1306
         },
         "935": {
             "num_instances": 1,
             "labels": ["fire blanket"],
-            "new_label": 1308
+            "new_label": 1307
         },
         "2248": {
             "num_instances": 1,
             "labels": ["scourer"],
-            "new_label": 1309
+            "new_label": 1308
         },
         "1576": {
             "num_instances": 3,
             "labels": ["model"],
-            "new_label": 1310
+            "new_label": 1309
         },
         "2183": {
             "num_instances": 1,
             "labels": ["runner"],
-            "new_label": 1311
+            "new_label": 1310
         },
         "2728": {
             "num_instances": 1,
             "labels": ["telephone directories"],
-            "new_label": 1312
+            "new_label": 1311
         },
         "1658": {
             "num_instances": 1,
             "labels": ["night light"],
-            "new_label": 1313
+            "new_label": 1312
         },
         "1543": {
             "num_instances": 1,
             "labels": ["meter"],
-            "new_label": 1314
+            "new_label": 1313
         },
         "1897": {
             "num_instances": 1,
             "labels": ["place mats"],
-            "new_label": 1315
+            "new_label": 1314
         },
         "2820": {
             "num_instances": 1,
             "labels": ["torso"],
-            "new_label": 1316
+            "new_label": 1315
         },
         "244": {
             "num_instances": 1,
             "labels": ["boomerang"],
-            "new_label": 1317
+            "new_label": 1316
         },
         "304": {
             "num_instances": 2,
             "labels": ["buckets"],
-            "new_label": 1318
+            "new_label": 1317
         },
         "3148": {
             "num_instances": 1,
             "labels": ["adding machine"],
-            "new_label": 1319
+            "new_label": 1318
         },
         "1641": {
             "num_instances": 1,
             "labels": ["napkin holder"],
-            "new_label": 1320
+            "new_label": 1319
         },
         "2493": {
             "num_instances": 1,
             "labels": ["spice jar"],
-            "new_label": 1321
+            "new_label": 1320
         },
         "759": {
             "num_instances": 2,
             "labels": ["divider"],
-            "new_label": 1322
+            "new_label": 1321
         },
         "2254": {
             "num_instances": 1,
             "labels": ["projection screen"],
-            "new_label": 1323
+            "new_label": 1322
         }
     },
     "instances_for_scenes": {
         "bathroom": 768,
         "bedroom": 1612,
-        "kitchen": 853,
+        "kitchen": 852,
         "living_room": 1070,
         "childs_room": 80,
         "dining_room": 535,

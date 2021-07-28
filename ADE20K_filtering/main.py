@@ -34,6 +34,7 @@ def main():
 
     #extract info from filtered dataset
     if not os.path.exists(filtered_dataset_info):
+        print('reading annotations')
         dxl.filtered_dataset_info(filtered_dataset + '/annotations')
 
 
