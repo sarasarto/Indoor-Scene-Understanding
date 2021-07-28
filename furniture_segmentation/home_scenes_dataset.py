@@ -14,7 +14,7 @@ class HomeScenesDataset(torch.utils.data.Dataset):
         self.imgs = list(sorted(os.listdir(os.path.join(root, "images"))))
         self.masks = list(sorted(os.listdir(os.path.join(root, "masks"))))
 
-        with open('../dataset_processing/mapping.json', 'r') as f:
+        with open('../ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
             self.mapping = json.load(f)
 
     def __getitem__(self, idx):
@@ -40,25 +40,18 @@ class HomeScenesDataset(torch.utils.data.Dataset):
 
         # get bounding box coordinates for each mask
         num_objs = len(obj_ids)
-
         labels = []
-        idx_to_keep = []
+       
    
         for i in range(len(masks)):
             coordinates = np.argwhere(masks[i] == 1)[0]
             R = mask[coordinates[0],coordinates[1],0]
             G = mask[coordinates[0],coordinates[1],1]
             instance_class = (R/10).astype(np.int32)*256+(G.astype(np.int32)) #obj class
-    
-            for key in self.mapping:
-              if instance_class == self.mapping[key]['old_label']:  
-                idx_to_keep.append(i)
-                labels.append(self.mapping[key]['new_label'])
-                break   #keys are unique so we can stop
+
+            labels.append(self.mapping['objects'][str(instance_class)]['new_label'])
        
-        masks = masks[idx_to_keep,:,:]
         labels = torch.tensor(labels)
-      
         boxes = []
         for i in range(len(labels)):
             pos = np.where(masks[i])
@@ -67,8 +60,6 @@ class HomeScenesDataset(torch.utils.data.Dataset):
             ymin = np.min(pos[0])
             ymax = np.max(pos[0])
             boxes.append([xmin, ymin, xmax, ymax])
-            if xmin == xmax or ymin == ymax:
-              raise ValueError('Invalid bounding box!')
 
         # convert everything into a torch.Tensor
         boxes = torch.as_tensor(boxes, dtype=torch.float32)

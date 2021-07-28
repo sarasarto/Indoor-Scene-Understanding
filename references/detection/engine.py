@@ -12,6 +12,7 @@ from references.detection import utils
 
 def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
     model.train()
+    running_losses = [] #added to track loss during training
     metric_logger = utils.MetricLogger(delimiter="  ")
     metric_logger.add_meter('lr', utils.SmoothedValue(window_size=1, fmt='{value:.6f}'))
     header = 'Epoch: [{}]'.format(epoch)
@@ -51,6 +52,9 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
 
         metric_logger.update(loss=losses_reduced, **loss_dict_reduced)
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
+        running_losses.append(loss_value) #added to track loss
+    
+    return running_losses #final sum of all losses including mask loss, classifier loss ecc...
 
 
 def _get_iou_types(model):

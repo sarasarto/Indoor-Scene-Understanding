@@ -1,8 +1,18 @@
 from home_scenes_dataset import HomeScenesDataset
-from training_utils import collate_fn, get_transform, get_instance_model_default
+from training_utils import collate_fn, get_transform, get_instance_model_default, get_instance_model_modified
 import torch
+import argparse
 from references.detection import utils
 from references.detection.engine import train_one_epoch, evaluate
+
+parser = argparse.ArgumentParser(description='training maskrcnn')
+parser.add_argument('-mdf', '--modified', type=str,
+                    help='Specify if modified model must be trained', required=True)
+
+args = parser.parse_args()
+ismodified = args.modified
+if ismodified not in ['True', 'False']:
+    raise ValueError('argument must be \'True\' or \'False\'')
 
 root = '../dataset_ade20k_filtered'
 
@@ -33,8 +43,12 @@ test_loader = torch.utils.data.DataLoader(
 
 # get the model using our helper function
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-num_classes = 102 #101 interesting objects plus background
-model = get_instance_model_default(num_classes)
+num_classes = 1324 #1323 interesting objects plus background
+
+if ismodified == 'True':
+    model = get_instance_model_modified(num_classes)
+else:
+    model = get_instance_model_default(num_classes)
 
 # move model to the right device
 model.to(device)
@@ -47,15 +61,19 @@ optimizer = torch.optim.SGD(params, lr=0.005,
 lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                    step_size=3,
                                                    gamma=0.1)
-
-     
-PATH = 'model_mask_default.pt'
+if ismodified == 'True':
+    PATH = 'model_mask_modified'
+else:
+    PATH = 'model_mask_default'
+    
+       
 # let's train it for 15 epochs
 num_epochs = 15
 
 for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
-        train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
+        running_losses = train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
+        print(running_losses)
         # update the learning rate
         lr_scheduler.step()
         # evaluate on the test dataset
