@@ -1,4 +1,4 @@
-from classification.classification_utils import Classification_Helper
+from classification_utils import Classification_Helper
 from classification.MLP_model import HomeScenesClassifier
 import pandas as pd
 import numpy as np
@@ -15,6 +15,7 @@ def main():
         dataset = classification_helper.construct_dataset(all_objects=True)
         np.savetxt("classification/dataset_all_objects.csv", dataset, delimiter=",")
 
+    
     Y = dataset.iloc[:,-1]
     X = dataset.iloc[:,:-1]
     dataset = classification_helper.make_balanced(X, Y, dataset)
@@ -68,7 +69,7 @@ def main():
             #print(str(corr.item()))
         if(e%10 == 0 or e==epochs-1):
             print(f"Accuracy for epoch {e}:{corr.item() /test.shape[0]}")
-    
+   
 
     # ATTENZIONE SE SI CREA CSV CON TUTTI GLI OGGETTI --> NON CARICARE SU GIT!!!
     

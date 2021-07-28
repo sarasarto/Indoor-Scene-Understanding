@@ -11,7 +11,7 @@ import os
 import pickle
 
 class Classification_Helper():
-    def __init__(self, root_path='ADE_20K/annotations'):
+    def __init__(self, root_path='dataset_ade20k_filtered/annotations'):
         self.root_path = root_path       
         self.scenes = []
         self.obj_classes = []
@@ -21,14 +21,14 @@ class Classification_Helper():
         root_path = self.root_path
 
         if all_objects:
-            file = 'dataset_info_all_objs.json'
+            file = 'filtered_dataset_info.json'
         else:
-            file = 'dataset_info.json'
+            file = '_old_dataset_info.json'
         with open('ADE20K_filtering/' + file, 'r') as f:
             dataset_info = json.load(f)
 
-        dataset_size = dataset_info['dataset_size']
-        num_objs = len(dataset_info['instances_per_obj'])
+        dataset_size = dataset_info['num_images']
+        num_objs = len(dataset_info['objects'])
         dataset = np.zeros((dataset_size, num_objs))
         labels = []
 
@@ -39,10 +39,14 @@ class Classification_Helper():
                     labels.append(scene)
                     img_objs = data['annotation']['object']
 
-                for obj in img_objs:
+                '''for obj in img_objs:
                     if obj['raw_name'] in dataset_info['instances_per_obj']:
                         idx = list(dataset_info['instances_per_obj']).index(obj['raw_name'])
-                        dataset[img, idx] = 1
+                        dataset[img, idx] = 1'''
+                for obj in img_objs:              
+                    old_label_number = obj['name_ndx']
+                    idx = list(dataset_info['objects']).index(str(old_label_number))
+                    dataset[img, idx] = 1
         
         #encode labels with sklearn
         lb = LabelEncoder()
