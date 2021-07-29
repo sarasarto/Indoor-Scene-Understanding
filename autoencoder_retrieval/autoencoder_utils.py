@@ -4,7 +4,7 @@ from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import torch.nn as nn
 from torch import optim
-from furniture_retrieval.autoencoder import ConvEncoder, ConvDecoder
+from autoencoder_retrieval.autoencoder import ConvEncoder, ConvDecoder
 
 
 class AutoencoderHelper():

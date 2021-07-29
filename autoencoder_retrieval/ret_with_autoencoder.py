@@ -3,9 +3,9 @@ import os
 from torch.utils.data import DataLoader
 from torchvision import transforms
 import cv2 as cv
-from furniture_retrieval.retrieval_dataset import RetrievalDataset
-from furniture_retrieval.autoencoder import ConvEncoder, ConvDecoder
-from furniture_retrieval.autoencoder_utils import AutoencoderHelper
+from autoencoder_retrieval.retrieval_dataset import RetrievalDataset
+from autoencoder_retrieval.autoencoder import ConvEncoder, ConvDecoder
+from autoencoder_retrieval.autoencoder_utils import AutoencoderHelper
 import torch.nn as nn
 from torch import optim
 from sklearn.neighbors import NearestNeighbors

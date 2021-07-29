@@ -3,9 +3,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import os
 import json
-from geometric_transformations import GeometryTransformer
+from query_expansion_transformations import QueryTransformer
 
-class retrieval_sift():
+class Retrieval_sift():
     def __init__(self, dataset_path = '/Users/kevinmarchesini/Documents/RetrievalDataset/downloads/', grabcut_path = 'retrieval_grabcut', ann_path = 'Annotations.json'):
         self.dataset_path = dataset_path
         self.grabcut_path = grabcut_path
@@ -30,7 +30,7 @@ class retrieval_sift():
     #function which implements the retrieval
     def retrieval(self, image, label):
 
-        gs = GeometryTransformer()
+        gs = QueryTransformer()
 
         obj_list = []
         num_good = []
@@ -132,7 +132,7 @@ class retrieval_sift():
 
 
 #esempio
-rs = retrieval_sift()
+rs = Retrieval_sift()
 bounding_box = [287, 252, 583, 440]
 my_image = rs.load_image(bounding_box, 'ADE_train_00000278.jpg')
 obj_list, num_good = rs.retrieval(my_image, "bed")

@@ -2,9 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
-class GeometryTransformer():
+class QueryTransformer():
     def __init__(self):
         pass
         
