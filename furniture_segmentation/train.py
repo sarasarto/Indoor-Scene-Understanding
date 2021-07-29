@@ -62,25 +62,32 @@ lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                    step_size=3,
                                                    gamma=0.1)
 if ismodified == 'True':
-    PATH = 'model_mask_modified'
+    PATH = 'model_mask_modified.pt'
 else:
-    PATH = 'model_mask_default'
+    PATH = 'model_mask_default.pt'
     
-       
 # let's train it for 15 epochs
 num_epochs = 15
+running_losses = torch.zeros((num_epochs, len(train_loader)))
 
 for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
-        running_losses = train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
-        print(running_losses)
+        result = train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
+        running_losses[epoch,:] = result
+
         # update the learning rate
         lr_scheduler.step()
+
         # evaluate on the test dataset
         evaluate(model, test_loader, device=device)
-      
+
+        #save losses
+        torch.save(running_losses, 'loss.pt')
+
+        #save model
         torch.save({
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
+        #'loss': running_losses
         }, PATH)

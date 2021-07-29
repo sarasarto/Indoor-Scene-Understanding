@@ -1,0 +1,278 @@
+{
+    "annotation": {
+        "filename": "ADE_train_00000006.jpg",
+        "folder": "ADE20K_2021_17_01/images/ADE/training/home_or_hotel/bathroom",
+        "imsize": [1792, 943, 3],
+        "source": {
+            "folder": "/static_sun_database/b/bathroom",
+            "filename": "sun_aamuzsrwpmctmkan.jpg",
+            "origin": "Downloaded from Google search. Image might be subject to copyright. Use only for non-commercial research and educational purposes."
+        },
+        "scene": ["indoor", "home or hotel", "bathroom"],
+        "object": [{
+            "id": 0,
+            "name": "ceiling",
+            "name_ndx": 447,
+            "hypernym": ["ceiling", "upper surface", "side", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "ceiling",
+            "attributes": [],
+            "depth_ordering_rank": 1,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_000_ADE_train_00000006.png",
+            "polygon": {
+                "x": [96, 158, 294],
+                "y": [0, 29, 1],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:23:14"
+        }, {
+            "id": 1,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 2,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_001_ADE_train_00000006.png",
+            "polygon": {
+                "x": [214, 76, 0, 2, 98, 159],
+                "y": [1006, 1081, 192, 1, 1, 30],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:23:28"
+        }, {
+            "id": 2,
+            "name": "wall",
+            "name_ndx": 2978,
+            "hypernym": ["wall", "partition, divider", "structure, construction", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "wall",
+            "attributes": [],
+            "depth_ordering_rank": 3,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_002_ADE_train_00000006.png",
+            "polygon": {
+                "x": [551, 426, 419, 422, 412, 393, 399, 390, 371, 373, 358, 350, 351, 330, 333, 311, 316, 316, 215, 159, 294, 942, 941, 764, 776, 822, 847, 875, 903, 928, 803, 800, 779, 772, 774, 718, 716, 700, 694, 696, 602, 557, 533, 535, 538, 555, 578, 622, 661, 661, 535, 535, 542, 551, 557, 559],
+                "y": [1058, 1035, 1024, 1004, 998, 1004, 1017, 1017, 1013, 999, 996, 1000, 1015, 1012, 989, 989, 1012, 1018, 1005, 28, 0, 0, 1401, 1368, 1073, 1070, 1062, 1042, 1005, 930, 920, 895, 891, 895, 921, 914, 888, 886, 889, 914, 903, 941, 963, 974, 997, 1024, 1038, 1052, 1062, 1348, 1324, 1290, 1269, 1218, 1197, 1123],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:23:50"
+        }, {
+            "id": 3,
+            "name": "sink",
+            "name_ndx": 2388,
+            "hypernym": ["sink", "plumbing fixture", "fixture", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "sink",
+            "attributes": "pedestal",
+            "depth_ordering_rank": 4,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [4, 5],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_003_ADE_train_00000006.png",
+            "polygon": {
+                "x": [663, 677, 703, 736, 763, 774, 840, 874, 900, 929, 803, 801, 801, 797, 783, 771, 770, 773, 718, 719, 717, 696, 688, 690, 695, 605, 531, 532, 545, 569, 592, 650, 661],
+                "y": [1434, 1444, 1452, 1446, 1418, 1074, 1062, 1045, 1005, 929, 918, 924, 936, 941, 946, 938, 929, 921, 916, 928, 934, 937, 929, 921, 914, 901, 962, 990, 1013, 1037, 1044, 1059, 1063],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:25:42"
+        }, {
+            "id": 4,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 5,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 3,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000006/instance_004_ADE_train_00000006.png",
+            "polygon": {
+                "x": [798, 797, 804, 803, 797, 791, 780, 776, 770, 772, 771, 772, 784, 798, 804],
+                "y": [927, 914, 908, 896, 889, 889, 893, 895, 924, 927, 934, 941, 943, 942, 938],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:26:35"
+        }, {
+            "id": 5,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 6,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 3,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000006/instance_005_ADE_train_00000006.png",
+            "polygon": {
+                "x": [696, 693, 696, 705, 714, 718, 721, 716, 718, 711, 696, 686, 686],
+                "y": [917, 898, 888, 887, 887, 893, 908, 918, 927, 936, 939, 930, 921],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:26:58"
+        }, {
+            "id": 6,
+            "name": "faucet",
+            "name_ndx": 895,
+            "hypernym": [],
+            "raw_name": "faucet",
+            "attributes": [],
+            "depth_ordering_rank": 7,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 8,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000006/instance_006_ADE_train_00000006.png",
+            "polygon": {
+                "x": [357, 374, 385, 402, 418, 429, 422, 422, 415, 407, 400, 397, 398, 393, 373, 376, 367, 359, 352, 350, 351, 343, 332, 336, 336, 332, 326, 318, 314, 314, 316, 318, 315, 314, 326, 329],
+                "y": [1041, 1042, 1042, 1042, 1044, 1039, 1025, 1006, 998, 999, 1001, 1004, 1015, 1019, 1013, 1004, 991, 992, 994, 1001, 1015, 1015, 1013, 1004, 994, 990, 989, 987, 991, 998, 1008, 1017, 1025, 1029, 1033, 1038],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:27:15"
+        }, {
+            "id": 7,
+            "name": "shower",
+            "name_ndx": 2356,
+            "hypernym": [],
+            "raw_name": "shower",
+            "attributes": [],
+            "depth_ordering_rank": 8,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "ispartof": 8,
+                "hasparts": [],
+                "part_level": 1
+            },
+            "instance_mask": "ADE_train_00000006/instance_007_ADE_train_00000006.png",
+            "polygon": {
+                "x": [319, 295, 259, 247, 235, 229, 230, 242, 252, 274, 295, 308, 324, 328, 319, 287, 277, 288, 307, 324, 367, 386, 397, 399, 387, 386, 371, 357, 344, 311, 295, 295, 303, 322, 338, 332],
+                "y": [175, 112, 89, 90, 95, 106, 116, 125, 129, 128, 153, 197, 232, 281, 347, 454, 515, 556, 600, 619, 625, 605, 562, 510, 505, 558, 601, 618, 614, 579, 528, 494, 450, 379, 285, 227],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:27:50"
+        }, {
+            "id": 8,
+            "name": "bathtub, bathing tub, bath, tub",
+            "name_ndx": 155,
+            "hypernym": ["bathtub, bathing tub, bath, tub", "vessel", "container", "instrumentality, instrumentation", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "bathtub",
+            "attributes": [],
+            "depth_ordering_rank": 9,
+            "occluded": "yes",
+            "crop": "1",
+            "parts": {
+                "hasparts": [6, 7],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_008_ADE_train_00000006.png",
+            "polygon": {
+                "x": [180, 535, 536, 543, 550, 555, 558, 563, 551, 427, 421, 381, 336, 325, 322, 316, 311, 215, 76, 144],
+                "y": [1790, 1324, 1289, 1266, 1226, 1205, 1196, 1122, 1060, 1037, 1041, 1041, 1040, 1034, 1032, 1028, 1019, 1003, 1083, 1791],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:28:29"
+        }, {
+            "id": 9,
+            "name": "curtain, drape, drapery, mantle, pall",
+            "name_ndx": 687,
+            "hypernym": ["curtain, drape, drapery, mantle, pall", "blind, screen", "protective covering, protective cover, protection", "covering", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "curtain",
+            "attributes": [],
+            "depth_ordering_rank": 10,
+            "occluded": [],
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_009_ADE_train_00000006.png",
+            "polygon": {
+                "x": [2, 145, 111, 75, 0],
+                "y": [1790, 1791, 1468, 1049, 173],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:29:10"
+        }, {
+            "id": 10,
+            "name": "windowpane, window",
+            "name_ndx": 3055,
+            "hypernym": ["windowpane, window", "pane, pane of glass, window glass", "plate glass, sheet glass", "sheet, flat solid", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "window",
+            "attributes": "awning",
+            "depth_ordering_rank": 11,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_010_ADE_train_00000006.png",
+            "polygon": {
+                "x": [592, 586, 938, 938],
+                "y": [152, 805, 832, 111],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:29:37"
+        }, {
+            "id": 11,
+            "name": "floor, flooring",
+            "name_ndx": 976,
+            "hypernym": ["floor, flooring", "horizontal surface, level", "surface", "artifact, artefact", "whole, unit", "object, physical object", "physical entity", "entity"],
+            "raw_name": "floor",
+            "attributes": "tile",
+            "depth_ordering_rank": 12,
+            "occluded": "no",
+            "crop": "0",
+            "parts": {
+                "hasparts": [],
+                "ispartof": [],
+                "part_level": 0
+            },
+            "instance_mask": "ADE_train_00000006/instance_011_ADE_train_00000006.png",
+            "polygon": {
+                "x": [941, 942, 766, 760, 748, 730, 704, 679, 664, 661, 537, 179],
+                "y": [1790, 1400, 1368, 1416, 1434, 1444, 1452, 1444, 1434, 1347, 1325, 1791],
+                "click_date": []
+            },
+            "saved_date": "14-Feb-2013 20:29:53"
+        }]
+    }
+}
