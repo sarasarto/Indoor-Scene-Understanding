@@ -19,7 +19,6 @@ def main():
     Y = dataset.iloc[:,-1]
     X = dataset.iloc[:,:-1]
 
-
     #rendi il dataset bilanciato
     balanced_dataset = classification_helper.make_balanced(X , Y , dataset)
 
