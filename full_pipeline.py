@@ -27,7 +27,8 @@ try:
 except FileNotFoundError:
     print('Impossible to open the specified file. Check the name and try again.')
 
-pm = PredictionModel('model_mask_modified.pt', 102, default_model=False)
+num_classes = 1324
+pm = PredictionModel('model_mask_modified.pt', num_classes, default_model=False)
 prediction = pm.segment_image(img)
 boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.8)
 

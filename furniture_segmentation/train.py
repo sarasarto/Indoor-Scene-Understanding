@@ -69,6 +69,9 @@ else:
 # let's train it for 15 epochs
 num_epochs = 15
 running_losses = torch.zeros((num_epochs, len(train_loader)))
+mask_losses = torch.zeros((num_epochs, len(train_loader)))
+classifier_losses = torch.zeros((num_epochs, len(train_loader)))
+
 
 for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
@@ -83,6 +86,8 @@ for epoch in range(num_epochs):
 
         #save losses
         torch.save(running_losses, 'loss.pt')
+        torch.save(running_losses, 'loss_mask.pt')
+        torch.save(running_losses, 'loss_classifier.pt')
 
         #save model
         torch.save({

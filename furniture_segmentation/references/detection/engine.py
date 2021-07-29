@@ -13,6 +13,8 @@ from references.detection import utils
 def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
     model.train()
     running_losses = torch.zeros((len(data_loader))) #added to track loss during training
+    mask_losses = torch.zeros((len(data_loader)))
+    classifier_losses = torch.zeros((len(data_loader)))
     current_iteration = 0
 
     metric_logger = utils.MetricLogger(delimiter="  ")
@@ -57,9 +59,11 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
 
         #update losses tensor
         running_losses[current_iteration] = loss_value
+        mask_losses[current_iteration] = loss_dict_reduced['loss_mask'].item()
+        classifier_losses[current_iteration] = loss_dict_reduced['loss_classifier'].item()
         current_iteration += 1 
     
-    return running_losses 
+    return running_losses, mask_losses, classifier_losses
 
 
 def _get_iou_types(model):
