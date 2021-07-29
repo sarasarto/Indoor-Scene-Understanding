@@ -63,8 +63,14 @@ lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                    gamma=0.1)
 if ismodified == 'True':
     PATH = 'model_mask_modified.pt'
+    running_losses_file = 'loss_modified.pt'
+    mask_losses_file = 'loss_mask_modified.pt'
+    classifier_losses_file = 'loss_classifier_modified.pt'
 else:
     PATH = 'model_mask_default.pt'
+    running_losses_file = 'loss_default.pt'
+    mask_losses_file = 'loss_mask_default.pt'
+    classifier_losses_file = 'loss_classifier_default.pt'
     
 # let's train it for 15 epochs
 num_epochs = 15
@@ -75,8 +81,10 @@ classifier_losses = torch.zeros((num_epochs, len(train_loader)))
 
 for epoch in range(num_epochs):
         # train for one epoch, printing every 10 iterations
-        result = train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
-        running_losses[epoch,:] = result
+        r1, r2, r3 = train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq=10)
+        running_losses[epoch,:] = r1
+        mask_losses[epoch,:] = r2
+        classifier_losses[epoch,:] = r3
 
         # update the learning rate
         lr_scheduler.step()
@@ -85,9 +93,9 @@ for epoch in range(num_epochs):
         evaluate(model, test_loader, device=device)
 
         #save losses
-        torch.save(running_losses, 'loss.pt')
-        torch.save(running_losses, 'loss_mask.pt')
-        torch.save(running_losses, 'loss_classifier.pt')
+        torch.save(running_losses, running_losses_file)
+        torch.save(mask_losses, mask_losses_file)
+        torch.save(classifier_losses, classifier_losses_file)
 
         #save model
         torch.save({
