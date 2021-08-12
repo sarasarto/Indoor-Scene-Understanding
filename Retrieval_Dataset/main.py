@@ -124,12 +124,14 @@ def generate_json(file_name, name_class, x, y, width, height):
 if __name__ == '__main__':
 
     #creates the dataset and the annotations
-    retr_class = ['table lamp', 'sofa', 'table', 'armchair', 'chair', 'desk', 'bed', 'sink', 'toilet', 'bathtub', 'shower', 'bidet', 'wardrobe', 'bycicle']
-    c_class = ['None', 'couch', 'dining table', 'None', 'chair', 'None', 'bed', 'sink', 'toilet', 'sink', 'None', 'toilet', 'None', 'bycicle']
+    #retr_class = ['table lamp', 'sofa', 'table', 'armchair', 'chair', 'desk', 'bed', 'sink', 'toilet', 'bathtub', 'shower', 'bidet', 'wardrobe', 'bycicle']
+    retr_class = ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
+    #c_class = ['None', 'couch', 'dining table', 'None', 'chair', 'None', 'bed', 'sink', 'toilet', 'sink', 'None', 'toilet', 'None', 'bycicle']
+    c_class = ['None', 'couch', 'None', 'chair', 'bed', 'bicycle']
 
     for name, coco_name in zip(retr_class, c_class):
         images = []
-        folder = '/Users/kevinmarchesini/Documents/RetrievalDataset/downloads/' + name
+        folder = 'kaggle_dataset_folder_jpg/' + name
         for filename in os.listdir(folder):
             if(filename != '.DS_Store'):
                 #filename = folder + '/' + filename
@@ -225,5 +227,5 @@ if __name__ == '__main__':
 
     # create a json file with the annotations of each image and the corresponding bounding boxes
     json_file = json.dumps(annotations)
-    with open('/Users/kevinmarchesini/Documents/RetrievalDataset/downloads/Annotations.json', 'a') as f:
+    with open('Annotations_Kaggle.json', 'a') as f:
         f.write(json_file)
