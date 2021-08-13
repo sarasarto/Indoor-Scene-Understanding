@@ -42,7 +42,7 @@ if __name__ == '__main__':
     flattened_embedding = numpy_embedding.reshape((num_images, -1))
     print(flattened_embedding.shape)
 
-    knn = NearestNeighbors(n_neighbors=5, metric="cosine")
+    knn = NearestNeighbors(n_neighbors=6, metric="cosine")
     knn.fit(flattened_embedding)
 
     for inputImage in test_dataset:

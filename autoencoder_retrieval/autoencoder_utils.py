@@ -79,7 +79,7 @@ class AutoencoderHelper():
             image = img.permute(1, 2, 0)
 
             plt.figure(1, figsize=(20, 10))
-            plt.subplot(1, 5, j + 1)
+            plt.subplot(1, 6, j + 1)
             plt.imshow(image.numpy())
             plt.title(idx)
 
