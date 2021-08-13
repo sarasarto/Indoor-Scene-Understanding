@@ -16,7 +16,7 @@ if __name__ == '__main__':
   hash_helper = DHash_Helper(folder_image)
 
   all_hashed = hash_helper.compute_hash_dataset()  
-  matched_images = hash_helper.match_furniture(Image.open("sofa.jpg"), all_hashed)
+  matched_images = hash_helper.match_furniture(Image.open("../autoencoder_retrieval/sofa.jpg"), all_hashed)
 
   for i in matched_images:
     print(i.img_name)
