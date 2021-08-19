@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # --> this two line to create the embedding file <--
     # do not use these unless you change the dataset
 
-    #embedding = helper.create_embedding_full_dataset(full_dataset, embedding_dim)
+    # embedding = helper.create_embedding_full_dataset(full_dataset, embedding_dim)
     # torch.save(embedding, 'embedding_50_arch2.pt')
 
     embedding = torch.load('embedding_50_arch2.pt', map_location=device)

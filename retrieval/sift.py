@@ -3,10 +3,10 @@ import numpy as np
 from matplotlib import pyplot as plt
 import os
 import json
-from query_expansion_transformations import QueryTransformer
+from retrieval.query_expansion_transformations import QueryTransformer
 
 class Retrieval_sift():
-    def __init__(self, dataset_path = '/Users/kevinmarchesini/Documents/RetrievalDataset/downloads/', grabcut_path = 'retrieval_grabcut', ann_path = 'Annotations.json'):
+    def __init__(self, dataset_path = 'kaggle_dataset_folder_jpg', grabcut_path = 'grabcut_kaggle_dataset_folder', ann_path = 'Annotations_Kaggle.json'):
         self.dataset_path = dataset_path
         self.grabcut_path = grabcut_path
         self.ann_path = ann_path
@@ -53,15 +53,21 @@ class Retrieval_sift():
 
         #compute SIFT for images of the correct class of Retrieval Dataset
         for im in data:
+
             if im["annotations"][0]["label"] == label:
-                path2 = os.path.join(self.grabcut_path, im["image"])
+
+                # ho aggiunto questo path
+                path = self.grabcut_path + '/' + label
+                path2 = os.path.join(path, im["image"])
+
                 if os.path.isfile(path2):
                     obj_list.append(im["image"])
-                    #print(im["image"])
+
                     img2 = cv.imread(path2, cv.COLOR_BGR2RGB)
                     gray_2 = cv.cvtColor(img2, cv.COLOR_RGB2GRAY)
 
                     sift = cv.SIFT_create()
+
                     kp2, des2 = sift.detectAndCompute(gray_2, None)
                     kp.append(kp2)
                     des.append(des2)
@@ -70,6 +76,7 @@ class Retrieval_sift():
                     #test2 = cv.drawKeypoints(img2, kp2, None, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
                     #plt.imshow(test2)
                     #plt.show()
+
 
         #compute SIFT for the image and its transformations then compare them with images of the dataset
         for img in transformed:
@@ -118,16 +125,18 @@ class Retrieval_sift():
         num_good_sorted = num_good.argsort()
 
         best = []
+        print(obj_list)
         for i, img in enumerate(obj_list):
-            if i in num_good_sorted[-3:]:
-                path = self.dataset_path + label + '/'
+            if i in num_good_sorted[-5:]:
+                path = self.dataset_path + '/' + label + '/'
+
                 best.append(str(img))
                 path = os.path.join(path, img)
                 img = cv.imread(path, cv.COLOR_BGR2RGB)
                 plt.imshow(img)
                 plt.show()
 
-        print("Le migliori tre corrispondenze: " + str(best))
+        print("Le migliori cinque corrispondenze: " + str(best))
 
 
 
