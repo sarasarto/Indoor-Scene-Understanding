@@ -5,7 +5,7 @@ from autoencoder_retrieval.retrieval_dataset import RetrievalDataset
 from autoencoder_retrieval.autoencoder_utils import AutoencoderHelper
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
-from retrieval.evaluation import RetrievalMeasure
+
 
 # the dataset 'grabcut_kaggle_dataset' is on Drive
 
