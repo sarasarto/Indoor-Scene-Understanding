@@ -4,12 +4,13 @@ import torch.nn as nn
 from torch import optim
 from autoencoder_retrieval.autoencoder import EncodeModel
 from torch.optim.lr_scheduler import StepLR
-
+from retrieval.evaluation import RetrievalMeasure
 
 class AutoencoderHelper():
     def __init__(self, model_file):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model_file = model_file
+        self.rm = RetrievalMeasure()
 
     def train(self, full_loader):
         model = EncodeModel().to(self.device)
@@ -73,14 +74,35 @@ class AutoencoderHelper():
         _, indices = knn.kneighbors(embedded_img)
         indices_list = indices.tolist()
         print(indices_list)
+        retrieved_imgs = []
 
         for (j, idx) in enumerate(indices_list[0]):
             img = full_dataset[idx - 1]
             image = img.permute(1, 2, 0)
+            if j != 0:
+                retrieved_imgs.append(image)
 
             plt.figure(1, figsize=(20, 10))
             plt.subplot(1, 6, j + 1)
             plt.imshow(image.numpy())
+            plt.suptitle("5 most similar images")
             plt.title(idx)
 
         plt.show()
+
+        return retrieved_imgs
+
+    def get_AP_autoencoder(self, retrieved_imgs, img_ref):
+
+        user_resp = self.rm.get_user_relevance_autoencoder(img_ref, retrieved_imgs)
+        print("user responses:")
+        print(user_resp)
+        AP = self.rm.get_AP(user_resp, 5)
+        print("Average Precision: " + str(AP))
+
+        return AP
+
+    def compute_MAP_autoencoder(self, AP_vector):
+        return self.rm.compute_MAP(AP_vector)
+
+

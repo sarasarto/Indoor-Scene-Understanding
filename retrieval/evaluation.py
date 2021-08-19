@@ -25,6 +25,27 @@ class RetrievalMeasure():
                 user_responses.append(0)
         user_responses = np.array(user_responses)
 
+    def get_user_relevance_autoencoder(self, query_image, images):
+
+        print("starting eval user relevance... ")
+
+        user_responses = []
+
+        for i in range(len(images)):
+            plt.imshow(images[i])
+            plt.title('Evaluation of Retrieved Image')
+            plt.show()
+
+            result = input('Si tratta di un\' immagine rilevante? [y/n]: ')
+            if result == 'y':
+                user_responses.append(1)
+            else:
+                user_responses.append(0)
+        user_responses = np.array(user_responses)
+
+        return user_responses
+
+
     def get_AP(self, user_responses, rank):
         num_relevant_docs = len(user_responses[user_responses == 1])
 
@@ -37,5 +58,5 @@ class RetrievalMeasure():
 
         return np.mean(np.array(precisions))
 
-    def compute_mAP(AP_vector):
+    def compute_MAP(self, AP_vector):
         return np.mean(AP_vector)

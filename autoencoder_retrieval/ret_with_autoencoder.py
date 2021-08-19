@@ -5,6 +5,7 @@ from autoencoder_retrieval.retrieval_dataset import RetrievalDataset
 from autoencoder_retrieval.autoencoder_utils import AutoencoderHelper
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
+from retrieval.evaluation import RetrievalMeasure
 
 # the dataset 'grabcut_kaggle_dataset' is on Drive
 
@@ -45,18 +46,30 @@ if __name__ == '__main__':
     knn = NearestNeighbors(n_neighbors=6, metric="cosine")
     knn.fit(flattened_embedding)
 
+    AP_test = []
+
     for inputImage in test_dataset:
         trueImage = inputImage.squeeze(0).squeeze(0)
         trueImage = trueImage.permute(1, 2, 0)
         plt.imshow(trueImage)
-        plt.title('true')
+        plt.title('Query Image')
         plt.show()
 
         embedded_img = helper.create_embedding_single_image(inputImage)
-        helper.find_similar(knn, embedded_img, full_dataset)
+        retrieved_imgs = helper.find_similar(knn, embedded_img, full_dataset)
+        single_AP = helper.get_AP_autoencoder(retrieved_imgs, trueImage)
 
+        AP_test.append(single_AP)
+        print("AP vector")
+        print(AP_test)
 
         i += 1
         if i > 200:
             break
+
+    #AP_test = [0.7000000000000001, 0.8875, 1.0, 1.0, 1.0, 1.0, 0.8055555555555555, 1.0, 1.0, 1.0, 0.8055555555555555, 0.7000000000000001, 0.5888888888888889, 1.0, 1.0, 1.0, 0.3333333333333333, 1.0]
+    print("computing MAP on test kaggle dataset ")
+    print(helper.compute_MAP_autoencoder(AP_test))
+
+
 
