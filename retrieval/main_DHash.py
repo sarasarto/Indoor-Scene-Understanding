@@ -30,14 +30,23 @@ if __name__ == '__main__':
         plt.show()
 
         retr_imgs = []
-        for i in matched_images:
+
+        plt.show()
+
+        for (j, i) in enumerate(matched_images):
             # print(i.img_name)
             m_img = Image.open(os.path.join(folder_image, i.img_name))
             retr_imgs.append(m_img)
-            # plt.imshow(m_img)
-            # plt.show()
-            # plt.title("retrieved image")
 
+            plt.figure(1, figsize=(20, 10))
+            plt.subplot(1, 6, j + 1)
+            plt.imshow(m_img)
+            plt.suptitle("5 most similar images")
+
+
+        plt.show()
+
+        # starting evaluation
         single_AP = hash_helper.get_AP_DHash(retr_imgs, img)
         AP_test.append(single_AP)
         print("AP vector")

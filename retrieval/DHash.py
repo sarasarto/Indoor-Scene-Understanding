@@ -44,7 +44,7 @@ class DHash_Helper():
         print(sorted_x)
 
         # taking only the first 5 images
-        first_eleven = sorted_x[:5]
+        first_eleven = sorted_x[:6]
 
         res_img_name = []
         for rel in first_eleven:
