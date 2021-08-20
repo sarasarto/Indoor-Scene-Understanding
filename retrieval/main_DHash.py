@@ -1,17 +1,13 @@
 import os
 from PIL import Image
 import matplotlib.pyplot as plt
-from retrieval.image_with_Hash import Images_with_Hash
-from retrieval.DHash import DHash_Helper
-import operator
-from retrieval.evaluation import RetrievalMeasure
+from retrieval.DHash_utils import DHash_Helper
 
 import dhash
 
 # ATTENTION: to use this code please install --> pip install dhash
 
 
-# prova di funzionamento
 if __name__ == '__main__':
     # TO DO: use the retrieval dataset with single objects all together on Drive
     # using the one with grabcut applied
@@ -29,22 +25,7 @@ if __name__ == '__main__':
         plt.title('Query Image')
         plt.show()
 
-        retr_imgs = []
-
-        plt.show()
-
-        for (j, i) in enumerate(matched_images):
-            # print(i.img_name)
-            m_img = Image.open(os.path.join(folder_image, i.img_name))
-            retr_imgs.append(m_img)
-
-            plt.figure(1, figsize=(20, 10))
-            plt.subplot(1, 6, j + 1)
-            plt.imshow(m_img)
-            plt.suptitle("5 most similar images")
-
-
-        plt.show()
+        retr_imgs = hash_helper.print_similar(matched_images, folder_image)
 
         # starting evaluation
         single_AP = hash_helper.get_AP_DHash(retr_imgs, img)

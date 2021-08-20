@@ -25,7 +25,7 @@ class RetrievalMeasure():
                 user_responses.append(0)
         user_responses = np.array(user_responses)
 
-    def get_user_relevance_autoencoder(self, query_image, images):
+    def get_user_relevance_retrieval(self, images):
 
         print("starting eval user relevance... ")
 

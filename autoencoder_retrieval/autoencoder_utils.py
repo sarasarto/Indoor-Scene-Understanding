@@ -94,7 +94,7 @@ class AutoencoderHelper():
 
     def get_AP_autoencoder(self, retrieved_imgs, img_ref):
 
-        user_resp = self.rm.get_user_relevance_autoencoder(img_ref, retrieved_imgs)
+        user_resp = self.rm.get_user_relevance_retrieval(retrieved_imgs)
         print("user responses:")
         print(user_resp)
         AP = self.rm.get_AP(user_resp, 5)
