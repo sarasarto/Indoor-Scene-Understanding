@@ -27,32 +27,39 @@ try:
 except FileNotFoundError:
     print('Impossible to open the specified file. Check the name and try again.')
 
-num_classes = 1324
-pm = PredictionModel('model_mask_modified.pt', num_classes, default_model=False)
-prediction = pm.segment_image(img)
-boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.8)
+num_classes = 102 #1323 classes + 1 for background
+#todo: NBBBBBBBBBBBBBBB: DA RIMETTERE NUM_CLASSES=1324
 
-with open('ADE20K_filtering/_old_mapping.json', 'r') as f:
+
+pm = PredictionModel('model_mask_default.pt', num_classes, default_model=True)
+prediction = pm.segment_image(img)
+boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.7)
+
+
+with open('ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
     data = json.load(f)
 
-#funtion to make the mapping in text
 text_labels = []
 for label in labels:
-    for key in data:
-        if data[key]['new_label'] == label:
-            text_labels.append(key)
+    for key in data['objects']:
+        if data['objects'][key]['new_label'] == label:
+            text_labels.append(data['objects'][key]['labels'][0])
 
 
 img = cv2.imread(img_path)
 pt = Plotter()
-pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores)
+pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores) #NB: i nomi stampati sono errati fino a che non
+#si usa il modello completo con 1324 classi
  
 
+#RETRIEVAL PHASE
+for bbox in boxes:
+    # bbos is the query
+    #for each method (SIFT, DHash, autoencoder) show results.
+    
 
-for i in boxes:
-    # il box è la mia query
-    # 
     pass
+
 
 
 '''
