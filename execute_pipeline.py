@@ -5,6 +5,7 @@ from furniture_segmentation.prediction_model import PredictionModel
 from furniture_segmentation.training_utils import get_instance_model_default, get_instance_model_modified
 from PIL import Image
 import torch
+import matplotlib.pyplot as plt
 from torchvision.transforms import transforms
 import numpy as np
 import cv2
@@ -33,6 +34,8 @@ prediction = pm.segment_image(img)
 boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.7)
 
 
+print(boxes.shape)
+
 with open('ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
     data = json.load(f)
 
@@ -43,19 +46,32 @@ for label in labels:
             text_labels.append(data['objects'][key]['labels'][0])
 
 
-img = cv2.imread(img_path)
+img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 pt = Plotter()
-pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores) #NB: i nomi stampati sono errati fino a che non
-#si usa il modello completo con 1324 classi
- 
+pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores) 
 
 #RETRIEVAL PHASE
-for bbox in boxes:
+retrieval_classes = []
+with open('retrieval/retrieval_classes.txt') as f:
+    retrieval_classes = f.read().splitlines()
+
+f, axarr = plt.subplots(3,1)
+i = 0
+for bbox, label in zip(boxes,text_labels):
+    
     # bbox is the query
     #for each method (SIFT, DHash, autoencoder) show results.
-    
 
-    pass
+    if label in retrieval_classes:
+        print(bbox)
+        bbox = list(map(int,np.round(bbox)))
+        xmin = bbox[0]
+        xmax = bbox[2]
+        ymin = bbox[1]
+        ymax = bbox[3]
+        axarr[i].imshow(img[ymin:ymax, xmin:xmax])
+        i += 1
+plt.show()
 
 
 #RECTIFICATION PHASE

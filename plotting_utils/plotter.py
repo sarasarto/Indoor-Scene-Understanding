@@ -20,7 +20,7 @@ class Plotter():
             #(x1, y1) is top left
             #(x2,y2) is bottom right
             
-            '''
+    
             tl = 2  # line thickness
             c1, c2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
             #color = random.choice(colors)
@@ -34,7 +34,6 @@ class Plotter():
             cv2.rectangle(image, c1, c2, colors[i], -1)  # filled
             cv2.putText(image, display_txt, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf,
                         lineType=cv2.LINE_AA)
-            '''
 
             #define mask
             for c in range(3):
