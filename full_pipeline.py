@@ -27,10 +27,7 @@ try:
 except FileNotFoundError:
     print('Impossible to open the specified file. Check the name and try again.')
 
-num_classes = 102 #1323 classes + 1 for background
-#todo: NBBBBBBBBBBBBBBB: DA RIMETTERE NUM_CLASSES=1324
-
-
+num_classes = 1324 #1323 classes + 1 for background
 pm = PredictionModel('model_mask_default.pt', num_classes, default_model=True)
 prediction = pm.segment_image(img)
 boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.7)
@@ -54,13 +51,28 @@ pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores) #NB: i nomi sta
 
 #RETRIEVAL PHASE
 for bbox in boxes:
-    # bbos is the query
+    # bbox is the query
     #for each method (SIFT, DHash, autoencoder) show results.
     
 
     pass
 
 
+#RECTIFICATION PHASE
+...
+
+
+
+#ROOM CLASSIFICATION PHASE
+#construct vector
+#i load the dataset info
+classification_helper = Classification_Helper()
+feature_vector = classification_helper.construct_fv_for_prediction(labels)
+predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
+import matplotlib.pyplot as plt
+plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+plt.title(f'Prediction is {text_prediction}')
+plt.show()
 
 '''
 #parte di processing prima di estrarre i keypoint per il retrieval
@@ -170,18 +182,3 @@ for box, mask, text_label in zip(boxes, masks, text_labels):
                             [275,105],
                             [289,9]])
 ''' 
-
-#classification phase
-#construct vector
-#i load the dataset info
-classification_helper = Classification_Helper()
-feature_vector = classification_helper.construct_fv_for_prediction(labels)
-predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
-import matplotlib.pyplot as plt
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title(f'Prediction is {text_prediction}')
-plt.show()
-
-
-
-
