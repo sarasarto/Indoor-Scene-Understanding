@@ -1,4 +1,8 @@
 import argparse
+
+from numpy.lib.function_base import extract
+from retrieval.query_expansion_transformations import QueryTransformer
+from retrieval.retrieval_manager import ImageRetriever
 from classification.classification_utils import Classification_Helper
 from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
@@ -16,9 +20,15 @@ from geometric_transformations.geometric_transformations import GeometryTransfor
 parser = argparse.ArgumentParser(description='Computer Vision pipeline')
 parser.add_argument('-img', '--image', type=str,
                     help='path of the image to analyze', required=True)
+parser.add_argument('-mdl', '--model', type=str,
+                    help='type of model (default or modified)', required=True)
 
 args = parser.parse_args()
 img_path = args.image
+model_type = args.model
+
+if model_type not in ['default', 'modified']:
+    raise ValueError('Model type must be \'default\' or \'modified\'')
 
 try:
     img = Image.open(img_path)
@@ -28,13 +38,19 @@ try:
 except FileNotFoundError:
     print('Impossible to open the specified file. Check the name and try again.')
 
+#-------------------------------------------------------SEGMENTATION PHASE--------------------------------------------------------#
 num_classes = 1324 #1323 classes + 1 for background
-pm = PredictionModel('model_mask_default.pt', num_classes, default_model=True)
+
+if model_type == 'default':
+    PATH = 'model_mask_default.pt'
+    is_default = True
+else:
+    PATH = 'model_mask_default.pt'
+    is_default = False
+
+pm = PredictionModel(PATH, num_classes, is_default)
 prediction = pm.segment_image(img)
 boxes, masks, labels, scores = pm.extract_furniture(prediction, 0.7)
-
-
-print(boxes.shape)
 
 with open('ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
     data = json.load(f)
@@ -50,27 +66,43 @@ img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 pt = Plotter()
 pt.show_bboxes_and_masks(img, boxes, masks, text_labels, scores) 
 
-#RETRIEVAL PHASE
+
+#------------------------------------------------------------RETRIEVAL PHASE----------------------------------------------#
 retrieval_classes = []
 with open('retrieval/retrieval_classes.txt') as f:
     retrieval_classes = f.read().splitlines()
 
-f, axarr = plt.subplots(3,1)
-i = 0
+img_retriever = ImageRetriever()
+qt = QueryTransformer()
+
 for bbox, label in zip(boxes,text_labels):
-    
     # bbox is the query
     #for each method (SIFT, DHash, autoencoder) show results.
 
     if label in retrieval_classes:
-        print(bbox)
+        #query processing, application of grabcut and same other filters(yet to decide)
+        query_img = qt.extract_query_foreground(img, bbox) #the result is the query without background
+
         bbox = list(map(int,np.round(bbox)))
         xmin = bbox[0]
         xmax = bbox[2]
         ymin = bbox[1]
         ymax = bbox[3]
-        axarr[i].imshow(img[ymin:ymax, xmin:xmax])
-        i += 1
+        
+        query_img = img[ymin:ymax, xmin:xmax]
+        #a questo punto possiamo restituire le 5 img più simili per ogni metodo
+        #sift method
+        #NB: QUESTA QUERY IMG DOBBIAMO FORNIRLA IN INPUT GIA' PROCESSATA
+        sift_results = img_retriever.find_similar_furniture(query_img, label, 'sift')
+
+        #dhash method
+        dhash_results = img_retriever.find_similar_furniture(query_img, label, 'dhash')
+
+        #autoencoder method
+        autoenc_results = img_retriever.find_similar_furniture(query_img, label, 'autoencoder')
+        
+        #axarr[i].imshow(img[ymin:ymax, xmin:xmax])
+        #i += 1
 plt.show()
 
 

@@ -10,20 +10,22 @@ class Plotter():
 
 
     def show_bboxes_and_masks(self, image, boxes, masks, labels, scores, output_file=None):
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        f, axarr = plt.subplots(1,2)
         alpha=0.5
         colors = self.random_colors(len(masks))
 
+        axarr[0].set_title('Test image')
+        axarr[0].imshow(image)
+
+        
         for i,mask,box,label,score in zip(range(len(masks)), masks, boxes, labels, scores):
             
             #define bbox
             #(x1, y1) is top left
             #(x2,y2) is bottom right
-            
-    
+        
             tl = 2  # line thickness
             c1, c2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
-            #color = random.choice(colors)
 
             cv2.rectangle(image, c1, c2, colors[i], tl)
             # draw text
@@ -41,7 +43,10 @@ class Plotter():
                                         image[:, :, c] *
                                         (1 - alpha) + alpha * colors[i][c],
                                         image[:, :, c])
-        plt.imshow(image)
+        
+        
+        axarr[1].set_title('Segmented image')
+        axarr[1].imshow(image)
         plt.show()
         if output_file:
             plt.imsave(output_file, image)

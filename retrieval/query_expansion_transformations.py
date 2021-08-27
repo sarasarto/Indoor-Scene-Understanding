@@ -22,3 +22,17 @@ class QueryTransformer():
         dim = ((int)(W*scale_factor), (int)(H*scale_factor))
         resized_img = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
         return resized_img
+    
+    '''
+    def extract_query_foreground(query, bbox):
+        x, y, width, height = int(box[0]), int(box[1]), int(box[2]) - int(box[0]), int(box[3]) - int(box[1])
+        rect = (x, y, width, height)
+        mask = np.zeros(image.shape[:2], np.uint8)
+        bgdModel = np.zeros((1, 65), np.float64)
+        fgdModel = np.zeros((1, 65), np.float64)
+        cv.grabCut(image, mask, rect, bgdModel, fgdModel, 5, cv.GC_INIT_WITH_RECT)
+        mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
+        image = image * mask2[:, :, np.newaxis]
+        crop_img = image[y:y + height, x:x + width]
+        plt.imshow(crop_img), plt.colorbar(), plt.show()
+    '''

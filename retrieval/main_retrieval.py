@@ -16,6 +16,8 @@ def load_image(box, img):
     bgdModel = np.zeros((1, 65), np.float64)
     fgdModel = np.zeros((1, 65), np.float64)
     cv.grabCut(image, mask, rect, bgdModel, fgdModel, 5, cv.GC_INIT_WITH_RECT)
+    #COMMENTO SCRITTO DA BEPPE: QUESTO GRABCUT E' MEGLIO SPOSTARLO IN UNA CLASSE CHE SI OCCUPA SOLO DEL PROCESSING!
+
     mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
     image = image * mask2[:, :, np.newaxis]
     crop_img = image[y:y + height, x:x + width]
