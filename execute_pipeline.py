@@ -80,16 +80,18 @@ for bbox, label in zip(boxes,text_labels):
     #for each method (SIFT, DHash, autoencoder) show results.
 
     if label in retrieval_classes:
-        #query processing, application of grabcut and same other filters(yet to decide)
-        query_img = qt.extract_query_foreground(img, bbox) #the result is the query without background
-
         bbox = list(map(int,np.round(bbox)))
         xmin = bbox[0]
         xmax = bbox[2]
         ymin = bbox[1]
         ymax = bbox[3]
         
+    
         query_img = img[ymin:ymax, xmin:xmax]
+        #query processing, application of grabcut and same other filters(yet to decide)
+        res_img = qt.extract_query_foreground(query_img) #the result is the query without background
+        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Resulting img'], 2)
+  
         #a questo punto possiamo restituire le 5 img più simili per ogni metodo
         #sift method
         #NB: QUESTA QUERY IMG DOBBIAMO FORNIRLA IN INPUT GIA' PROCESSATA

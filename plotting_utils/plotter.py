@@ -4,12 +4,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Plotter():
+    def plot_image(self, image):
+        plt.imshow(image)
+        plt.show()
+
+    def plot_imgs_by_row(self, images: list, titles: list, num_imgs):
+        f, axes = plt.subplots(1, num_imgs)
+
+        for i, image, title in zip(range(num_imgs), images, titles):
+            axes[i].set_title(title)
+            axes[i].imshow(image)
+        plt.show()
+
     def random_colors(self, num_objs):
         colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(num_objs)]
         return colors
 
-
     def show_bboxes_and_masks(self, image, boxes, masks, labels, scores, output_file=None):
+        image = np.copy(image)
         f, axarr = plt.subplots(1,2)
         alpha=0.5
         colors = self.random_colors(len(masks))
