@@ -26,7 +26,6 @@ class QueryTransformer():
     
     
     def extract_query_foreground(self, image):
-        #x, y, width, height = int(box[0]), int(box[1]), int(box[2]) - int(box[0]), int(box[3]) - int(box[1])
         height, width = image.shape[0], image.shape[1]
         rect = (1, 1, width, height)
         mask = np.zeros(image.shape[:2], np.uint8)

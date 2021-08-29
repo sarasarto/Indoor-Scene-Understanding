@@ -1,21 +1,17 @@
 import argparse
-
-from numpy.lib.function_base import extract
+from retrieval.helper_DHash import DHashHelper
+from retrieval.helper_SIFT import SIFTHelper
 from retrieval.query_expansion_transformations import QueryTransformer
 from retrieval.retrieval_manager import ImageRetriever
 from classification.classification_utils import Classification_Helper
 from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
-from furniture_segmentation.training_utils import get_instance_model_default, get_instance_model_modified
 from PIL import Image
-import torch
 import matplotlib.pyplot as plt
 from torchvision.transforms import transforms
 import numpy as np
 import cv2
 import json
-from geometric_transformations.geometric_transformations import GeometryTransformer
-
 
 parser = argparse.ArgumentParser(description='Computer Vision pipeline')
 parser.add_argument('-img', '--image', type=str,
@@ -72,7 +68,6 @@ retrieval_classes = []
 with open('retrieval/retrieval_classes.txt') as f:
     retrieval_classes = f.read().splitlines()
 
-img_retriever = ImageRetriever()
 qt = QueryTransformer()
 
 for bbox, label in zip(boxes,text_labels):
@@ -86,7 +81,6 @@ for bbox, label in zip(boxes,text_labels):
         ymin = bbox[1]
         ymax = bbox[3]
         
-    
         query_img = img[ymin:ymax, xmin:xmax]
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img) #the result is the query without background
@@ -95,13 +89,18 @@ for bbox, label in zip(boxes,text_labels):
         #a questo punto possiamo restituire le 5 img più simili per ogni metodo
         #sift method
         #NB: QUESTA QUERY IMG DOBBIAMO FORNIRLA IN INPUT GIA' PROCESSATA
-        sift_results = img_retriever.find_similar_furniture(query_img, label, 'sift')
+        img_retriever = ImageRetriever(SIFTHelper())
+        sift_results = img_retriever.find_similar_furniture(res_img, label)
 
         #dhash method
-        dhash_results = img_retriever.find_similar_furniture(query_img, label, 'dhash')
+        #NB: L'ATTUALE IMPLEMENTAZIONE PREVEDE CHE SI RICALCOLI L'HASH DEL DATASET PER OGNI QUERY.
+        #IN ALTERNATIVA(FORSE SARABBE MEGLIO) SAREBBE SALVARSI IN QUALCHE MODO L'HASH DEL DATASET.
+        img_retriever = ImageRetriever(DHashHelper())
+        dhash_results = img_retriever.find_similar_furniture(query_img, label)
 
         #autoencoder method
-        autoenc_results = img_retriever.find_similar_furniture(query_img, label, 'autoencoder')
+        #img_retriever = ImageRetriever(Au)
+        #autoenc_results = img_retriever.find_similar_furniture(query_img, label, 'autoencoder')
         
         #axarr[i].imshow(img[ymin:ymax, xmin:xmax])
         #i += 1

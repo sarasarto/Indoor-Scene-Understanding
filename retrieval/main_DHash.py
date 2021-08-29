@@ -7,7 +7,6 @@ import dhash
 
 # ATTENTION: to use this code please install --> pip install dhash
 
-
 if __name__ == '__main__':
     # TO DO: use the retrieval dataset with single objects all together on Drive
     # using the one with grabcut applied
