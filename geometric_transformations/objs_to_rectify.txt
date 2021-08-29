@@ -1,5 +1,0 @@
-774 29 door
-3050 365 window
-3055 8 window
-1735 15 picture
-1852 639 pictures

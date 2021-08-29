@@ -68,6 +68,10 @@ retrieval_classes = []
 with open('retrieval/retrieval_classes.txt') as f:
     retrieval_classes = f.read().splitlines()
 
+rectification_classes = []
+with open('geometry/objects_for_rectification.txt') as f:
+    rectification_classes = f.read().splitlines()
+
 qt = QueryTransformer()
 
 for bbox, label in zip(boxes,text_labels):
@@ -84,13 +88,15 @@ for bbox, label in zip(boxes,text_labels):
         query_img = img[ymin:ymax, xmin:xmax]
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img) #the result is the query without background
-        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Resulting img'], 2)
+
+        #NB: IL GRABCUT PUO' DAVVERO FUNZIONARE? MIGLIORA DAVVERO LE PRESTAZIONI?
+        #CMQ LO LASCIAMO PER FAR VEDERE CHE ABBIAMO FATTO QUALCOSA IN PIU'
+        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
   
-        #a questo punto possiamo restituire le 5 img più simili per ogni metodo
         #sift method
-        #NB: QUESTA QUERY IMG DOBBIAMO FORNIRLA IN INPUT GIA' PROCESSATA
         img_retriever = ImageRetriever(SIFTHelper())
         sift_results = img_retriever.find_similar_furniture(res_img, label)
+        pt.plot_retrieval_results(query_img, sift_results)
 
         #dhash method
         #NB: L'ATTUALE IMPLEMENTAZIONE PREVEDE CHE SI RICALCOLI L'HASH DEL DATASET PER OGNI QUERY.
@@ -104,6 +110,11 @@ for bbox, label in zip(boxes,text_labels):
         
         #axarr[i].imshow(img[ymin:ymax, xmin:xmax])
         #i += 1
+
+
+    elif label in rectification_classes:
+        #do rectification (kevin code must be inserted)
+        pass
 plt.show()
 
 

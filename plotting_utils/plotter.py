@@ -1,6 +1,7 @@
 import random
 import cv2
 import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 import numpy as np
 
 class Plotter():
@@ -62,3 +63,30 @@ class Plotter():
         plt.show()
         if output_file:
             plt.imsave(output_file, image)
+
+    def plot_retrieval_results(query_img, similar_images: list, retrieval_method):
+        #images are already sorted by similarity
+        #we always plot first 5 results
+        fig = plt.figure()
+        fig.suptitle("Controlling subplot sizes with width_ratios and height_ratios")
+
+        gs = GridSpec(3, 3, width_ratios=[1, 2], height_ratios=[4, 1])
+        query_axis = fig.add_subplot(gs[0,1])
+        query_axis.imshow(query_img)
+
+        ax1 = fig.add_subplot(gs[1,0])
+        ax1.imshow(similar_images[0])
+
+        ax2 = fig.add_subplot(gs[1,1])
+        ax2.imshow(similar_images[1])
+
+        ax3 = fig.add_subplot(gs[1,2])
+        ax3.imshow(similar_images[2])
+
+        ax4 = fig.add_subplot(gs[2,0])
+        ax4.imshow(similar_images[3])
+
+        ax5 = fig.add_subplot(gs[2,1])
+        ax5.imshow(similar_images[4])
+
+        plt.show()

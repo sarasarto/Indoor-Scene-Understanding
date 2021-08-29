@@ -17,7 +17,7 @@ class SIFTHelper():
         self.rm = RetrievalMeasure()
 
     # function which implements the retrieval
-    def retrieval(self, image, label):
+    def retrieval(self, query_image, label):
         qt = QueryTransformer()
 
         obj_list = []
@@ -25,12 +25,12 @@ class SIFTHelper():
 
         # applying geometric transformation to the image
         transformed = []
-        transformed.append(image)
-        transformed.append(qt.flip_image(image, 1))
-        transformed.append(qt.rotate_image(image, 10))
-        transformed.append(qt.rotate_image(image, -10))
-        transformed.append(qt.scale_img(image, 1.5))
-        transformed.append(qt.scale_img(image, 0.5))
+        transformed.append(query_image)
+        transformed.append(qt.flip_image(query_image, 1))
+        transformed.append(qt.rotate_image(query_image, 10))
+        transformed.append(qt.rotate_image(query_image, -10))
+        transformed.append(qt.scale_img(query_image, 1.5))
+        transformed.append(qt.scale_img(query_image, 0.5))
 
         print("Computing SIFT...")
 
@@ -40,18 +40,21 @@ class SIFTHelper():
         kp = []
 
         # compute SIFT for images of the correct class of Retrieval Dataset
-        for im in data:
+        for annotated_img in data:
 
-            if im["annotations"][0]["label"] == label:
+            #forse la parte di questo if è meglio metterl in uno script a parte che genera e salva i descrittori di tutte le img
+            #nel database
+            #se il dataset cambia basta rieseguire lo script e i descrittori verranno aggiornati
+            if annotated_img["annotations"][0]["label"] == label:
 
                 # ho aggiunto questo path
                 path = self.grabcut_path + '/' + label
-                path2 = os.path.join(path, im["image"])
+                path = os.path.join(path, annotated_img["image"])
 
-                if os.path.isfile(path2):
-                    obj_list.append(im["image"])
+                if os.path.isfile(path):
+                    obj_list.append(annotated_img["image"])
 
-                    img2 = cv.imread(path2, cv.COLOR_BGR2RGB)
+                    img2 = cv.imread(path, cv.COLOR_BGR2RGB)
                     gray_2 = cv.cvtColor(img2, cv.COLOR_RGB2GRAY)
 
                     sift = cv.SIFT_create()
@@ -67,9 +70,7 @@ class SIFTHelper():
             sift = cv.SIFT_create()
             kp1, des1 = sift.detectAndCompute(gray_l, None)
             test = cv.drawKeypoints(img, kp1, None, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-            # plt.imshow(test)
-            # plt.title("keypoints arredo immagine principale")
-            # plt.show()
+      
 
             plt.figure(1, figsize=(20, 10))
             plt.subplot(1, len(transformed), j + 1)
@@ -95,7 +96,7 @@ class SIFTHelper():
     # print retrieval results
     def print_results(self, obj_list, num_good, label):
         # sum (for each image) of scores obtained with different geometric transformations
-        num_good = np.reshape(num_good, [6, -1])
+        num_good = np.reshape(num_good, [5, -1]) #5 perche abbiamo scelto di tornare i primi 5 risultati
         num_good = num_good.sum(axis=0)
 
         # print scores of images
