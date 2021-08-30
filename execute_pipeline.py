@@ -1,6 +1,7 @@
 import argparse
-from retrieval.helper_DHash import DHashHelper
-from retrieval.helper_SIFT import SIFTHelper
+from retrieval.method_dhash.helper_DHash import DHashHelper
+from retrieval.method_SIFT.helper_SIFT import SIFTHelper
+from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
 from retrieval.query_expansion_transformations import QueryTransformer
 from retrieval.retrieval_manager import ImageRetriever
 from classification.classification_utils import Classification_Helper
@@ -103,14 +104,14 @@ for bbox, label in zip(boxes,text_labels):
         #IN ALTERNATIVA(FORSE SARABBE MEGLIO) SAREBBE SALVARSI IN QUALCHE MODO L'HASH DEL DATASET.
         img_retriever = ImageRetriever(DHashHelper())
         dhash_results = img_retriever.find_similar_furniture(query_img, label)
+        pt.plot_retrieval_results(query_img, dhash_results)
 
         #autoencoder method
-        #img_retriever = ImageRetriever(Au)
-        #autoenc_results = img_retriever.find_similar_furniture(query_img, label, 'autoencoder')
+        img_retriever = ImageRetriever(AutoencHelper())
+        autoenc_results = img_retriever.find_similar_furniture(query_img, label)
         
         #axarr[i].imshow(img[ymin:ymax, xmin:xmax])
         #i += 1
-
 
     elif label in rectification_classes:
         #do rectification (kevin code must be inserted)

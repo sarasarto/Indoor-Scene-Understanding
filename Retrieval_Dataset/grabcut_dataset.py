@@ -8,7 +8,7 @@ import json
 # the classes are  ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
 # both the datasets (kaggle_dataset and the new grabcut one) are on Drive
 
-dataset = 'kaggle_dataset_folder_jpg/'
+dataset = 'retrieval/kaggle_dataset_folder_jpg/'
 annotations = 'Annotations_Kaggle.json'
 
 data = json.load(open(annotations))
