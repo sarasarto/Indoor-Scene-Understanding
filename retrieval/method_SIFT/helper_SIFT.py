@@ -58,6 +58,7 @@ class SIFTHelper():
             plt.suptitle("Transformed Images and their key points")
 
             for kp2, des2, img2 in zip(kp, des, obj_list):
+                
                 # cv2.BFMatcher() takes the descriptor of one feature in first set
                 # and is matched with all other features in second set using some distance calculation.
                 # And the closest one is returned.
