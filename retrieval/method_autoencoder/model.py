@@ -47,8 +47,8 @@ class EncodeModel(nn.Module):
 
     def forward(self, x, judge):
         enOutputs = self.encode(x)
-        outputs = self.decode(enOutputs)
         if judge:
+            outputs = self.decode(enOutputs)
             return outputs
         else:
             return enOutputs

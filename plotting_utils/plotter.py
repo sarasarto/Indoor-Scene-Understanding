@@ -64,14 +64,18 @@ class Plotter():
         if output_file:
             plt.imsave(output_file, image)
 
-    def plot_retrieval_results(query_img, similar_images: list, retrieval_method):
+    def plot_retrieval_results(self, query_img, similar_images: list, retrieval_method):
+        for img in similar_images:
+            img = img.astype('float32')
+
         #images are already sorted by similarity
         #we always plot first 5 results
         fig = plt.figure()
-        fig.suptitle("Controlling subplot sizes with width_ratios and height_ratios")
+        fig.suptitle(f'Retrieval results with {retrieval_method} method')
 
-        gs = GridSpec(3, 3, width_ratios=[1, 2], height_ratios=[4, 1])
+        gs = GridSpec(3, 3)
         query_axis = fig.add_subplot(gs[0,1])
+        query_axis.set_title('Query image')
         query_axis.imshow(query_img)
 
         ax1 = fig.add_subplot(gs[1,0])

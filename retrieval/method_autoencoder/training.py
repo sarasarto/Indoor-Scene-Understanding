@@ -1,8 +1,6 @@
 import torch
-from torch.utils.data import DataLoader
 from torchvision import transforms
 from retrieval.method_autoencoder.retrieval_dataset import RetrievalDataset
-#from autoencoder_retrieval.autoencoder_utils import AutoencoderHelper
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import torch
@@ -44,16 +42,7 @@ def main():
         
         print('epoch:{} loss:{:7f}'.format(epoch, loss.item()))
         scheduler.step()
-        model.train(False)
-
-        '''for (i, testData) in enumerate(test_loader):
-            testData = testData.to(self.device)
-            outputs = model(testData, True)
-            plt.figure(1)
-            testData = testData.to('cpu')
-            outputs = outputs.to('cpu')
-            break'''
-        model.train(True)
+   
         torch.save(model.state_dict(), model_file)
 
 

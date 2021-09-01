@@ -4,16 +4,13 @@ import os
 from PIL import Image
 import cv2
 from numpy import append
-from retrieval.image_with_Hash import Images_with_Hash
-from retrieval.evaluation import RetrievalMeasure
-import matplotlib.pyplot as plt
+from retrieval.method_dhash.image_with_Hash import Images_with_Hash
 
 
 class DHashHelper():
     def __init__(self, folder_grabcut='retrieval/grabcut_kaggle_dataset_folder', folder='retrieval/kaggle_dataset_folder_jpg'):
         self.folder = folder
         self.folder_grabcut = folder_grabcut
-        self.rm = RetrievalMeasure()
 
     # computing the hash value for each image in the retrieval dataset
     def compute_hash_dataset(self, label):
@@ -62,6 +59,6 @@ class DHashHelper():
         #returnig 5 most similar images
         similar_images = []
         for (j, i) in enumerate(img_names):
-            m_img = cv2.cvtColor(cv2.imread(os.path.join(self.folder, i.img_name), cv2.COLOR_BGR2RGB))
+            m_img = cv2.cvtColor(cv2.imread(os.path.join(self.folder, label, i.img_name)), cv2.COLOR_BGR2RGB)
             similar_images.append(m_img)
         return similar_images

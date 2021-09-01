@@ -1,4 +1,5 @@
 import argparse
+import PIL
 from retrieval.method_dhash.helper_DHash import DHashHelper
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
 from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
@@ -32,8 +33,8 @@ try:
     transform = transforms.Compose([                       
     transforms.ToTensor()])
     img = transform(img)
-except FileNotFoundError:
-    print('Impossible to open the specified file. Check the name and try again.')
+except :
+    raise ValueError('Impossible to open the specified file. Check the name and try again.')
 
 #-------------------------------------------------------SEGMENTATION PHASE--------------------------------------------------------#
 num_classes = 1324 #1323 classes + 1 for background
@@ -80,6 +81,11 @@ for bbox, label in zip(boxes,text_labels):
     #for each method (SIFT, DHash, autoencoder) show results.
 
     if label in retrieval_classes:
+        #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
+        #abbiamo 'lamp'
+        if 'lamp' in label:
+            label = 'lamp'
+
         bbox = list(map(int,np.round(bbox)))
         xmin = bbox[0]
         xmax = bbox[2]
@@ -95,23 +101,22 @@ for bbox, label in zip(boxes,text_labels):
         pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
   
         #sift method
-        img_retriever = ImageRetriever(SIFTHelper())
-        sift_results = img_retriever.find_similar_furniture(res_img, label)
-        pt.plot_retrieval_results(query_img, sift_results)
+        #img_retriever = ImageRetriever(SIFTHelper())
+        #sift_results = img_retriever.find_similar_furniture(res_img, label)
+        #pt.plot_retrieval_results(query_img, sift_results, 'sift')
 
         #dhash method
         #NB: L'ATTUALE IMPLEMENTAZIONE PREVEDE CHE SI RICALCOLI L'HASH DEL DATASET PER OGNI QUERY.
         #IN ALTERNATIVA(FORSE SARABBE MEGLIO) SAREBBE SALVARSI IN QUALCHE MODO L'HASH DEL DATASET.
-        img_retriever = ImageRetriever(DHashHelper())
-        dhash_results = img_retriever.find_similar_furniture(query_img, label)
-        pt.plot_retrieval_results(query_img, dhash_results)
+        #img_retriever = ImageRetriever(DHashHelper())
+        #PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
+        #dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+        #pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
 
         #autoencoder method
         img_retriever = ImageRetriever(AutoencHelper())
         autoenc_results = img_retriever.find_similar_furniture(query_img, label)
-        
-        #axarr[i].imshow(img[ymin:ymax, xmin:xmax])
-        #i += 1
+        pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
 
     elif label in rectification_classes:
         #do rectification (kevin code must be inserted)
