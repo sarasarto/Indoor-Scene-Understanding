@@ -4,6 +4,7 @@ import numpy as np
 import os
 import pickle
 from retrieval.query_expansion_transformations import QueryTransformer
+from plotting_utils.plotter import Plotter
 
 class SIFTHelper():
     def __init__(self, dataset_path='retrieval/kaggle_dataset_folder_jpg', grabcut_path='retrieval/grabcut_kaggle_dataset_folder',

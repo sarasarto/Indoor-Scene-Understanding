@@ -5,8 +5,9 @@ from matplotlib.gridspec import GridSpec
 import numpy as np
 
 class Plotter():
-    def plot_image(self, image):
+    def plot_image(self, image, title=None):
         plt.imshow(image)
+        plt.title(title)
         plt.show()
 
     def plot_imgs_by_row(self, images: list, titles: list, num_imgs):
@@ -73,7 +74,7 @@ class Plotter():
         fig = plt.figure()
         fig.suptitle(f'Retrieval results with {retrieval_method} method')
 
-        gs = GridSpec(3, 3)
+        gs = GridSpec(2, 5)
         query_axis = fig.add_subplot(gs[0,1])
         query_axis.set_title('Query image')
         query_axis.imshow(query_img)
@@ -87,10 +88,23 @@ class Plotter():
         ax3 = fig.add_subplot(gs[1,2])
         ax3.imshow(similar_images[2])
 
-        ax4 = fig.add_subplot(gs[2,0])
+        ax4 = fig.add_subplot(gs[1,3])
         ax4.imshow(similar_images[3])
 
-        ax5 = fig.add_subplot(gs[2,1])
+        ax5 = fig.add_subplot(gs[1,4])
         ax5.imshow(similar_images[4])
+
+        plt.show()
+
+    def plot_evaluation(self, query_img , result):
+        fig = plt.figure(1, figsize=(10, 10))
+        ax1 = fig.add_subplot(2, 2, 1)
+        ax1.imshow(query_img)
+        ax1.set_title('Query')
+
+        ax2 = fig.add_subplot(2, 2, 2)
+        ax2.imshow(result)
+        ax2.set_title('Retrieved Image')
+        plt.suptitle("Evaluation")
 
         plt.show()

@@ -8,6 +8,7 @@ def main():
 
     keypoints_path = 'retrieval/method_SIFT/keypoints.pkl'
     descriptors_path = 'retrieval/method_SIFT/descriptors.pkl'
+
     data = json.load(open('retrieval/Annotations_Kaggle.json'))
 
     dataset_keypoints = [] #list of list. each list contains different number of keypoints

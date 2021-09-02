@@ -2,7 +2,7 @@ import cv2 as cv
 from matplotlib import pyplot as plt
 import os
 from PIL import Image
-from retrieval.SIFT_utils import SIFT_Helper
+from retrieval.method_SIFT.SIFT_utils import SIFT_Helper
 
 if __name__ == '__main__':
 

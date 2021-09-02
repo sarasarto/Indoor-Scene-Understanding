@@ -85,9 +85,11 @@ class SIFT_Helper():
 
         # compute SIFT for the image and its transformations then compare them with images of the dataset
         for (j, img) in enumerate(transformed):
+
             gray_l = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
             sift = cv.SIFT_create()
             kp1, des1 = sift.detectAndCompute(gray_l, None)
+
             test = cv.drawKeypoints(img, kp1, None, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
             # plt.imshow(test)
             # plt.title("keypoints arredo immagine principale")
@@ -102,6 +104,9 @@ class SIFT_Helper():
                 # cv2.BFMatcher() takes the descriptor of one feature in first set
                 # and is matched with all other features in second set using some distance calculation.
                 # And the closest one is returned.
+
+                if des2 is None:
+                    continue
                 bf = cv.BFMatcher()
                 matches = bf.knnMatch(des1, des2, k=2)
 
@@ -118,7 +123,8 @@ class SIFT_Helper():
                 # plt.imshow(img3), plt.show()
 
         plt.show()
-
+        print(len(obj_list))
+        print(len(num_good))
         return obj_list, num_good
 
     # print retrieval results
@@ -174,7 +180,6 @@ class SIFT_Helper():
 
             obj_list, num_good = self.retrieval(my_image, label)
             self.print_results(obj_list, num_good, label)
-
 
     def ask_evaluation(self, test_image):
         eval = input('Do you want to evaluate the method?? [y/n]: ')

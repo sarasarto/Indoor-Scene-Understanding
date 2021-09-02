@@ -11,6 +11,7 @@ from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
 from PIL import Image
 from geometry.Rectification.rectification import rectification
+from evaluation.eval_manager import Evaluator
 import matplotlib.pyplot as plt
 from torchvision.transforms import transforms
 import numpy as np
@@ -22,21 +23,35 @@ parser.add_argument('-img', '--image', type=str,
                     help='path of the image to analyze', required=True)
 parser.add_argument('-mdl', '--model', type=str,
                     help='type of model (default or modified)', required=True)
-
+parser.add_argument('-retr', '--retrieval', type=str,
+                    help='type of retrieval method (sift/ dhash / autoencoder)', required=True)
 args = parser.parse_args()
 img_path = args.image
 model_type = args.model
+retr_method = args.retrieval
 
 if model_type not in ['default', 'modified']:
     raise ValueError('Model type must be \'default\' or \'modified\'')
 
 try:
     img = Image.open(img_path)
-    transform = transforms.Compose([                       
+    transform = transforms.Compose([
     transforms.ToTensor()])
     img = transform(img)
 except :
     raise ValueError('Impossible to open the specified file. Check the name and try again.')
+
+if retr_method not in ['sift', 'dhash', 'autoencoder']:
+    raise ValueError('Model type must be \'sift\' or \'dhash\' or \'autoencoder\'')
+
+if retr_method == 'sift':
+    helper = SIFTHelper()
+else:
+    if retr_method == 'dhash':
+        helper = DHashHelper()
+    else:
+        helper = AutoencHelper()
+
 
 #-------------------------------------------------------SEGMENTATION PHASE--------------------------------------------------------#
 num_classes = 1324 #1323 classes + 1 for background
@@ -47,6 +62,7 @@ if model_type == 'default':
 else:
     PATH = 'model_mask_default.pt'
     is_default = False
+
 
 pm = PredictionModel(PATH, num_classes, is_default)
 prediction = pm.segment_image(img)
@@ -96,6 +112,9 @@ for bbox, label in zip(boxes,text_labels):
         if 'lamp' in label:
             label = 'lamp'
 
+        # QUA METTEREI LA POSSIBILITA' PER L'UTENTE DI DIRE CON COSA VUOLE FARE IL RETRIEVAL
+        # SALVEREI COSI L'HELPER IN UNA VARIABILE --> sentire gli altri
+
 
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img) #the result is the query without background
@@ -103,24 +122,43 @@ for bbox, label in zip(boxes,text_labels):
         #NB: IL GRABCUT PUO' DAVVERO FUNZIONARE? MIGLIORA DAVVERO LE PRESTAZIONI?
         #CMQ LO LASCIAMO PER FAR VEDERE CHE ABBIAMO FATTO QUALCOSA IN PIU'
         #pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-  
+        img_retriever = ImageRetriever(helper)
+
+
+        if retr_method == 'sift':
+            results = img_retriever.find_similar_furniture(res_img, label)
+        if retr_method == 'dhash':
+            PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
+            results = img_retriever.find_similar_furniture(PIL_image, label)
+        if retr_method == 'autoencoder':
+            results = img_retriever.find_similar_furniture(Image.fromarray(query_img), label)
+
+        pt.plot_retrieval_results(query_img, results, retr_method)
+        img_evaluator = Evaluator(query_img, results)
+        img_evaluator.eval()
+
         #sift method
-        img_retriever = ImageRetriever(SIFTHelper())
-        sift_results = img_retriever.find_similar_furniture(res_img, label)
-        pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        # img_retriever = ImageRetriever(SIFTHelper())
+        # sift_results = img_retriever.find_similar_furniture(res_img, label)
+        # pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        # # valutazione con SIFT
+
 
         #dhash method
         #NB: L'ATTUALE IMPLEMENTAZIONE PREVEDE CHE SI RICALCOLI L'HASH DEL DATASET PER OGNI QUERY.
         #IN ALTERNATIVA(FORSE SARABBE MEGLIO) SAREBBE SALVARSI IN QUALCHE MODO L'HASH DEL DATASET.
-        img_retriever = ImageRetriever(DHashHelper())
-        PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
-        dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+        # img_retriever = ImageRetriever(DHashHelper())
+        # PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
+        # dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+        # pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
 
-        #autoencoder method
-        img_retriever = ImageRetriever(AutoencHelper())
-        autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(query_img), label)
-        pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
+        # img_evaluator = Evaluator(query_img, dhash_results)
+        # img_evaluator.eval()
+
+        # #autoencoder method
+        # img_retriever = ImageRetriever(AutoencHelper())
+        # autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(query_img), label)
+        # pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
 
     elif label in rectification_classes:
         query_img = img[ymin-5:ymax+5, xmin-5:xmax+5]

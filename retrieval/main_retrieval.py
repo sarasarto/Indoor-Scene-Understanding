@@ -1,7 +1,7 @@
 from PIL import Image
 import matplotlib.pyplot as plt
-from retrieval.DHash_utils import DHash_Helper
-from retrieval.SIFT_utils import SIFT_Helper
+from retrieval.method_dhash.DHash_utils import DHash_Helper
+from retrieval.method_SIFT.SIFT_utils import SIFT_Helper
 import cv2 as cv
 import numpy as np
 

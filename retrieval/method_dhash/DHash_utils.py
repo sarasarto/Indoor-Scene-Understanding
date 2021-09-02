@@ -2,7 +2,7 @@ import dhash
 import operator
 import os
 from PIL import Image
-from retrieval.image_with_Hash import Images_with_Hash
+from retrieval.method_dhash.image_with_Hash import Images_with_Hash
 from retrieval.evaluation import RetrievalMeasure
 import matplotlib.pyplot as plt
 
