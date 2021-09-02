@@ -1,6 +1,9 @@
+import cv2
+from torch._C import Value
 from retrieval.method_autoencoder.retrieval_dataset import RetrievalDataset
 from retrieval.method_autoencoder.model import EncodeModel
 import torch
+import json
 from torchvision import transforms
 from sklearn.neighbors import NearestNeighbors
 
@@ -18,35 +21,31 @@ class AutoencHelper():
         query_image = query_image.squeeze(0).squeeze(0)
         query_image = query_image.permute(1, 2, 0)
         embedded_query = self._create_embedding_single_image(query_image)
-        #print(embedded_query.shape)
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         embedding = torch.load('retrieval/method_autoencoder/dataset_embedding.pt', map_location=device)
         numpy_embedding = embedding.cpu().detach().numpy()
         num_images = numpy_embedding.shape[0]
         flattened_embedding = numpy_embedding.reshape((num_images, -1))
-        #print(embedding.shape)
 
-        knn = NearestNeighbors(n_neighbors=6, metric="cosine")
+        knn = NearestNeighbors(n_neighbors=5, metric="cosine")
         knn.fit(flattened_embedding)
 
-
-        full_dataset = RetrievalDataset('retrieval/grabcut_kaggle_dataset/', transforms=transform)
-        #print(full_dataset)
+        full_dataset = RetrievalDataset('retrieval/kaggle_autoencoder_nofolder/', transforms=transform)
         return self.find_similar(knn, embedded_query, full_dataset)
     
     def find_similar(self , knn,  embedded_img, full_dataset):
         _, indices = knn.kneighbors(embedded_img)
         indices_list = indices.tolist()
-        #print(indices_list)
+        print(indices_list)
         retrieved_imgs = []
 
-        for (j, idx) in enumerate(indices_list[0]):
+        for j,idx in enumerate(indices_list[0]):
             img = full_dataset[idx - 1] #-1 because first element in embedding is random(see create_embedding.py file)
-            image = img.permute(1, 2, 0)
-            if j != 0:
-                #append numpy array
-                retrieved_imgs.append(image.numpy())
+            img = img.permute(1, 2, 0)
+            retrieved_imgs.append(img.numpy())
+            #else:
+                #raise ValueError('Random image selected as retreival result, try again!')
 
         return retrieved_imgs
 
@@ -58,7 +57,9 @@ class AutoencHelper():
         model.train(False)
 
         input_image = input_image.permute(2,0,1).float()
+        print(input_image.shape)
         input_image = input_image.unsqueeze(0)
+        print(input_image.shape)
         input_encode = model(input_image, False)
 
         image_embedding = input_encode.cpu().detach().numpy()
