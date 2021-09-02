@@ -4,7 +4,7 @@ from rectification import rectification
 
 if __name__ == '__main__':
     image_name = "name_of_image"
-    image_name = "/Users/kevinmarchesini/Documents/Rectification/3437-7029.jpg"
+    image_name = "geometry/Rectification/3437-7029.jpg"
     image = io.imread(image_name)
     print("Rectifying {}".format(image_name))
     save_name = '.'.join(image_name.split('.')[:-1]) + '_warped.png'

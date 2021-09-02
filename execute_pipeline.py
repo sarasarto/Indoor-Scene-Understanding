@@ -1,5 +1,6 @@
 import argparse
 import PIL
+from skimage import io
 from retrieval.method_dhash.helper_DHash import DHashHelper
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
 from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
@@ -9,6 +10,7 @@ from classification.classification_utils import Classification_Helper
 from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
 from PIL import Image
+from geometry.Rectification.rectification import rectification
 import matplotlib.pyplot as plt
 from torchvision.transforms import transforms
 import numpy as np
@@ -59,6 +61,7 @@ for label in labels:
         if data['objects'][key]['new_label'] == label:
             text_labels.append(data['objects'][key]['labels'][0])
 
+print(f'Objects founded in the image: {text_labels}')
 
 img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 pt = Plotter()
@@ -79,49 +82,52 @@ qt = QueryTransformer()
 for bbox, label in zip(boxes,text_labels):
     # bbox is the query
     #for each method (SIFT, DHash, autoencoder) show results.
-
+    bbox = list(map(int,np.round(bbox)))
+    xmin = bbox[0]
+    xmax = bbox[2]
+    ymin = bbox[1]
+    ymax = bbox[3]
+    
+    
     if label in retrieval_classes:
+        query_img = img[ymin:ymax, xmin:xmax]
         #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
         #abbiamo 'lamp'
         if 'lamp' in label:
             label = 'lamp'
 
-        bbox = list(map(int,np.round(bbox)))
-        xmin = bbox[0]
-        xmax = bbox[2]
-        ymin = bbox[1]
-        ymax = bbox[3]
-        
-        query_img = img[ymin:ymax, xmin:xmax]
+
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img) #the result is the query without background
 
         #NB: IL GRABCUT PUO' DAVVERO FUNZIONARE? MIGLIORA DAVVERO LE PRESTAZIONI?
         #CMQ LO LASCIAMO PER FAR VEDERE CHE ABBIAMO FATTO QUALCOSA IN PIU'
-        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
+        #pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
   
         #sift method
-        #img_retriever = ImageRetriever(SIFTHelper())
-        #sift_results = img_retriever.find_similar_furniture(res_img, label)
-        #pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        img_retriever = ImageRetriever(SIFTHelper())
+        sift_results = img_retriever.find_similar_furniture(res_img, label)
+        pt.plot_retrieval_results(query_img, sift_results, 'sift')
 
         #dhash method
         #NB: L'ATTUALE IMPLEMENTAZIONE PREVEDE CHE SI RICALCOLI L'HASH DEL DATASET PER OGNI QUERY.
         #IN ALTERNATIVA(FORSE SARABBE MEGLIO) SAREBBE SALVARSI IN QUALCHE MODO L'HASH DEL DATASET.
-        #img_retriever = ImageRetriever(DHashHelper())
-        #PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
-        #dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        #pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+        img_retriever = ImageRetriever(DHashHelper())
+        PIL_image = Image.fromarray(np.uint8(query_img)).convert('RGB')
+        dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+        pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
 
         #autoencoder method
         img_retriever = ImageRetriever(AutoencHelper())
-        autoenc_results = img_retriever.find_similar_furniture(query_img, label)
+        autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(query_img), label)
         pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
 
     elif label in rectification_classes:
-        #do rectification (kevin code must be inserted)
-        pass
-plt.show()
+        query_img = img[ymin-5:ymax+5, xmin-5:xmax+5]
+        print(f'Trovata label: {label}')
+        rect = rectification(query_img)
+        io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
+
 
 
 #RECTIFICATION PHASE

@@ -29,6 +29,5 @@ def main():
 
     torch.save(embedding, 'retrieval/method_autoencoder/dataset_embedding.pt')
 
-    
 if __name__ == '__main__':
     main()

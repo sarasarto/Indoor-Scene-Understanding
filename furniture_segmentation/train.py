@@ -28,6 +28,7 @@ test_percentage = 1 - train_percentage
 train_size = int(train_percentage * len(dataset))
 test_size = len(dataset) - train_size
 
+torch.manual_seed(0)
 indices = torch.randperm(len(dataset)).tolist()
 dataset = torch.utils.data.Subset(dataset, indices[0:train_size])
 dataset_test = torch.utils.data.Subset(dataset_test, indices[-test_size:])

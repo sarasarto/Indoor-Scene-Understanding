@@ -68,7 +68,7 @@ class SIFTHelper():
         
         num_good = np.reshape(num_good, [len(transformed), -1]) #matrice con tante righe quante le trasformazioni che facciamo
 
-        num_good = num_good.sum(axis=0) #ottengo un array di 410 elementi
+        num_good = num_good.sum(axis=0)
         num_good = np.array(num_good)
 
         # Select only the best 3 results
