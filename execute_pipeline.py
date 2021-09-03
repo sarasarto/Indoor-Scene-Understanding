@@ -13,6 +13,7 @@ from PIL import Image
 from geometry.rectification2 import GeometryRectification
 from torchvision.transforms import transforms
 import numpy as np
+import matplotlib.pyplot as plt
 import cv2
 import json
 
@@ -84,7 +85,7 @@ with open('geometry/objects_for_rectification.txt') as f:
 
 qt = QueryTransformer()
 
-for bbox, label in zip(boxes,text_labels):
+for bbox, label, mask in zip(boxes,text_labels, masks):
     # bbox is the query
     #for each method (SIFT, DHash, autoencoder) show results.
     bbox = list(map(int,np.round(bbox)))
@@ -94,7 +95,13 @@ for bbox, label in zip(boxes,text_labels):
     ymax = bbox[3]
     
     if label in retrieval_classes:
+        mask = mask.astype('uint8')
+        mask[mask==0] = 2
+
         query_img = img[ymin:ymax, xmin:xmax]
+        mask = mask[ymin:ymax, xmin:xmax]
+        plt.imshow(mask)
+        plt.show()
         #query_img = cv2.blur(np.array(query_img), (5, 5))
         #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
         #query_img = cv2.medianBlur(query_img,5)
@@ -106,17 +113,15 @@ for bbox, label in zip(boxes,text_labels):
             label = 'lamp'
 
         #query processing, application of grabcut and same other filters(yet to decide)
-        res_img = qt.extract_query_foreground(query_img) #the result is the query without background
+        res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
         #res_img = cv2.GaussianBlur(res_img, (5, 5), 0)
-        res_img = cv2.bilateralFilter(np.array(res_img), 9, 75, 75)
+        #res_img = cv2.bilateralFilter(np.array(res_img), 9, 75, 75)
 
         pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-
         #sift method
         # img_retriever = ImageRetriever(SIFTHelper())
         # sift_results = img_retriever.find_similar_furniture(res_img, label)
         # pt.plot_retrieval_results(query_img, sift_results, 'sift')
-
 
         #dhash method
         # img_retriever = ImageRetriever(DHashHelper())
@@ -146,7 +151,6 @@ for bbox, label in zip(boxes,text_labels):
 
 #RECTIFICATION PHASE
 ...
-
 
 
 #ROOM CLASSIFICATION PHASE

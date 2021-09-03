@@ -25,13 +25,13 @@ class QueryTransformer():
         return resized_img
     
     
-    def extract_query_foreground(self, image):
-        height, width = image.shape[0], image.shape[1]
-        rect = (1, 1, width, height)
-        mask = np.zeros(image.shape[:2], np.uint8)
+    def extract_query_foreground(self, image, mask):
+        #height, width = image.shape[0], image.shape[1]
+        #rect = (1, 1, width, height)
+        #mask = np.zeros(image.shape[:2], np.uint8)
         bgdModel = np.zeros((1, 65), np.float64)
         fgdModel = np.zeros((1, 65), np.float64)
-        cv2.grabCut(image, mask, rect, bgdModel, fgdModel, 5, cv2.GC_INIT_WITH_RECT)
+        cv2.grabCut(image, mask, None, bgdModel, fgdModel, 8, cv2.GC_INIT_WITH_MASK)
         mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
         image = image * mask2[:, :, np.newaxis]
 
