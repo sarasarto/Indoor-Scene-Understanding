@@ -1,9 +1,8 @@
 import argparse
-import PIL
-from skimage import io
-from retrieval.method_dhash.helper_DHash import DHashHelper
+
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
 from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
+from retrieval.method_dhash.helper_DHash import DHashHelper
 from retrieval.query_expansion_transformations import QueryTransformer
 from retrieval.retrieval_manager import ImageRetriever
 from geometry.rectification2 import *
@@ -12,8 +11,6 @@ from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
 from PIL import Image
 from geometry.rectification2 import GeometryRectification
-from evaluation.eval_manager import Evaluator
-import matplotlib.pyplot as plt
 from torchvision.transforms import transforms
 import numpy as np
 import cv2
@@ -34,9 +31,13 @@ if model_type not in ['default', 'modified']:
 
 try:
     img = Image.open(img_path)
+
+    img = cv2.blur(np.array(img),(5,5))
+
     transform = transforms.Compose([
     transforms.ToTensor()])
     img = transform(img)
+
 except :
     raise ValueError('Impossible to open the specified file. Check the name and try again.')
 
@@ -94,6 +95,11 @@ for bbox, label in zip(boxes,text_labels):
     
     if label in retrieval_classes:
         query_img = img[ymin:ymax, xmin:xmax]
+        #query_img = cv2.blur(np.array(query_img), (5, 5))
+        #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
+        #query_img = cv2.medianBlur(query_img,5)
+
+        # query_image = cv2.GaussianBlur(query_img,(5,5),0)
         #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
         #abbiamo 'lamp'
         if 'lamp' in label:
@@ -101,37 +107,40 @@ for bbox, label in zip(boxes,text_labels):
 
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img) #the result is the query without background
+        #res_img = cv2.GaussianBlur(res_img, (5, 5), 0)
+        res_img = cv2.bilateralFilter(np.array(res_img), 9, 75, 75)
+
         pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
 
         #sift method
-        #img_retriever = ImageRetriever(SIFTHelper())
-        #sift_results = img_retriever.find_similar_furniture(res_img, label)
-        #pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        # img_retriever = ImageRetriever(SIFTHelper())
+        # sift_results = img_retriever.find_similar_furniture(res_img, label)
+        # pt.plot_retrieval_results(query_img, sift_results, 'sift')
 
 
         #dhash method
-        #img_retriever = ImageRetriever(DHashHelper())
-        #PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
-        #dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        #pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+        # img_retriever = ImageRetriever(DHashHelper())
+        # PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
+        # dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+        # pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
 
 
-        # #autoencoder method
+        # autoencoder method
         img_retriever = ImageRetriever(AutoencHelper())
         autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
         pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
 
         
 
-    elif label in rectification_classes:
-        print('entroooo')
-        query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
-        #print(f'Trovata label: {label}')
-        #rect = rectification(query_img)
-        #io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
-        #pass
-        gr = GeometryRectification()
-        gr.rectification(query_img)
+    # elif label in rectification_classes:
+    #     print('entroooo')
+    #     query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
+    #     #print(f'Trovata label: {label}')
+    #     #rect = rectification(query_img)
+    #     #io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
+    #     #pass
+    #     gr = GeometryRectification()
+    #     gr.rectification(query_img)
 
 
 
