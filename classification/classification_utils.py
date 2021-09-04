@@ -112,25 +112,28 @@ class Classification_Helper():
         return best_estimator, final_acc, best_params
 
     def construct_fv_for_prediction(self, labels):
-        with open('ADE20K_filtering/dataset_info_all_objs.json', 'r') as f:
+        with open('ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
             data = json.load(f)
+       
 
-        with open('ADE20K_filtering/mapping.json',
-                  'r') as f:
-            mapping = json.load(f)
-
-        num_objs = len(data['instances_per_obj'])
+        num_objs = len(data['objects'])
         vector = np.zeros((1,num_objs))
-        labels = np.unique(labels) #-1 because labels start from 1 but array indexing from 0
+        labels = np.unique(labels) 
+        '''
         idxs = []
         for label in labels:
+            for object in data['objects']:
+                if object['new_label'] == label
+
             for map in mapping:
                 if mapping[map]['new_label'] == label:
                     print(map)
                     idxs.append(list(data['instances_per_obj']).index(map))
                     print(list(data['instances_per_obj']).index(map))
-
+        '''
+        idxs = labels - 1 #-1 because labels start from 1 but array indexing from 0
         vector[:,idxs] = 1
+        
         return vector
 
     def predict_room(self, vector):

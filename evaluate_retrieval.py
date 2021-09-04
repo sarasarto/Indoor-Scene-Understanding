@@ -42,15 +42,18 @@ with open('retrieval/retrieval_classes.txt') as f:
     retrieval_classes = f.read().splitlines()
 
 # folder con test images da ADE20
-test_image = 'test_retrieval'
+test_images = 'images_retr_evaluation'
 AP_vector = []
 
-for img in os.listdir(test_image):
+for img in os.listdir(test_images):
 
     print("Evaluating New Image...")
-    img_path = test_image + '/' + img
+    img_path = test_images + '/' + img
     try:
         img = Image.open(img_path)
+        print('arrivato')
+        img = cv2.bilateralFilter(np.array(img), 9, 75, 75)
+        print('arrivato2')
         transform = transforms.Compose([
             transforms.ToTensor()])
         img = transform(img)
@@ -97,7 +100,7 @@ for img in os.listdir(test_image):
 
         qt = QueryTransformer()
 
-        for bbox, label in zip(boxes, text_labels):
+        for bbox, label, mask in zip(boxes, text_labels, masks):
             # bbox is the query
             # for each method (SIFT, DHash, autoencoder) show results.
             bbox = list(map(int, np.round(bbox)))
@@ -107,14 +110,27 @@ for img in os.listdir(test_image):
             ymax = bbox[3]
 
             if label in retrieval_classes:
+                # we use the result mask from the network in order to apply grabcut
+                # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
+                # all the pixels equal to 1 are considered "Sure_Foreground" pixels
+                mask = mask.astype('uint8')
+                mask[mask==0] = 2
+
                 query_img = img[ymin:ymax, xmin:xmax]
-                # if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
-                # abbiamo 'lamp'
+                mask = mask[ymin:ymax, xmin:xmax]
+                #query_img = cv2.blur(np.array(query_img), (5, 5))
+                #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
+                #query_img = cv2.medianBlur(query_img,5)
+                query_img = cv2.bilateralFilter(np.array(query_img), 9, 50, 50)
+
+                # query_image = cv2.GaussianBlur(query_img,(5,5),0)
+                #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
+                #abbiamo 'lamp'
                 if 'lamp' in label:
                     label = 'lamp'
 
                 # query processing, application of grabcut and same other filters(yet to decide)
-                res_img = qt.extract_query_foreground(query_img)  # the result is the query without background
+                res_img = qt.extract_query_foreground(query_img, mask)  # the result is the query without background
                 pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
 
                 if retr_method == 'sift':
@@ -132,8 +148,6 @@ for img in os.listdir(test_image):
                 AP_vector.append((single_AP))
                 print("AP vector:")
                 print(AP_vector)
-
-
 
     except:
         raise ValueError('Impossible to open the specified file. Check the name and try again.')
