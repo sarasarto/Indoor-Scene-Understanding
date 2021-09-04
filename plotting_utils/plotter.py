@@ -69,7 +69,7 @@ class Plotter():
         for img in similar_images:
             img = img.astype('float32')
 
-        #images are already sorted by similarity
+            #images are already sorted by similarity
         #we always plot first 5 results
         fig = plt.figure()
         fig.suptitle(f'Retrieval results with {retrieval_method} method')
@@ -77,22 +77,23 @@ class Plotter():
         gs = GridSpec(2, 5)
         query_axis = fig.add_subplot(gs[0,1])
         query_axis.set_title('Query image')
-        query_axis.imshow(query_img)
+        query_axis.imshow(cv2.resize(query_img, (224, 224)))
 
         ax1 = fig.add_subplot(gs[1,0])
-        ax1.imshow(similar_images[0])
+        ax1.imshow(cv2.resize(similar_images[0], (224, 224)))
 
         ax2 = fig.add_subplot(gs[1,1])
-        ax2.imshow(similar_images[1])
+        ax2.imshow(cv2.resize(similar_images[1], (224, 224)))
 
         ax3 = fig.add_subplot(gs[1,2])
-        ax3.imshow(similar_images[2])
+        ax3.imshow(cv2.resize(similar_images[2], (224, 224)))
+        ax3.set_title('Results:')
 
         ax4 = fig.add_subplot(gs[1,3])
-        ax4.imshow(similar_images[3])
+        ax4.imshow(cv2.resize(similar_images[3], (224, 224)))
 
         ax5 = fig.add_subplot(gs[1,4])
-        ax5.imshow(similar_images[4])
+        ax5.imshow(cv2.resize(similar_images[4], (224, 224)))
 
         plt.show()
 

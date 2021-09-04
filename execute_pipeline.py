@@ -33,7 +33,8 @@ if model_type not in ['default', 'modified']:
 try:
     img = Image.open(img_path)
 
-    img = cv2.blur(np.array(img),(5,5))
+    # img = cv2.blur(np.array(img),(5,5)) con questo non trova un risultato
+    img = cv2.bilateralFilter(np.array(img), 9, 75, 75)
 
     transform = transforms.Compose([
     transforms.ToTensor()])
@@ -87,7 +88,7 @@ qt = QueryTransformer()
 
 for bbox, label, mask in zip(boxes,text_labels, masks):
     # bbox is the query
-    #for each method (SIFT, DHash, autoencoder) show results.
+    # for each method (SIFT, DHash, autoencoder) show results.
     bbox = list(map(int,np.round(bbox)))
     xmin = bbox[0]
     xmax = bbox[2]
@@ -95,8 +96,12 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     ymax = bbox[3]
     
     if label in retrieval_classes:
+
+        # we use the result mask from the network in order to apply grabcut
+        # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
+        # all the pixels equal to 1 are considered "Sure_Foreground" pixels
         mask = mask.astype('uint8')
-        mask[mask==0] = 2
+        #mask[mask==0] = 2  # CONTROLLA CON BEPPE CON PIU ESEMPI SE è MEGLIO TOGLIERLO O NO
 
         query_img = img[ymin:ymax, xmin:xmax]
         mask = mask[ymin:ymax, xmin:xmax]
@@ -105,6 +110,7 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
         #query_img = cv2.blur(np.array(query_img), (5, 5))
         #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
         #query_img = cv2.medianBlur(query_img,5)
+        query_img = cv2.bilateralFilter(np.array(query_img), 9, 50, 50)
 
         # query_image = cv2.GaussianBlur(query_img,(5,5),0)
         #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
@@ -114,8 +120,6 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
 
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
-        #res_img = cv2.GaussianBlur(res_img, (5, 5), 0)
-        #res_img = cv2.bilateralFilter(np.array(res_img), 9, 75, 75)
 
         pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
         #sift method
@@ -159,7 +163,7 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
 classification_helper = Classification_Helper()
 feature_vector = classification_helper.construct_fv_for_prediction(labels)
 predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
-import matplotlib.pyplot as plt
+
 plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 plt.title(f'Prediction is {text_prediction}')
 plt.show() 
