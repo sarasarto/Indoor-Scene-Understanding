@@ -14,7 +14,6 @@ from PIL import Image
 from geometry.rectification2 import GeometryRectification
 from torchvision.transforms import transforms
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 import json
 
