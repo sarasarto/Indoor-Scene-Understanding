@@ -2,13 +2,10 @@
 from __future__ import print_function
 import time
 import os
-
 import cv2 as cv
 import matplotlib
 import matplotlib.pylab as pltpy
 import json
-
-
 import random
 import PIL
 import torchvision
@@ -68,17 +65,6 @@ def thresh_callback(val):
     cv.rectangle(drawing, (int(boundRect[max][0]), int(boundRect[max][1])), \
                  (int(boundRect[max][0] + boundRect[max][2]), int(boundRect[max][1] + boundRect[max][3])), color, 2)
 
-
-    """
-    # qua stampa tutti i contorni che ci sono con i rettangoli
-    for i in range(len(contours)):
-        color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
-        cv.drawContours(drawing, contours_poly, i, color)
-        cv.rectangle(drawing, (int(boundRect[i][0]), int(boundRect[i][1])), \
-          (int(boundRect[i][0]+boundRect[i][2]), int(boundRect[i][1]+boundRect[i][3])), color, 2)
-
-        #cv.circle(drawing, (int(centers[i][0]), int(centers[i][1])), int(radius[i]), color, 2)
-    """
     cv.imshow('Contours', drawing)
     x = boundRect[max][0]
     y = boundRect[max][1]
@@ -86,10 +72,6 @@ def thresh_callback(val):
     height = boundRect[max][3]
 
     return area[max], x, y, width, height
-
-
-
-
 
 #to generate an annotation af an image
 def generate_json(file_name, name_class, x, y, width, height):
@@ -109,16 +91,6 @@ def generate_json(file_name, name_class, x, y, width, height):
     image_dict['annotations'].append(label_dict)
 
     annotations.append(image_dict)
-
-#grabcut
-    """mask = np.zeros(img.shape[:2], np.uint8)
-    bgdModel = np.zeros((1, 65), np.float64)
-    fgdModel = np.zeros((1, 65), np.float64)
-    rect = (10, 10, 170, 170)
-    cv.grabCut(img, mask, rect, bgdModel, fgdModel, 5, cv.GC_INIT_WITH_RECT)
-    mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
-    img = img * mask2[:, :, np.newaxis]
-    plt.imshow(img), plt.colorbar(), plt.show()"""
 
 
 if __name__ == '__main__':
@@ -227,5 +199,5 @@ if __name__ == '__main__':
 
     # create a json file with the annotations of each image and the corresponding bounding boxes
     json_file = json.dumps(annotations)
-    with open('Annotations_Kaggle.json', 'a') as f:
+    with open('retrieval/Annotations_Kaggle.json', 'a') as f:
         f.write(json_file)

@@ -17,13 +17,12 @@ class Classification_Helper():
         self.obj_classes = []
 
 
-    def construct_dataset(self, all_objects=False):
+    def construct_dataset(self, all_objects=True):
         root_path = self.root_path
 
         if all_objects:
             file = 'filtered_dataset_info.json'
-        else:
-            file = '_old_dataset_info.json'
+
         with open('ADE20K_filtering/' + file, 'r') as f:
             dataset_info = json.load(f)
 
@@ -39,10 +38,6 @@ class Classification_Helper():
                     labels.append(scene)
                     img_objs = data['annotation']['object']
 
-                '''for obj in img_objs:
-                    if obj['raw_name'] in dataset_info['instances_per_obj']:
-                        idx = list(dataset_info['instances_per_obj']).index(obj['raw_name'])
-                        dataset[img, idx] = 1'''
                 for obj in img_objs:              
                     old_label_number = obj['name_ndx']
                     idx = list(dataset_info['objects']).index(str(old_label_number))
@@ -119,18 +114,7 @@ class Classification_Helper():
         num_objs = len(data['objects'])
         vector = np.zeros((1,num_objs))
         labels = np.unique(labels) 
-        '''
-        idxs = []
-        for label in labels:
-            for object in data['objects']:
-                if object['new_label'] == label
 
-            for map in mapping:
-                if mapping[map]['new_label'] == label:
-                    print(map)
-                    idxs.append(list(data['instances_per_obj']).index(map))
-                    print(list(data['instances_per_obj']).index(map))
-        '''
         idxs = labels - 1 #-1 because labels start from 1 but array indexing from 0
         vector[:,idxs] = 1
         
@@ -145,11 +129,13 @@ class Classification_Helper():
             raise ValueError('Impossibile to load the model. First you must train it!.')
         
         prediction = classifier.predict(vector)
+        return prediction, self.class2text_lbel(prediction)
+    
+    def class2text_lbel(self, prediction):
         with open('classification/rooms_mapping.json', 'r') as f:
             room_mapping = json.load(f)
         
         for room in room_mapping:
             code_label = int(room_mapping[room])
             if code_label == prediction:
-                return prediction, room
-        
+                return room

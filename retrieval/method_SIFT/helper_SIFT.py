@@ -53,7 +53,8 @@ class SIFTHelper():
                 #NB:DA RIVEDERE MEGLIO QUESTO IF CON KEVIN
                 if annotated_img['annotations'][0]['label'] != label or des2 is None:
                     continue
-                
+
+
                 img_names.append(annotated_img['image'])
                 # cv2.BFMatcher() takes the descriptor of one feature in first set
                 # and is matched with all other features in second set using some distance calculation.

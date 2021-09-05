@@ -1,5 +1,6 @@
 import argparse
-
+import torch
+from classification.MLP_model import HomeScenesClassifier
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
 from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
 from retrieval.method_dhash.helper_DHash import DHashHelper
@@ -22,13 +23,25 @@ parser.add_argument('-img', '--image', type=str,
                     help='path of the image to analyze', required=True)
 parser.add_argument('-mdl', '--model', type=str,
                     help='type of model (default or modified)', required=True)
+parser.add_argument('-rtv', '--retrieval', type=str,
+                    help='retrieval method to use(sift, dhash or autoencoder)', required=True)
+parser.add_argument('-clf', '--classifier', type=str,
+                    help='type of classification model (forest or mlp)', required=True)
 
 args = parser.parse_args()
 img_path = args.image
 model_type = args.model
+retr_type = args.retrieval
+clf_mode = args.classifier
 
 if model_type not in ['default', 'modified']:
     raise ValueError('Model type must be \'default\' or \'modified\'')
+
+if clf_mode not in ['forest', 'mlp']:
+    raise ValueError('Classifier be \'forest\' or \'mlp\'')
+
+if retr_type not in ['sift', 'dhash', 'autoencoder']:
+    raise ValueError('Retrieval type must be \'sift\', \'dhash\' or \'autoencoder\'')
 
 try:
     img = Image.open(img_path)
@@ -118,26 +131,25 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
 
         #query processing, application of grabcut and same other filters(yet to decide)
         res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
+        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
 
-        #pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-        #sift method
-        # img_retriever = ImageRetriever(SIFTHelper())
-        # sift_results = img_retriever.find_similar_furniture(res_img, label)
-        # pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        if retr_type == 'sift':
+            #sift method
+            img_retriever = ImageRetriever(SIFTHelper())
+            sift_results = img_retriever.find_similar_furniture(res_img, label)
+            pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        elif retr_type == 'dhash':
+            #dhash method
+            img_retriever = ImageRetriever(DHashHelper())
+            PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
+            dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+            pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+        else:
+            # autoencoder method
+            img_retriever = ImageRetriever(AutoencHelper())
+            autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
+            pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
 
-        #dhash method
-        # img_retriever = ImageRetriever(DHashHelper())
-        # PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
-        # dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        # pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
-
-
-        # autoencoder method
-        #img_retriever = ImageRetriever(AutoencHelper())
-        #autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
-        #pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
-
-        
 
     # elif label in rectification_classes:
     #     query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
@@ -149,14 +161,20 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     #     gr.rectification(query_img)
 
 
-
-#ROOM CLASSIFICATION PHASE
-#construct vector
-#i load the dataset info
+#-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------
 classification_helper = Classification_Helper()
 feature_vector = classification_helper.construct_fv_for_prediction(labels)
-predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
 
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title(f'Prediction is {text_prediction}')
-plt.show() 
+if clf_mode == 'forest':
+    predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
+else:
+    model = HomeScenesClassifier(len(data['objects']))
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    model.load_state_dict(torch.load('classification/MLP_model.pt', map_location=device))
+    model.eval()
+    feature_vector = torch.tensor(feature_vector).type(torch.FloatTensor)
+    result = model(feature_vector)
+    predicted_class = torch.argmax(result)
+    text_prediction = classification_helper.class2text_lbel(predicted_class)
+
+pt.plot_image(img, f'Prediction is {text_prediction}')
