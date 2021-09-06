@@ -1,6 +1,7 @@
 import random
 import cv2
 import matplotlib.pyplot as plt
+import torch
 from matplotlib.gridspec import GridSpec
 import numpy as np
 
@@ -107,4 +108,13 @@ class Plotter():
         ax2.set_title('Retrieved Image')
         plt.suptitle("Evaluation")
 
+        plt.show()
+
+    def plot_loss_values(self, loss_tensor):
+        #loss tensor has shape (10, 2119)--> 2119 == num of iterations in each epoch, 
+        #considering batch_size == 2
+        loss_tensor = loss_tensor[:10,:] #consider first 10 epochs
+        mean_losses = torch.mean(loss_tensor, 1)
+        plt.plot(mean_losses)
+        plt.xticks(range(10))
         plt.show()
