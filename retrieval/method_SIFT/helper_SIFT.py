@@ -4,11 +4,12 @@ import numpy as np
 import os
 import pickle
 from retrieval.query_expansion_transformations import QueryTransformer
-from plotting_utils.plotter import Plotter
+
 
 class SIFTHelper():
-    def __init__(self, dataset_path='retrieval/kaggle_dataset_folder_jpg', grabcut_path='retrieval/grabcut_kaggle_dataset_folder',
-                    annotation_path='retrieval/Annotations_Kaggle.json'):
+    def __init__(self, dataset_path='retrieval/kaggle_dataset_folder_jpg',
+                 grabcut_path='retrieval/grabcut_kaggle_dataset_folder',
+                 annotation_path='retrieval/Annotations_Kaggle.json'):
         self.dataset_path = dataset_path
         self.grabcut_path = grabcut_path
         self.data = json.load(open(annotation_path))
@@ -16,7 +17,6 @@ class SIFTHelper():
     # function which implements the retrieval
     def retrieval(self, query_image, label):
         qt = QueryTransformer()
-        
 
         obj_list = []
         num_good = []
@@ -34,14 +34,12 @@ class SIFTHelper():
 
         des = []
         try:
-            #with open('retrieval/method_SIFT/keypoints.pkl', 'rb') as f:
-                #kp = pickle.load(f)
+
             with open('retrieval/method_SIFT/descriptors.pkl', 'rb') as f:
                 des = pickle.load(f)
         except FileNotFoundError:
             print('Pickle file not found. Please compute sift descriptors before!')
 
-    
         # compute SIFT for the image and its transformations then compare them with images of the dataset
         for (j, img) in enumerate(transformed):
             gray_l = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
@@ -50,10 +48,9 @@ class SIFTHelper():
 
             img_names = []
             for des2, annotated_img in zip(des, self.data):
-                #NB:DA RIVEDERE MEGLIO QUESTO IF CON KEVIN
+                # only images with the same label class are taken
                 if annotated_img['annotations'][0]['label'] != label or des2 is None:
                     continue
-
 
                 img_names.append(annotated_img['image'])
                 # cv2.BFMatcher() takes the descriptor of one feature in first set
@@ -67,15 +64,16 @@ class SIFTHelper():
                     if m.distance < 0.75 * n.distance:
                         good.append([m])
                 num_good.append(len(good))
-        
-        num_good = np.reshape(num_good, [len(transformed), -1]) #matrice con tante righe quante le trasformazioni che facciamo
+
+        num_good = np.reshape(num_good,
+                              [len(transformed), -1])  # matrix with as many rows as transformations that are done
 
         num_good = num_good.sum(axis=0)
         num_good = np.array(num_good)
 
-        # Select only the best 3 results
+        # Select only the best 5 results
         num_good_sorted = num_good.argsort()
-        
+
         similar_images = []
         for i, img_name in enumerate(img_names):
 
@@ -86,5 +84,5 @@ class SIFTHelper():
                 print(path)
                 img = cv.imread(path, cv.COLOR_BGR2RGB)
                 similar_images.append(img)
-        
+
         return similar_images

@@ -1,35 +1,37 @@
-import torch
 from torchvision import transforms
+from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
 from retrieval.method_autoencoder.retrieval_dataset import RetrievalDataset
 from sklearn.neighbors import NearestNeighbors
-import matplotlib.pyplot as plt
 import torch
 import matplotlib.pyplot as plt
 import torch.nn as nn
 from torch import optim
 from retrieval.method_autoencoder.model import EncodeModel
 from torch.optim.lr_scheduler import StepLR
-from retrieval.evaluation import RetrievalMeasure
 
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # loading the autoencoder trained model
     model = EncodeModel().to(device)
     model_file = 'trained_model.pt'
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     scheduler = StepLR(optimizer, step_size=5, gamma=0.8)
     criterion = nn.MSELoss()
+    helper = AutoencHelper()
 
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor()
     ])
 
+    # loading the dataset of all images, not divided in folder
     full_dataset = RetrievalDataset('retrieval/grabcut_kaggle_dataset/', transforms=transform)
     full_loader = torch.utils.data.DataLoader(full_dataset, batch_size=2, shuffle=False)
 
     epochs = 50
+    print("starting training...")
     for epoch in range(epochs):
         for (i, trainData) in enumerate(full_loader):
             trainData = trainData.to(device)
@@ -39,48 +41,21 @@ def main():
             loss.backward()
             optimizer.step()
 
-        
         print('epoch:{} loss:{:7f}'.format(epoch, loss.item()))
         scheduler.step()
-   
+        # saving the model
         torch.save(model.state_dict(), model_file)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor()
-    ])
-
-    full_dataset = RetrievalDataset('grabcut_kaggle_dataset/', transforms=transform)
-    data_loader = torch.utils.data.DataLoader(full_dataset, batch_size=2, shuffle=False)
-
-    print("starting training...")
-    # model=train(full_loader)
     print("training ended.")
 
     i = 0
     test_dataset = RetrievalDataset('test_kaggle/', transforms=transform)
 
-    embedding_dim = (1, 256, 7, 7)
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(device)
     # --> this two line to create the embedding file <--
     # do not use these unless you change the dataset
-
+    # embedding_dim = (1, 256, 7, 7)
     # embedding = helper.create_embedding_full_dataset(full_dataset, embedding_dim)
     # torch.save(embedding, 'embedding_50_arch2.pt')
 
@@ -114,7 +89,6 @@ def main():
         if i > 200:
             break
 
-    #AP_test = [0.7000000000000001, 0.8875, 1.0, 1.0, 1.0, 1.0, 0.8055555555555555, 1.0, 1.0, 1.0, 0.8055555555555555, 0.7000000000000001, 0.5888888888888889, 1.0, 1.0, 1.0, 0.3333333333333333, 1.0]
     print("computing MAP on test kaggle dataset ")
     print(helper.compute_MAP_autoencoder(AP_test))
 

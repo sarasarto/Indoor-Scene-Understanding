@@ -4,9 +4,9 @@ from matplotlib import pyplot as plt
 import os
 import json
 
-# script that applies grabcut on all the kaggle images, reading the annotations from the json file
-# the classes are  ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
-# both the datasets (kaggle_dataset and the new grabcut one) are on Drive
+# script that applies grabcut on all the single dataset images, reading the annotations from the json file
+# the retrieval classes are  ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
+# both the datasets are on Drive
 
 dataset = 'retrieval/kaggle_dataset_folder_jpg/'
 annotations = 'Annotations_Kaggle.json'

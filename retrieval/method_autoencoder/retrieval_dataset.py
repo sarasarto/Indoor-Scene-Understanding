@@ -2,6 +2,7 @@ from PIL import Image
 import torch
 import os
 
+
 class RetrievalDataset(torch.utils.data.Dataset):
     def __init__(self, root, transforms=None):
         self.root = root

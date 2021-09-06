@@ -250,9 +250,9 @@ class MaskRCNNPredictor(nn.Sequential):
         super(MaskRCNNPredictor, self).__init__()
         
         self.transpose1 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
-        self.transpose2 = nn.ConvTranspose2d(in_channels, dim_reduced, 2, 2, 0, dilation=2)
+        self.transpose2 = nn.ConvTranspose2d(dim_reduced, 64, 2, 2, 0, dilation=2)
         self.relu = nn.ReLU()
-        self.conv1 = nn.Conv2d(dim_reduced, dim_reduced, 3, 2, 0, dilation=2)
+        self.conv1 = nn.Conv2d(64, dim_reduced, 3, 2, 0, dilation=2)
         self.conv2 = nn.Conv2d(dim_reduced, num_classes, 1, 1, 0, dilation=2)
 
      

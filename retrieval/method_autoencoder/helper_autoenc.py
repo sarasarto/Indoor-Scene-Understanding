@@ -1,20 +1,21 @@
-import cv2
-from torch._C import Value
 from retrieval.method_autoencoder.retrieval_dataset import RetrievalDataset
 from retrieval.method_autoencoder.model import EncodeModel
 import torch
-import json
 from torchvision import transforms
 from sklearn.neighbors import NearestNeighbors
+
 
 class AutoencHelper():
     def __init__(self) -> None:
         pass
 
+    # it computes the retrieval given a query image and then
+    # it computes the NearestNeighbors
+    # return: the most similar 5 images
     def retrieval(self, query_image, label):
         transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor()
+            transforms.Resize((224, 224)),
+            transforms.ToTensor()
         ])
 
         query_image = transform(query_image)
@@ -33,22 +34,26 @@ class AutoencHelper():
 
         full_dataset = RetrievalDataset('retrieval/kaggle_autoencoder_nofolder/', transforms=transform)
         return self.find_similar(knn, embedded_query, full_dataset)
-    
-    def find_similar(self , knn,  embedded_img, full_dataset):
+
+    # given the embedding of the query this function compares it with all the dataset images
+    # return: the most simila images aftr knn
+    def find_similar(self, knn, embedded_img, full_dataset):
         _, indices = knn.kneighbors(embedded_img)
         indices_list = indices.tolist()
         print(indices_list)
         retrieved_imgs = []
 
-        for j,idx in enumerate(indices_list[0]):
-            img = full_dataset[idx - 1] #-1 because first element in embedding is random(see create_embedding.py file)
+        for j, idx in enumerate(indices_list[0]):
+            img = full_dataset[idx - 1]  # -1 because first element in embedding is random(see create_embedding.py file)
             img = img.permute(1, 2, 0)
             retrieved_imgs.append(img.numpy())
-            #else:
-                #raise ValueError('Random image selected as retreival result, try again!')
+            # else:
+            # raise ValueError('Random image selected as retreival result, try again!')
 
         return retrieved_imgs
 
+    # this function passes the image through the encoder and it gets the embedding
+    # return: the embedding of a single image
     def _create_embedding_single_image(self, input_image, K=5):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model = EncodeModel()
@@ -56,7 +61,7 @@ class AutoencHelper():
         model.load_state_dict(torch.load(model_file, map_location=device))
         model.train(False)
 
-        input_image = input_image.permute(2,0,1).float()
+        input_image = input_image.permute(2, 0, 1).float()
         print(input_image.shape)
         input_image = input_image.unsqueeze(0)
         print(input_image.shape)

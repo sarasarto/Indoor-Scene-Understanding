@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-import torchvision.transforms as transforms
-import numpy as np
+
 
 class HomeScenesClassifier(nn.Module):
 
@@ -9,12 +8,12 @@ class HomeScenesClassifier(nn.Module):
         super(HomeScenesClassifier, self).__init__()
 
         self.fully = nn.Sequential(
-            nn.Linear(num_objs , 4096),
+            nn.Linear(num_objs, 4096),
             nn.ReLU(),
-            #nn.Dropout(),
+            # nn.Dropout(),
             nn.Linear(4096, 4096),
             nn.ReLU(),
-            #nn.Dropout(),
+            # nn.Dropout(),
             nn.Linear(4096, num_classes),
         )
 

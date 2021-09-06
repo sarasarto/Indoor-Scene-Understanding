@@ -6,12 +6,10 @@ from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
 from retrieval.method_dhash.helper_DHash import DHashHelper
 from retrieval.query_expansion_transformations import QueryTransformer
 from retrieval.retrieval_manager import ImageRetriever
-from geometry.rectification2 import *
 from classification.classification_utils import Classification_Helper
 from plotting_utils.plotter import Plotter
 from furniture_segmentation.prediction_model import PredictionModel
 from PIL import Image
-from geometry.rectification2 import GeometryRectification
 from torchvision.transforms import transforms
 import numpy as np
 import cv2
@@ -44,8 +42,6 @@ if retr_type not in ['sift', 'dhash', 'autoencoder']:
 
 try:
     img = Image.open(img_path)
-
-    # img = cv2.blur(np.array(img),(5,5)) con questo non trova un risultato
     img = cv2.bilateralFilter(np.array(img), 9, 75, 75)
 
     transform = transforms.Compose([
@@ -63,7 +59,7 @@ if model_type == 'default':
     PATH = 'model_mask_default.pt'
     is_default = True
 else:
-    PATH = 'model_mask_default.pt'
+    PATH = 'model_mask_modified.pt'
     is_default = False
 
 

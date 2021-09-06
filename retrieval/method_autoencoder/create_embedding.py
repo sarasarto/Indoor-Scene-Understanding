@@ -1,7 +1,8 @@
 from torchvision import transforms
-from retrieval_dataset import RetrievalDataset
+from retrieval.method_autoencoder.retrieval_dataset import RetrievalDataset
 import torch
-from model import EncodeModel
+from retrieval.method_autoencoder.model import EncodeModel
+
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -14,7 +15,6 @@ def main():
 
     full_dataset = RetrievalDataset('retrieval/grabcut_kaggle_dataset/', transforms=transform)
     embedding_dim = (1, 256, 7, 7)
-    
 
     model.load_state_dict(torch.load(model_file, map_location=device))
     model.train(False)
@@ -28,6 +28,7 @@ def main():
             embedding = torch.cat((embedding, testEncode.cpu()), 0)
 
     torch.save(embedding, 'retrieval/method_autoencoder/dataset_embedding.pt')
+
 
 if __name__ == '__main__':
     main()

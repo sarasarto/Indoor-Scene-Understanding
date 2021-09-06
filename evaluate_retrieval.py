@@ -51,9 +51,7 @@ for img in os.listdir(test_images):
     img_path = test_images + '/' + img
     try:
         img = Image.open(img_path)
-        print('arrivato')
         img = cv2.bilateralFilter(np.array(img), 9, 75, 75)
-        print('arrivato2')
         transform = transforms.Compose([
             transforms.ToTensor()])
         img = transform(img)
@@ -67,7 +65,7 @@ for img in os.listdir(test_images):
             PATH = 'model_mask_default.pt'
             is_default = True
         else:
-            PATH = 'model_mask_default.pt'
+            PATH = 'model_mask_modified.pt'
             is_default = False
 
         pm = PredictionModel(PATH, num_classes, is_default)
@@ -118,12 +116,9 @@ for img in os.listdir(test_images):
 
                 query_img = img[ymin:ymax, xmin:xmax]
                 mask = mask[ymin:ymax, xmin:xmax]
-                #query_img = cv2.blur(np.array(query_img), (5, 5))
-                #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
-                #query_img = cv2.medianBlur(query_img,5)
+
                 query_img = cv2.bilateralFilter(np.array(query_img), 9, 50, 50)
 
-                # query_image = cv2.GaussianBlur(query_img,(5,5),0)
                 #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
                 #abbiamo 'lamp'
                 if 'lamp' in label:
@@ -150,7 +145,9 @@ for img in os.listdir(test_images):
                 print(AP_vector)
 
     except:
-        raise ValueError('Impossible to open the specified file. Check the name and try again.')
+        print("Impossible to open the image " + str(img_path))
+        continue
+
 
 print("computing MAP on test kaggle dataset ")
 print(np.mean(AP_vector))

@@ -3,7 +3,6 @@ import operator
 import os
 from PIL import Image
 import cv2
-from numpy import append
 from retrieval.method_dhash.image_with_Hash import Images_with_Hash
 
 
@@ -12,7 +11,7 @@ class DHashHelper():
         self.folder = folder
         self.folder_grabcut = folder_grabcut
 
-    # computing the hash value for each image in the retrieval dataset
+    # return: the hash value for each image in the correct label of the retrieval dataset
     def compute_hash_dataset(self, label):
         path = self.folder_grabcut + '/' + label
         hashed_images = []
@@ -25,19 +24,17 @@ class DHashHelper():
         return hashed_images
 
     # computing the hash bit differences between the input image and the rest of the retrieval dataset
-    # returning the first 11 most similar objects, not considering a threshold value
+    # return: the first 5 most similar objects, not considering a threshold value
     def retrieval(self, query_img, label):
         #hashing only images with that label
         hashed_images = self.compute_hash_dataset(label)
-
-        #threshold = 40
 
         img_row, img_col = dhash.dhash_row_col(query_img)
         img_hash = dhash.format_hex(img_row, img_col)
         img_hash = int(img_hash, 16)
         differences = {}
 
-        # Computing Hamming distance between query and dataset image 
+        # Computing Hamming distance between query and dataset images
         for idx, single_hash_image in enumerate(hashed_images):
             differences[idx] = dhash.get_num_bits_different(img_hash, single_hash_image.hash)
 
@@ -45,7 +42,7 @@ class DHashHelper():
         sorted_x = sorted(differences.items(), key=operator.itemgetter(1))
 
         # taking only the first 5 images
-        first_five = sorted_x[:6]
+        first_five = sorted_x[:5]
 
         img_names = []
         for rel in first_five:

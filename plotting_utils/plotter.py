@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import numpy as np
 
+
 class Plotter():
     def plot_image(self, image, title=None):
         plt.imshow(image)
@@ -24,20 +25,19 @@ class Plotter():
 
     def show_bboxes_and_masks(self, image, boxes, masks, labels, scores, output_file=None):
         image = np.copy(image)
-        f, axarr = plt.subplots(1,2)
-        alpha=0.5
+        f, axarr = plt.subplots(1, 2)
+        alpha = 0.5
         colors = self.random_colors(len(masks))
 
         axarr[0].set_title('Test image')
         axarr[0].imshow(image)
 
-        
-        for i,mask,box,label,score in zip(range(len(masks)), masks, boxes, labels, scores):
-            
-            #define bbox
-            #(x1, y1) is top left
-            #(x2,y2) is bottom right
-        
+        for i, mask, box, label, score in zip(range(len(masks)), masks, boxes, labels, scores):
+
+            # define bbox
+            # (x1, y1) is top left
+            # (x2,y2) is bottom right
+
             tl = 2  # line thickness
             c1, c2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
 
@@ -51,14 +51,13 @@ class Plotter():
             cv2.putText(image, display_txt, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf,
                         lineType=cv2.LINE_AA)
 
-            #define mask
+            # define mask
             for c in range(3):
                 image[:, :, c] = np.where(mask == 1,
-                                        image[:, :, c] *
-                                        (1 - alpha) + alpha * colors[i][c],
-                                        image[:, :, c])
-        
-        
+                                          image[:, :, c] *
+                                          (1 - alpha) + alpha * colors[i][c],
+                                          image[:, :, c])
+
         axarr[1].set_title('Segmented image')
         axarr[1].imshow(image)
         plt.show()
@@ -69,35 +68,35 @@ class Plotter():
         for img in similar_images:
             img = img.astype('float32')
 
-            #images are already sorted by similarity
-        #we always plot first 5 results
+        # images are already sorted by similarity
+        # we always plot first 5 results
         fig = plt.figure()
         fig.suptitle(f'Retrieval results with {retrieval_method} method')
 
         gs = GridSpec(2, 5)
-        query_axis = fig.add_subplot(gs[0,1])
+        query_axis = fig.add_subplot(gs[0, 1])
         query_axis.set_title('Query image')
         query_axis.imshow(cv2.resize(query_img, (224, 224)))
 
-        ax1 = fig.add_subplot(gs[1,0])
+        ax1 = fig.add_subplot(gs[1, 0])
         ax1.imshow(cv2.resize(similar_images[0], (224, 224)))
 
-        ax2 = fig.add_subplot(gs[1,1])
+        ax2 = fig.add_subplot(gs[1, 1])
         ax2.imshow(cv2.resize(similar_images[1], (224, 224)))
 
-        ax3 = fig.add_subplot(gs[1,2])
+        ax3 = fig.add_subplot(gs[1, 2])
         ax3.imshow(cv2.resize(similar_images[2], (224, 224)))
         ax3.set_title('Results:')
 
-        ax4 = fig.add_subplot(gs[1,3])
+        ax4 = fig.add_subplot(gs[1, 3])
         ax4.imshow(cv2.resize(similar_images[3], (224, 224)))
 
-        ax5 = fig.add_subplot(gs[1,4])
+        ax5 = fig.add_subplot(gs[1, 4])
         ax5.imshow(cv2.resize(similar_images[4], (224, 224)))
 
         plt.show()
 
-    def plot_evaluation(self, query_img , result):
+    def plot_evaluation(self, query_img, result):
         fig = plt.figure(1, figsize=(10, 10))
         ax1 = fig.add_subplot(2, 2, 1)
         ax1.imshow(query_img)

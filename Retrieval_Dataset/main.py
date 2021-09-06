@@ -1,4 +1,4 @@
-#Imports Packages
+# Imports Packages
 from __future__ import print_function
 import time
 import os
@@ -15,6 +15,7 @@ import random as rng
 
 annotations = []
 
+
 def thresh_callback(val):
     threshold = val
 
@@ -22,7 +23,7 @@ def thresh_callback(val):
     # cv.imshow('Contours', canny_output)
     # cv.waitKey()
 
-    # funzione findsCounter():
+    # function findsCounter():
     # RETR_EXTERNAL:only retrieve the outermost contour;
     # RETR_TREE (most commonly used): retrieve all contours and reconstruct the entire hierarchy of nested contours;
 
@@ -41,10 +42,10 @@ def thresh_callback(val):
 
     drawing = np.zeros((canny_output.shape[0], canny_output.shape[1], 3), dtype=np.uint8)
 
-    # le coordinate dei box sono organizzate in questo modo: (x, y , w , h)
-    # (x,y) è il punto in alto a sx
-    # w è la width, h è height
-    # quindi per valutare l'area basta fare base*altezza --> w* h
+    # the coordinates are returned in this way: (x, y , w , h)
+    # (x,y) is the upper left point
+    # w is width, h is height
+    # for the area we just need base*height --> w* h
     print("coordinate dei box")
     print(boundRect)
 
@@ -56,7 +57,7 @@ def thresh_callback(val):
     print("area ")
     print(area)
 
-    # mi interessa l'area del rettangolo piu grande
+    # the biggest area is taken
 
     max = np.argmax(area)
 
@@ -73,7 +74,8 @@ def thresh_callback(val):
 
     return area[max], x, y, width, height
 
-#to generate an annotation af an image
+
+# to generate an annotation af an image
 def generate_json(file_name, name_class, x, y, width, height):
     image_dict = {"image": '', "annotations": []}
     label_dict = {"label": '', "coordinates": {}}
@@ -95,18 +97,18 @@ def generate_json(file_name, name_class, x, y, width, height):
 
 if __name__ == '__main__':
 
-    #creates the dataset and the annotations
-    #retr_class = ['table lamp', 'sofa', 'table', 'armchair', 'chair', 'desk', 'bed', 'sink', 'toilet', 'bathtub', 'shower', 'bidet', 'wardrobe', 'bycicle']
+    # creates the dataset and the annotations
+    # these are the retrieval class
     retr_class = ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
-    #c_class = ['None', 'couch', 'dining table', 'None', 'chair', 'None', 'bed', 'sink', 'toilet', 'sink', 'None', 'toilet', 'None', 'bycicle']
+    # c_class says if a class is present in COCO dataset or if it has a different name
     c_class = ['None', 'couch', 'None', 'chair', 'bed', 'bicycle']
 
     for name, coco_name in zip(retr_class, c_class):
         images = []
         folder = 'kaggle_dataset_folder_jpg/' + name
         for filename in os.listdir(folder):
-            if(filename != '.DS_Store'):
-                #filename = folder + '/' + filename
+            if filename != '.DS_Store':
+                # filename = folder + '/' + filename
                 images.append(filename)
         print(images)
         torch.set_grad_enabled(False)
@@ -114,7 +116,7 @@ if __name__ == '__main__':
         model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
         model = model.eval()
 
-        #if it is a category of coco dataset, thus the bounding box is found with the pre-trained mask-r-cnn
+        # if it is a category of coco dataset, thus the bounding box is found with the pre-trained mask-r-cnn
         if coco_name != 'None':
             for i, image in enumerate(images):
                 print(image)
@@ -129,15 +131,24 @@ if __name__ == '__main__':
                 print(output['labels'])
                 print(output['scores'])
 
-                coco_names = ['unlabeled', 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat',
-                              'traffic light', 'fire hydrant', 'street sign', 'stop sign', 'parking meter', 'bench', 'bird', 'cat',
-                              'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'hat', 'backpack', 'umbrella',
-                              'shoe', 'eye glasses', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball',
-                              'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle',
-                              'plate', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich',
-                              'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant',
-                              'bed', 'mirror', 'dining table', 'window', 'desk', 'toilet', 'door', 'tv', 'laptop', 'mouse',
-                              'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'blender',
+                coco_names = ['unlabeled', 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train',
+                              'truck', 'boat',
+                              'traffic light', 'fire hydrant', 'street sign', 'stop sign', 'parking meter', 'bench',
+                              'bird', 'cat',
+                              'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'hat', 'backpack',
+                              'umbrella',
+                              'shoe', 'eye glasses', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard',
+                              'sports ball',
+                              'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket',
+                              'bottle',
+                              'plate', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+                              'sandwich',
+                              'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
+                              'potted plant',
+                              'bed', 'mirror', 'dining table', 'window', 'desk', 'toilet', 'door', 'tv', 'laptop',
+                              'mouse',
+                              'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink',
+                              'refrigerator', 'blender',
                               'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
                 colors = [[random.randint(0, 255) for _ in range(3)] for _ in coco_names]
 
@@ -151,26 +162,26 @@ if __name__ == '__main__':
                         # draw box
                         tl = round(0.002 * max(result_image.shape[0:2])) + 1  # line thickness
                         c1, c2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
-                        area = (c1[0]-c2[0])*(c1[1]-c2[1])
+                        area = (c1[0] - c2[0]) * (c1[1] - c2[1])
 
-                        #I put the image in my dataset only if represent mainly the object that I want
+                        # I put the image in my dataset only if represent mainly the object that I want
                         if area > 120000 and coco_names[label] == coco_name:
                             valid_image = True
                             mask = np.zeros(result_image.shape[:2], np.uint8)
                             bgdModel = np.zeros((1, 65), np.float64)
                             fgdModel = np.zeros((1, 65), np.float64)
-                            #name_class = coco_names[label]
-                            x = max(0, c1[0]-20)
-                            y = max(0, c1[1]-20)
-                            width = min(result_image.shape[0]-c1[0], c2[0]-c1[0]+40)
-                            height = min(result_image.shape[1]-c1[1], c2[1]-c1[1]+40)
+                            # name_class = coco_names[label]
+                            x = max(0, c1[0] - 20)
+                            y = max(0, c1[1] - 20)
+                            width = min(result_image.shape[0] - c1[0], c2[0] - c1[0] + 40)
+                            height = min(result_image.shape[1] - c1[1], c2[1] - c1[1] + 40)
                             generate_json(images[i], name, x, y, width, height)
                             break
 
                 if valid_image == False:
                     os.remove(folder + '/' + images[i])
 
-        #if it is not a category of coco dataset the bounding box is found with canny
+        # if it is not a category of coco dataset the bounding box is found with canny
         else:
             for i, image in enumerate(images):
                 print(i)
@@ -188,10 +199,10 @@ if __name__ == '__main__':
                 max_thresh = 255
                 thresh = 50  # initial threshold
 
-                #cv.createTrackbar('Canny thresh:', source_window, thresh, max_thresh, thresh_callback)
+                # cv.createTrackbar('Canny thresh:', source_window, thresh, max_thresh, thresh_callback)
                 area, x, y, width, height = thresh_callback(thresh)
 
-                #cv.waitKey()
+                # cv.waitKey()
                 if area > 120000:
                     generate_json(images[i], name, x, y, width, height)
                 else:

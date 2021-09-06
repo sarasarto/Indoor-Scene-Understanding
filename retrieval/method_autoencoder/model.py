@@ -1,5 +1,6 @@
 import torch.nn as nn
 
+
 class EncodeModel(nn.Module):
     def __init__(self, judge=True):
         super(EncodeModel, self).__init__()
@@ -52,5 +53,3 @@ class EncodeModel(nn.Module):
             return outputs
         else:
             return enOutputs
-
-

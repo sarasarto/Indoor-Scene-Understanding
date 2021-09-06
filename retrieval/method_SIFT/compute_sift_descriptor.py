@@ -1,12 +1,9 @@
 import json
 import pickle
 import cv2
-import os
 
 def main():
     dataset_path = 'retrieval/grabcut_kaggle_dataset_folder'
-
-    keypoints_path = 'retrieval/method_SIFT/keypoints.pkl'
     descriptors_path = 'retrieval/method_SIFT/descriptors.pkl'
 
     data = json.load(open('retrieval/Annotations_Kaggle.json'))
@@ -25,10 +22,6 @@ def main():
         
         dataset_keypoints.append(kp)
         dataset_descriptors.append(des)
-
-    #save files on disk
-    #with open(keypoints_path, 'wb') as f:
-        #pickle.dump(dataset_keypoints, f)    
 
     with open(descriptors_path, 'wb') as f:
         pickle.dump(dataset_descriptors, f)
