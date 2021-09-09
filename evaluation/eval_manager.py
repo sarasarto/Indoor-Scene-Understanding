@@ -1,4 +1,4 @@
-from retrieval.evaluation import RetrievalMeasure
+from evaluate_retrieval import RetrievalMeasure
 
 
 class Evaluator():

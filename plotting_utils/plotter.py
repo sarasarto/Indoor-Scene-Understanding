@@ -118,3 +118,14 @@ class Plotter():
         plt.plot(mean_losses)
         plt.xticks(range(10))
         plt.show()
+
+        import matplotlib.pyplot as plt
+import torch
+import numpy as np
+
+np.random.seed(0)
+a = np.random.randint(low=0, high=50, size=100)
+
+plt.xticks(np.arange(0, len(a)+1, 20))
+plt.plot(a)
+plt.show()

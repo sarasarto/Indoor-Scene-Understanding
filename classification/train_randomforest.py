@@ -9,7 +9,6 @@ def main():
 
     try:
         dataset = pd.read_csv('classification/dataset_all_objects.csv')
-        # print(dataset.shape)
     except:
         dataset = classification_helper.construct_dataset(all_objects=True)
         np.savetxt("classification/dataset_all_objects.csv", dataset, delimiter=",")

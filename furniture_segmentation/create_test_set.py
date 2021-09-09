@@ -1,8 +1,5 @@
 from home_scenes_dataset import HomeScenesDataset
 import torch
-from PIL import Image
-import cv2
-import random
 import matplotlib.pyplot as plt
 from references.detection import utils
 from training_utils import get_transform

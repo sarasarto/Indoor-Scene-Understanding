@@ -10,7 +10,6 @@ import pandas as pd
 import os
 import pickle
 
-
 class Classification_Helper():
     def __init__(self, root_path='dataset_ade20k_filtered/annotations'):
         self.root_path = root_path

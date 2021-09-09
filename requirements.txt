@@ -2,8 +2,8 @@ Pillow
 torch
 torchvision
 numpy
+sklearn
 pandas
 opencv-python
 matplotlib
-pandas
-
+dhash

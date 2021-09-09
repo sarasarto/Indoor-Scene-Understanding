@@ -62,9 +62,7 @@ class AutoencHelper():
         model.train(False)
 
         input_image = input_image.permute(2, 0, 1).float()
-        print(input_image.shape)
         input_image = input_image.unsqueeze(0)
-        print(input_image.shape)
         input_encode = model(input_image, False)
 
         image_embedding = input_encode.cpu().detach().numpy()

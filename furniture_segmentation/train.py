@@ -1,5 +1,5 @@
 from home_scenes_dataset import HomeScenesDataset
-from training_utils import collate_fn, get_transform, get_instance_model_default, get_instance_model_modified
+from training_utils import get_transform, get_instance_model_default, get_instance_model_modified
 import torch
 import argparse
 from references.detection import utils
