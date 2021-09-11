@@ -32,7 +32,7 @@ class AutoencHelper():
         knn = NearestNeighbors(n_neighbors=5, metric="cosine")
         knn.fit(flattened_embedding)
 
-        full_dataset = RetrievalDataset('retrieval/kaggle_autoencoder_nofolder/', transforms=transform)
+        full_dataset = RetrievalDataset('retrieval/dataset_retrieval/', transforms=transform)
         return self.find_similar(knn, embedded_query, full_dataset)
 
     # given the embedding of the query this function compares it with all the dataset images

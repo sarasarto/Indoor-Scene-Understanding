@@ -10,16 +10,17 @@ import pandas as pd
 import os
 import pickle
 
+
 class Classification_Helper():
     def __init__(self, root_path='dataset_ade20k_filtered/annotations'):
         self.root_path = root_path
         self.scenes = []
         self.obj_classes = []
 
-    # this function create the "dataset" for the classification:
+    # this function create the "training dataset" for the classification:
     # for each imag in the dataset 1 is put if the object is present in the image, 0 otherwise
     # in the last column there is the annotation of the room
-    # return: matrix for classification
+    # return: matrix for classification, rooms_mapping.json that contains the name of the room and its assigned number
     def construct_dataset(self, all_objects=True):
         root_path = self.root_path
 
@@ -73,7 +74,7 @@ class Classification_Helper():
                 data_bal = pd.concat([data_bal, medium])
         return data_bal
 
-    # training with Random Fores, Grid search is applied in order to find the best parameters
+    # training with Random Forest, Grid search is applied in order to find the best parameters
     # return: best_estimator, the best accuracy, the best parameters
     def train_RandomForestClassifier(self, dataset):
         Y = dataset.iloc[:, -1]
@@ -90,7 +91,7 @@ class Classification_Helper():
         accuracy = accuracy_score(y_test, predictions)
         print(f'Default model accuracy: {accuracy}')
 
-        # con il GridSearch troviamo i parametri migliori
+        # we are looking for the best parameters using GridSearch
         parameters = {
             'n_estimators': [10, 50, 100],
             'criterion': ['gini', 'entropy'],
@@ -108,8 +109,8 @@ class Classification_Helper():
         best_estimator = gs_clf.best_estimator_
         return best_estimator, final_acc, best_params
 
-    # this function puts 1 if the object is present in the image, 0 otherwise
-    # return: the vector for the image
+    # this function puts 1 if the label of an object is present in the image, 0 otherwise
+    # return: the vector for input image
     def construct_fv_for_prediction(self, labels):
         with open('ADE20K_filtering/filtered_dataset_info.json', 'r') as f:
             data = json.load(f)
@@ -122,6 +123,7 @@ class Classification_Helper():
         vector[:, idxs] = 1
 
         return vector
+
     # return: the predicted room
     def predict_room(self, vector):
         try:

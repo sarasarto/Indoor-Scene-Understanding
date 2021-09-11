@@ -8,7 +8,7 @@ import json
 # the retrieval classes are  ['lamp', 'sofa', 'armchair', 'chair', 'bed', 'bicycle']
 # both the datasets are on Drive
 
-dataset = 'retrieval/kaggle_dataset_folder_jpg/'
+dataset = 'retrieval/dataset_retrieval_folder/'
 annotations = 'Annotations_Kaggle.json'
 
 data = json.load(open(annotations))
@@ -31,7 +31,7 @@ for el in data:
     image = image * mask2[:, :, np.newaxis]
     crop_img = image[y:y + height, x:x + width]
 
-    path = 'grabcut_kaggle_dataset/'
+    path = 'grabcut_dataset/'
     cv.imwrite(os.path.join(path, img_name), crop_img)
     i = i + 1
     if i % 100 == 0:

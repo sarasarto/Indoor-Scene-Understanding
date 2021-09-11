@@ -3,7 +3,7 @@ import pickle
 import cv2
 
 def main():
-    dataset_path = 'retrieval/grabcut_kaggle_dataset_folder'
+    dataset_path = 'retrieval/grabcut_dataset_folder'
     descriptors_path = 'retrieval/method_SIFT/descriptors.pkl'
 
     data = json.load(open('retrieval/Annotations_Kaggle.json'))

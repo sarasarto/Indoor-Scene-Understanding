@@ -13,7 +13,7 @@ def main():
         transforms.ToTensor()
     ])
 
-    full_dataset = RetrievalDataset('retrieval/grabcut_kaggle_dataset/', transforms=transform)
+    full_dataset = RetrievalDataset('retrieval/grabcut_dataset/', transforms=transform)
     embedding_dim = (1, 256, 7, 7)
 
     model.load_state_dict(torch.load(model_file, map_location=device))

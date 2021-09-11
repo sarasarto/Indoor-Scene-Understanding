@@ -7,7 +7,7 @@ from retrieval.method_dhash.image_with_Hash import Images_with_Hash
 
 
 class DHashHelper():
-    def __init__(self, folder_grabcut='retrieval/grabcut_kaggle_dataset_folder', folder='retrieval/kaggle_dataset_folder_jpg'):
+    def __init__(self, folder_grabcut='retrieval/grabcut_dataset_folder', folder='retrieval/dataset_retrieval_folder'):
         self.folder = folder
         self.folder_grabcut = folder_grabcut
 

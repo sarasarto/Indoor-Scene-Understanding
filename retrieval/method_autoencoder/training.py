@@ -27,7 +27,7 @@ def main():
     ])
 
     # loading the dataset of all images, not divided in folder
-    full_dataset = RetrievalDataset('retrieval/grabcut_kaggle_dataset/', transforms=transform)
+    full_dataset = RetrievalDataset('retrieval/grabcut_dataset/', transforms=transform)
     full_loader = torch.utils.data.DataLoader(full_dataset, batch_size=2, shuffle=False)
 
     epochs = 50

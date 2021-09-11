@@ -7,8 +7,8 @@ from retrieval.query_expansion_transformations import QueryTransformer
 
 
 class SIFTHelper():
-    def __init__(self, dataset_path='retrieval/kaggle_dataset_folder_jpg',
-                 grabcut_path='retrieval/grabcut_kaggle_dataset_folder',
+    def __init__(self, dataset_path='retrieval/dataset_retrieval_folder',
+                 grabcut_path='retrieval/grabcut_dataset_folder',
                  annotation_path='retrieval/Annotations_Kaggle.json'):
         self.dataset_path = dataset_path
         self.grabcut_path = grabcut_path
