@@ -36,7 +36,3 @@ class PredictionModel():
             masks = np.squeeze(masks, axis=0)
 
         return boxes, masks, labels, scores
-       
-
-
-
