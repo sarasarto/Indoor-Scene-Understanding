@@ -92,21 +92,3 @@ def show_me(img, cmap='bgr', title=''):
     iv.add(img, title=title, cmap=cmap)
     iv.show()
 
-
-'''if __name__ == "__main__":
-    from skimage import data
-    import random
-
-    im = data.coins()
-
-    images = random.randint(2, 9)
-    iv = ImageViewer(cols=3)
-    iv.remove_axis_values()
-    for i in range(images):
-        iv.add(im, cmap='bgr', title=f'[{i + 1}/{images}]')
-    iv.show()
-
-    iv = ImageViewer(cols=3)
-    iv.remove_axis_values()
-    iv.add(im, cmap='bgr')
-    iv.show() '''

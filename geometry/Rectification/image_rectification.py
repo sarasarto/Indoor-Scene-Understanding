@@ -1,21 +1,21 @@
 import cv2
 import numpy as np
-from image_viewer import ImageViewer
+from geometry.Rectification.image_viewer import ImageViewer
 import math
-from pre_processing import _mean_shift_segmentation
-from background_detection import _mask_largest_segment
-from cleaning import _closing, _invert, _add_padding
-from components_selection import _find_contours
-from components_selection import _find_possible_contours
-from contour_pre_processing import  _clean_frames_noise, _mask_from_contour
-from contour_pre_processing import _apply_median_filter
-from contour_pre_processing import _apply_edge_detection
-from corners_detection import _hough
-from corners_detection import _find_corners
-from create_outer_rect import rect_contour
+from geometry.Rectification.pre_processing import _mean_shift_segmentation
+from geometry.Rectification.background_detection import _mask_largest_segment
+from geometry.Rectification.cleaning import _closing, _invert, _add_padding
+from geometry.Rectification.components_selection import _find_contours
+from geometry.Rectification.components_selection import _find_possible_contours
+from geometry.Rectification.contour_pre_processing import  _clean_frames_noise, _mask_from_contour
+from geometry.Rectification.contour_pre_processing import _apply_median_filter
+from geometry.Rectification.contour_pre_processing import _apply_edge_detection
+from geometry.Rectification.corners_detection import _hough
+from geometry.Rectification.corners_detection import _find_corners
+from geometry.Rectification.create_outer_rect import rect_contour
 
 
-class image_rectification:
+class ImageRectifier:
 
     def rectify(self, rgbImage):
         color_diff = 1
@@ -86,6 +86,8 @@ class image_rectification:
             rgbImage_num = cv2.putText(rgbImage_num, str(i + 1), self.mean_center(corners),
                                        cv2.FONT_HERSHEY_SIMPLEX, 5,
                                        (0, 0, 255), 20, cv2.LINE_AA)
+
+        # --> controlla se toglierlo e aggiungere return img <--
         for i, corners in enumerate(object_contours):
             iv = ImageViewer()
             iv.add(rgbImage_num, 'original', cmap='bgr')
@@ -93,6 +95,7 @@ class image_rectification:
             iv.add(sec, 'target', cmap='bgr')
             cv2.imwrite('data_test/target.jpg', rgbImage)
             img = self.four_point_transform(rgbImage, np.array(corners))
+            # ---> QUA
             if not img is None:
                 iv.add(img, 'VIT painting {}'.format(i + 1), cmap='bgr')
                 cv2.imwrite('data_test/vit.jpg', img)
@@ -317,18 +320,7 @@ if __name__ == "__main__":
     # After placing figure window on top, allow other windows to be on top of it later
     fig.canvas.manager.window.attributes('-topmost', 0)
 
-    # valori per prova contorni porta
-    # corners = [[30, 25], [347, 9], [37, 578],
-    #           [348,629]]
-    # valori per prova contorni quadro
-    #corners = [[100, 400], [1600, 40], [540, 2160],
-    #           [1890, 1880]]
-    # valori per prova contorni finestra
-    # corners = [[11, 16], [261,58], [17, 194],
-    #           [256,179]]
-    # corners = [[0,0], [0, rgbImage.shape[1]-1], [rgbImage.shape[0]-1, 0], [rgbImage.shape[1]-1, rgbImage.shape[0]-1]]
-
-    img_rect = image_rectification()
+    img_rect = ImageRectifier()
 
     TEST_IMAGE = ['test_image/finestre-pvc-1.jpg',
                   'test_image/edc090117catroux12-1604942537.jpg',

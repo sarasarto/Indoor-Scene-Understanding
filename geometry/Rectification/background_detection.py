@@ -37,6 +37,7 @@ def _mask_largest_segment(im: np.array, color_difference, scale_percent=1.0, x_s
 
     # in that way for smaller images the stride will be lower
     stride = int(w / x_samples)
+    # --> DAVA PROBLEMI PER STRIDE A ZERO !!!!!!
 
     mask = np.zeros((im.shape[0] + 2, im.shape[1] + 2), dtype=np.uint8)
     wallmask = mask[1:-1, 1:-1].copy()
