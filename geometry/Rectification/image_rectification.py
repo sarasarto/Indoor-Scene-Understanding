@@ -1,13 +1,11 @@
 import cv2
 import numpy as np
-from image_viewer import ImageViewer
+from .image_viewer import ImageViewer
 import math
 
-
-class image_rectification:
-
-    def rectify(self, filename, corners):
-        rgbImage = cv2.imread(filename)
+class ImageRectifier:
+    def rectify(self, rgbImage, corners):
+        #rgbImage = cv2.imread(filename)
         rgbImage_num = rgbImage.copy()
         # rgbImage = cv2.rotate(rgbImage, cv2.ROTATE_90_CLOCKWISE)
         contours = []

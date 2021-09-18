@@ -15,7 +15,7 @@ dataset_test = HomeScenesDataset(root, get_transform(train=False))
 # split the dataset in train and test set
 batch_size_train = 2
 batch_size_test = 1
-train_percentage = 0.6
+train_percentage = 0.8
 test_percentage = 1 - train_percentage
 train_size = int(train_percentage * len(dataset))
 test_size = len(dataset) - train_size
@@ -28,10 +28,10 @@ test_loader = torch.utils.data.DataLoader(
     dataset_test, batch_size=batch_size_test, shuffle=False, num_workers=0,
     collate_fn=utils.collate_fn)
 
+print(len(test_loader))
 
 PATH = 'model_mask_default.pt'
 is_default = True
-
 num_classes = 1324
 
 APs = []
@@ -50,7 +50,7 @@ for img in test_loader:
     tensor_img = img[0][0]
 
     pm = PredictionModel(PATH, num_classes, is_default)
-    results = pm.segment_image(img)
+    results = pm.segment_image(tensor_img)
 
     boxes_pred, masks_pred, labels_pred, scores_pred = pm.extract_furniture(results, 0.0)
     masks_pred = np.moveaxis(masks_pred, 0, 2)
@@ -60,6 +60,6 @@ for img in test_loader:
                      boxes_pred, labels_pred, scores_pred.detach().numpy(), masks_pred)
     APs.append(AP)
     if count % 5 == 0:
-        print(f'Actual mean value: {np.mean(APs)}')
+        print(f'Current mean value: {np.mean(APs)}')
 
 print("mAP: ", np.mean(APs))

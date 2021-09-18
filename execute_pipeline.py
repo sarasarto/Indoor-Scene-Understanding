@@ -13,7 +13,10 @@ from PIL import Image
 from torchvision.transforms import transforms
 import numpy as np
 import cv2
+from geometry.Rectification.image_rectification import ImageRectifier
+from geometry.rectification2 import GeometryRectification
 import json
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Computer Vision pipeline')
 parser.add_argument('-img', '--image', type=str,
@@ -104,7 +107,7 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     ymax = bbox[3]
     
     if label in retrieval_classes:
-
+        '''
         # we use the result mask from the network in order to apply grabcut
         # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
         # all the pixels equal to 1 are considered "Sure_Foreground" pixels
@@ -144,16 +147,22 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
             img_retriever = ImageRetriever(AutoencHelper())
             autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
             pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
+        '''
 
+    elif label in rectification_classes:
+            query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
+            
 
-    # elif label in rectification_classes:
-    #     query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
-    #     #print(f'Trovata label: {label}')
-    #     #rect = rectification(query_img)
-    #     #io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
-    #     #pass
-    #     gr = GeometryRectification()
-    #     gr.rectification(query_img)
+            H, W = query_img.shape[0], query_img.shape[1]
+            coords = [[0,0], [0,W], [H,0], [H,W]]
+
+            print(f'Trovata label: {label}')
+            img_rectifier = ImageRectifier()
+            rect = img_rectifier.rectify(query_img, coords)
+            #io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
+            #pass
+            #gr = GeometryRectification()
+            #gr.rectification(query_img)
 
 
 #-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------
