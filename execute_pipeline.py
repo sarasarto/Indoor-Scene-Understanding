@@ -153,15 +153,9 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
             img_rectifier = ImageRectifier()
             rect = img_rectifier.rectify(query_img)
 
-            #-->  stampare rect e originale !!!!!!!
+            pt.plot_imgs_by_row([query_img, rect], ['Extracted object', 'Rectified object'], 2)
 
-
-            #io.imsave('geometry/result.png', rect.rectify_image(clip_factor=4, algorithm='independent'))
-            #pass
-            #gr = GeometryRectification()
-            #gr.rectification(query_img)
-
-
+  
 #-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------
 # classification_helper = Classification_Helper()
 # feature_vector = classification_helper.construct_fv_for_prediction(labels)
