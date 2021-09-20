@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from geometry.Rectification.image_viewer import ImageViewer
 import math
 from geometry.Rectification.pre_processing import _mean_shift_segmentation
 from geometry.Rectification.background_detection import _mask_largest_segment
@@ -13,6 +12,7 @@ from geometry.Rectification.contour_pre_processing import _apply_edge_detection
 from geometry.Rectification.corners_detection import _hough
 from geometry.Rectification.corners_detection import _find_corners
 from geometry.Rectification.create_outer_rect import rect_contour
+
 
 
 class ImageRectifier:
@@ -31,15 +31,6 @@ class ImageRectifier:
             contours = _find_contours(out)
             contours = _find_possible_contours(out, contours)
             color_diff = color_diff+1
-            '''if not contours:
-            # convert img to grey
-            img_grey = cv2.cvtColor(rgbImage, cv2.COLOR_BGR2GRAY)
-            # set a thresh
-            thresh = 30
-            # get threshold image
-            ret, thresh_img = cv2.threshold(img_grey, thresh, 255, cv2.THRESH_BINARY)
-            # find contours
-            contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)'''
 
         object_contours = []
         max_contour = 0
@@ -79,32 +70,15 @@ class ImageRectifier:
 
         if not object_contours:
             print("It isn't possible to find any object to rectify")
+            img = []
+            return img
 
-        rgbImage_num = rgbImage.copy()
-        # rgbImage = cv2.rotate(rgbImage, cv2.ROTATE_90_CLOCKWISE)
-        for i, corners in enumerate(object_contours):
-            rgbImage_num = cv2.putText(rgbImage_num, str(i + 1), self.mean_center(corners),
-                                       cv2.FONT_HERSHEY_SIMPLEX, 5,
-                                       (0, 0, 255), 20, cv2.LINE_AA)
+        corners = object_contours[0]
 
-        # --> controlla se toglierlo e aggiungere return img <--
-        for i, corners in enumerate(object_contours):
-            iv = ImageViewer()
-            iv.add(rgbImage_num, 'original', cmap='bgr')
-            sec = self.cut_section(rgbImage_num, corners)
-            iv.add(sec, 'target', cmap='bgr')
-            cv2.imwrite('data_test/target.jpg', rgbImage)
-            img = self.four_point_transform(rgbImage, np.array(corners))
-            # ---> QUA
-            if not img is None:
-                iv.add(img, 'VIT painting {}'.format(i + 1), cmap='bgr')
-                cv2.imwrite('data_test/vit.jpg', img)
-            img = self.painting_rectification(rgbImage, np.array(corners))
-            if not img is None:
-                iv.add(img, 'STACK painting {}'.format(i + 1), cmap='bgr')
-                cv2.imwrite('data_test/stack.jpg', img)
+        img = self.object_rectification(rgbImage, np.array(corners))
 
-            iv.show()
+        return img
+
 
     def square(self, x):
         return x * x
@@ -177,7 +151,7 @@ class ImageRectifier:
         return whRatio
 
 
-    def painting_rectification(self, img, corners):
+    def object_rectification(self, img, corners):
         rect = self.order_points(corners)
         tl, tr, br, bl = rect
         whRatio = self.aspect_ratio(corners, img)
@@ -230,106 +204,3 @@ class ImageRectifier:
         except:
             height, width = None, None
         return height, width
-
-
-    def perspective_dim(self, tl, tr, br, bl):
-        width_B = np.sqrt(((br[0] - bl[0]) ** 2) + ((br[1] - bl[1]) ** 2))
-        width_T = np.sqrt(((tr[0] - tl[0]) ** 2) + ((tr[1] - tl[1]) ** 2))
-        height_R = np.sqrt(((tr[0] - br[0]) ** 2) + ((tr[1] - br[1]) ** 2))
-        height_L = np.sqrt(((tl[0] - bl[0]) ** 2) + ((tl[1] - bl[1]) ** 2))
-
-        if 0.0 in [width_B, width_T, height_R, height_L]:
-            return None, None
-
-        height_ratio = max(height_L / height_R, height_R / height_L) - 1
-        width_ratio = max(width_B / width_T, width_T / width_B) - 1
-
-        if 0.0 in [height_ratio, width_ratio]:
-            return None, None
-        max_width = max(width_B, width_T)
-        max_height = max(height_L, height_R)
-        width = np.sqrt(max_width ** 2 * (1 + height_ratio ** 2))
-        height = np.sqrt(max_height ** 2 * (1 + width_ratio ** 2))
-
-        return int(height), int(width)
-
-
-    def four_point_transform(self, image, pts):
-        # obtain a consistent order of the points and unpack them
-        # individually
-        rect = self.order_points(pts)
-        # rect = pts
-        (tl, tr, br, bl) = rect
-        # compute the width of the new image, which will be the
-        # maximum distance between bottom-right and bottom-left
-        # x-coordiates or the top-right and top-left x-coordinates
-        width, height = self.perspective_dim(tl, tr, br, bl)
-        if width is None or height is None:
-            return None
-        # now that we have the dimensions of the new image, construct
-        # the set of destination points to obtain a "birds eye view",
-        # (i.e. top-down view) of the image, again specifying points
-        # in the top-left, top-right, bottom-right, and bottom-left
-        # order
-        dst = np.array([
-            [0, 0],
-            [height - 1, 0],
-            [height - 1, width - 1],
-            [0, width - 1]], dtype="float32")
-        # compute the perspective transform matrix and then apply it
-        M = cv2.getPerspectiveTransform(rect, dst)
-        warped = cv2.warpPerspective(image, M, (height, width))
-        # return the warped image
-        return warped
-
-
-    def remove_pad(self, pts, pad):
-        return [[x - pad, y - pad] for x, y in pts]
-
-
-    def cut_section(self, img, corners):
-        x_max = max([x[0][0] for x in corners])
-        x_min = min([x[0][0] for x in corners])
-        y_max = max([x[0][1] for x in corners])
-        y_min = min([x[0][1] for x in corners])
-        y_min, x_min = max(y_min, 1), max(x_min, 1)
-        return img[y_min:y_max, x_min:x_max]
-
-
-    def mean_center(self, pts):
-        x, y = 0, 0
-        for pt in pts:
-            x += pt[0, 0]
-            y += pt[0, 1]
-        x = x  # len(pts)
-        y = y  # len(pts)
-        return (x, y)
-
-if __name__ == "__main__":
-
-    # codice per far funzionare Imageviewer su MacOS
-    import matplotlib
-
-    matplotlib.use('TkAgg')
-    import matplotlib.pyplot as plt
-
-    fig = plt.figure()
-    plt.plot([0, 1], [0, 1])
-    # Put figure window on top of all other windows
-    fig.canvas.manager.window.attributes('-topmost', 1)
-    # After placing figure window on top, allow other windows to be on top of it later
-    fig.canvas.manager.window.attributes('-topmost', 0)
-
-    img_rect = ImageRectifier()
-
-    TEST_IMAGE = ['test_image/finestre-pvc-1.jpg',
-                  'test_image/edc090117catroux12-1604942537.jpg',
-                  'test_image/photo-1595526114035-0d45ed16cfbf.jpeg',
-                  'test_image/prova1.jpeg',
-                  'test_image/prova2.jpeg',
-                  'test_image/10603 copia.jpeg']
-
-    # rgbImage = cv2.imread(PERSPECTIVE)
-    for filename in TEST_IMAGE[::-1]:
-        rgbImage = cv2.imread(filename)
-        img_rect.rectify(rgbImage)

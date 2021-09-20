@@ -6,15 +6,6 @@ import numpy as np
 # https://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html?highlight=floodfill
 
 
-def mask_largest_segment(input: np.array, debug=False, **kwargs):
-    wallmask = _mask_largest_segment(input, **kwargs)
-
-    if debug:
-        return wallmask, wallmask
-    else:
-        return wallmask
-
-
 def _mask_largest_segment(im: np.array, color_difference, scale_percent=1.0, x_samples=2, no_skip_white=False):
     """
     The largest segment will be white and the rest is black
@@ -37,7 +28,6 @@ def _mask_largest_segment(im: np.array, color_difference, scale_percent=1.0, x_s
 
     # in that way for smaller images the stride will be lower
     stride = int(w / x_samples)
-    # --> DAVA PROBLEMI PER STRIDE A ZERO !!!!!!
 
     mask = np.zeros((im.shape[0] + 2, im.shape[1] + 2), dtype=np.uint8)
     wallmask = mask[1:-1, 1:-1].copy()
@@ -65,8 +55,6 @@ def _mask_largest_segment(im: np.array, color_difference, scale_percent=1.0, x_s
                 if segment_size > largest_segment:
                     largest_segment = segment_size
                     wallmask = mask[1:-1, 1:-1].copy()
-                    # cv2.imshow('rect[2]', mask)
-                    # cv2.waitKey(0)
 
     wallmask = wallmask.astype(np.int64) + ((im.sum(2) == 0).astype(np.int64) * 255)
     wallmask = np.clip(wallmask, 0, 255)
