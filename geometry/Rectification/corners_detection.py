@@ -1,20 +1,35 @@
 import cv2
 import numpy as np
 
-def _hough(img):
+def _clean_frames_noise(img, k_size=23, iterations=1):
     """
-    Return the lines found in the image
-    Parameters
-    ----------
-    img : np.array
-        image in grayscale or black and white form
-    Returns
-    -------
-    list
-        list of all lines found in the image, None if no image is found
+        Cleans the noise
+
+        Parameters
+        ----------
+        img : the image to be cleaned
+        Returns
+        -------
+        img : the cleaned image
     """
-    lines = cv2.HoughLines(img, 1, np.pi / 180, 40, None, 0, 0)
-    return lines
+    kernel = np.ones((k_size, k_size), np.uint8)
+    opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel, iterations=iterations)
+    return opening
+
+
+def _mask_from_contour(img, contour):
+    """
+        Applies the proper median filter for smoothing the frame's sides
+        Parameters
+        ----------
+        img : the input image
+        Returns
+        -------
+        img : the smoothed image
+    """
+    canvas = np.zeros_like(img)
+    cv2.fillPoly(canvas, pts=[contour], color=(255, 255, 255))
+    return canvas
 
 
 def intersection(line1, line2):
@@ -56,22 +71,7 @@ def groups_by_angle(lines, k=2):
     criteria = (default_criteria_type, 10, 1.0)
 
     angles = np.array([line[0][1] for line in lines])
-    """
-    Why 2*angle? (angle is in range [0, pi])
-    Normally:   
-        if line is vertical (pi/2)          sin=0   cos=1
-        if line is oblique (pi/4)           sin=0.5 cos=0.5
-        if line is oblique (3/4 pi)         sin=0.5 cos=-0.5
-        if line is horizontal (0 or pi)     sin=1   cos=0
-    Multiplied by 2:
-        if line is vertical (pi/2)          sin=0 cos=-1
-        if line is oblique (pi/4)           sin=1 cos=0
-        if line is oblique (3/4 pi)         sin=-1 cos=0
-        if line is horizontal (0 or pi)     sin=0 cos=1   
-    Actually I think that the 2* multiplication is not so crucial,
-    but in the script that I used as "inspiration" use it,
-    so I did the same. 
-    """
+
     pts = np.array([[np.cos(2 * angle), np.sin(2 * angle)] for angle in angles], dtype=np.float32)
     labels, centers = cv2.kmeans(pts, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)[1:]
     labels = labels.reshape(-1)
@@ -85,7 +85,7 @@ def groups_by_angle(lines, k=2):
 
 def find_all_intersections(groups):
     """
-    Find all possible points of interection between all lines of all groups
+    Find all possible points of intersection between all lines of all groups
     Parameters
     ----------
     groups : list
@@ -118,7 +118,9 @@ def find_four_corners(points):
     list
         returns a list of the corners points [x, y]
     """
+    #Define the algorithm termination criteria (the maximum number of iterations and/or the desired accuracy):
     default_criteria_type = cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER
+    # In this case the maximum number of iterations is set to 20 and epsilon = 1.0
     criteria = (default_criteria_type, 10, 1.0)
     pts = np.array([[point[0], point[1]] for point in points], dtype=np.float32)
     labels, centers = cv2.kmeans(pts, 4, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)[1:]
@@ -133,7 +135,7 @@ def find_four_corners(points):
 
 def _find_corners(lines):
     """
-    Given a list of lines it finds the 4 corners of the painting
+    Given a list of lines it finds the 4 corners of the object
     Parameters
     ----------
     lines : list

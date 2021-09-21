@@ -1,15 +1,11 @@
 import cv2
 import numpy as np
 import math
-from geometry.Rectification.pre_processing import _mean_shift_segmentation
 from geometry.Rectification.background_detection import _mask_largest_segment
-from geometry.Rectification.cleaning import _closing, _invert, _add_padding
+from geometry.Rectification.cleaning import _closing, _add_padding
 from geometry.Rectification.components_selection import _find_contours
 from geometry.Rectification.components_selection import _find_possible_contours
-from geometry.Rectification.contour_pre_processing import  _clean_frames_noise, _mask_from_contour
-from geometry.Rectification.contour_pre_processing import _apply_median_filter
-from geometry.Rectification.contour_pre_processing import _apply_edge_detection
-from geometry.Rectification.corners_detection import _hough
+from geometry.Rectification.corners_detection import _clean_frames_noise, _mask_from_contour
 from geometry.Rectification.corners_detection import _find_corners
 from geometry.Rectification.create_outer_rect import rect_contour
 
@@ -23,10 +19,10 @@ class ImageRectifier:
         while not contours:
             if color_diff == 25:
                 break
-            out = _mean_shift_segmentation(rgbImage)
+            out = cv2.pyrMeanShiftFiltering(rgbImage, 3, 35, 3)
             out = _mask_largest_segment(out, color_diff)
             out = _closing(out)
-            out = _invert(out)
+            out = 255 - out
             out = _add_padding(out, 1)
             contours = _find_contours(out)
             contours = _find_possible_contours(out, contours)
@@ -44,9 +40,9 @@ class ImageRectifier:
             found_correct_shape = False
             for_out = _mask_from_contour(out, contour)
             for_out = _clean_frames_noise(for_out)
-            for_out = _apply_median_filter(for_out)
-            for_out = _apply_edge_detection(for_out)
-            lines = _hough(for_out)
+            for_out = cv2.medianBlur(for_out, 15)
+            for_out = cv2.Canny(for_out, 50, 100)
+            lines = cv2.HoughLines(for_out, 1, np.pi / 180, 40, None, 0, 0)
             if lines is not None:
                 corners = _find_corners(lines)
                 if corners is not None:
@@ -62,7 +58,7 @@ class ImageRectifier:
                     approx = cv2.approxPolyDP(contour, epsilon, closed=True)
                     if len(approx) == 4:
                         object_contours.append(
-                            approx)  # UnboundLocalError: local variable 'pts' referenced before assignment
+                            approx)
                         found_correct_shape = True
 
                 if not found_correct_shape:
@@ -92,22 +88,9 @@ class ImageRectifier:
         m4x, m4y = tr
         v0 = img.shape[0] / 2
         u0 = img.shape[1] / 2
-        # in case it matters: licensed under GPLv2 or later
-        # legend:
-        # square(x)  = x*x
-        # sqrt(x) = square root of x
 
-        # let m1x,m1y ... m4x,m4y be the (x,y) pixel coordinates
-        # of the 4 corners of the detected quadrangle
-        # i.e. (m1x, m1y) are the cordinates of the first corner,
-        # (m2x, m2y) of the second corner and so on.
-        # let u0, v0 be the pixel coordinates of the principal point of the image
-        # for a normal camera this will be the center of the image,
-        # i.e. u0=IMAGEWIDTH/2; v0 =IMAGEHEIGHT/2
-        # This assumption does not hold if the image has been cropped asymmetrically
 
         # first, transform the image so the principal point is at (0,0)
-        # this makes the following equations much easier
         m1x -= u0
         m1y -= v0
         m2x -= u0
@@ -117,7 +100,6 @@ class ImageRectifier:
         m4x -= u0
         m4y -= v0
 
-        # temporary variables k2, k3
         k2 = ((m1y - m4y) * m3x - (m1x - m4x) * m3y + m1x * m4y - m1y * m4x) / (
                     (m2y - m4y) * m3x - (m2x - m4x) * m3y + m2x * m4y - m2y * m4x)
         k3 = ((m1y - m4y) * m2x - (m1x - m4x) * m2y + m1x * m4y - m1y * m4x) / (
@@ -126,8 +108,8 @@ class ImageRectifier:
         # if k2==1 AND k3==1, then the focal length equation is not solvable
         # but the focal length is not needed to calculate the ratio.
         # I am still trying to figure out under which circumstances k2 and k3 become 1
-        # but it seems to be when the rectangle is not distorted by perspective,
-        # i.e. viewed straight on. Then the equation is obvious:
+        # but it seems to be when the rectangle is not distorted by perspective
+
         if k2 == 1 or k3 == 1:
             whRatio = np.sqrt((self.square(m2y - m1y) + self.square(m2x - m1x)) / (self.square(m3y - m1y) + self.square(m3x - m1x)))
         else:
@@ -140,14 +122,7 @@ class ImageRectifier:
             part_1 = (self.square(k2 - 1) + self.square(k2 * m2y - m1y) / f_squared + self.square(k2 * m2x - m1x) / f_squared)
             part_2 = (self.square(k3 - 1) + self.square(k3 * m3y - m1y) / f_squared + self.square(k3 * m3x - m1x) / f_squared)
             whRatio = np.sqrt(np.abs(part_1) / np.abs(part_2))
-            print(part_1, part_2, whRatio)
 
-        # After testing, I found that the above equations
-        # actually give the height/width ratio of the rectangle,
-        # not the width/height ratio.
-        # If someone can find the error that caused this,
-        # I would be most grateful.
-        # until then:
         return whRatio
 
 
@@ -175,22 +150,18 @@ class ImageRectifier:
     def order_points(self, pts):
         pts = pts.squeeze()
         # initialzie a list of coordinates that will be ordered
-        # such that the first entry in the list is the top-left,
-        # the second entry is the top-right, the third is the
-        # bottom-right, and the fourth is the bottom-left
         rect = np.zeros((4, 2), dtype="float32")
         # the top-left point will have the smallest sum, whereas
         # the bottom-right point will have the largest sum
         s = pts.sum(axis=1)
         rect[0] = pts[np.argmin(s)]
         rect[2] = pts[np.argmax(s)]
-        # now, compute the difference between the points, the
-        # top-right point will have the smallest difference,
+        # the top-right point will have the smallest difference,
         # whereas the bottom-left will have the largest difference
         diff = np.diff(pts, axis=1)
         rect[1] = pts[np.argmin(diff)]
         rect[3] = pts[np.argmax(diff)]
-        # return the ordered coordinates
+
         return rect
 
 

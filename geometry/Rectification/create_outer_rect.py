@@ -9,6 +9,7 @@ def rect_contour(contour, pad=0):
     y -= pad
     return rect_to_contour(x,y,w,h)
 
+
 def rect_to_contour(x,y,w,h):
     pts = [
         [x, y],
