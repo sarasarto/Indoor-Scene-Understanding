@@ -16,14 +16,17 @@ def _closing(img: np.array, size=20, erode=True):
     return img
 
 
-def _add_padding(img, pad=100, color=[0, 0, 0]):
-    result = cv2.copyMakeBorder(
-        img,
-        top=pad,
-        bottom=pad,
-        left=pad,
-        right=pad,
-        borderType=cv2.BORDER_CONSTANT,
-        value=[0, 0, 0]
-    )
-    return result
+def _clean_frames_noise(img, k_size=23, iterations=1):
+    """
+        Cleans the noise
+
+        Parameters
+        ----------
+        img : the image to be cleaned
+        Returns
+        -------
+        img : the cleaned image
+    """
+    kernel = np.ones((k_size, k_size), np.uint8)
+    opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel, iterations=iterations)
+    return opening

@@ -2,28 +2,33 @@ import cv2
 import numpy as np
 import math
 from geometry.Rectification.background_detection import _mask_largest_segment
-from geometry.Rectification.cleaning import _closing, _add_padding
+from geometry.Rectification.cleaning import _closing, _clean_frames_noise
 from geometry.Rectification.components_selection import _find_contours
 from geometry.Rectification.components_selection import _find_possible_contours
-from geometry.Rectification.corners_detection import _clean_frames_noise, _mask_from_contour
+from geometry.Rectification.corners_detection import  _mask_from_contour
 from geometry.Rectification.corners_detection import _find_corners
 from geometry.Rectification.create_outer_rect import rect_contour
+
+from plotting_utils.plotter import Plotter
 
 
 
 class ImageRectifier:
 
     def rectify(self, rgbImage):
+        pt = Plotter()
         color_diff = 1
         contours = []
         while not contours:
             if color_diff == 25:
                 break
             out = cv2.pyrMeanShiftFiltering(rgbImage, 3, 35, 3)
+            pt.plot_imgs_by_row([rgbImage,out], ['input image', 'mean shift'],2 )
             out = _mask_largest_segment(out, color_diff)
             out = _closing(out)
             out = 255 - out
-            out = _add_padding(out, 1)
+            pt.plot_image(out, 'thresholding')
+
             contours = _find_contours(out)
             contours = _find_possible_contours(out, contours)
             color_diff = color_diff+1
@@ -42,12 +47,19 @@ class ImageRectifier:
             for_out = _clean_frames_noise(for_out)
             for_out = cv2.medianBlur(for_out, 15)
             for_out = cv2.Canny(for_out, 50, 100)
+            pt.plot_image(for_out, 'canny')
             lines = cv2.HoughLines(for_out, 1, np.pi / 180, 40, None, 0, 0)
             if lines is not None:
                 corners = _find_corners(lines)
                 if corners is not None:
                     pts = np.array(corners, np.int32)
                     pts = cv2.convexHull(pts)
+
+                    color = (0, 0, 255)
+                    cv2.drawContours(rgbImage, pts, -1, color, 6, 8)
+                    pt.plot_image(rgbImage, 'Contours')
+                    cv2.waitKey(0)
+
                     pts = pts.reshape((-1, 1, 2))
                     pts_ratio = cv2.contourArea(contour) / (cv2.contourArea(pts) + 1)
                     if pts_ratio < 1.2 and pts_ratio > cv2.contourArea(contour) / (w * h):

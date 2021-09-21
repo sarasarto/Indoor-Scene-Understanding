@@ -44,6 +44,7 @@ class Plotter():
             cv2.rectangle(image, c1, c2, colors[i], tl)
             # draw text
             display_txt = "%s: %.1f%%" % (label, 100 * score)
+            #display_txt = ""
             tf = 1  # font thickness
             t_size = cv2.getTextSize(display_txt, 0, fontScale=tl / 3, thickness=tf)[0]
             c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
