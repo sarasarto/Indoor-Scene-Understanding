@@ -106,46 +106,40 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     ymax = bbox[3]
 
     if label in retrieval_classes:
+
         # # we use the result mask from the network in order to apply grabcut
         # # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
         # # all the pixels equal to 1 are considered "Sure_Foreground" pixels
-        # mask = mask.astype('uint8')
-        # mask[mask==0] = 2
-        #
-        # query_img = img[ymin:ymax, xmin:xmax]
-        # mask = mask[ymin:ymax, xmin:xmax]
-        # #query_img = cv2.blur(np.array(query_img), (5, 5))
-        # #query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
-        # #query_img = cv2.medianBlur(query_img,5)
-        # query_img = cv2.bilateralFilter(np.array(query_img), 9, 50, 50)
-        #
-        # # query_image = cv2.GaussianBlur(query_img,(5,5),0)
-        # #if necessario perche la rete ritorna pendant lamp e nel dataset retrieval(comprese annnotazioni)
-        # #abbiamo 'lamp'
-        # if 'lamp' in label:
-        #     label = 'lamp'
-        #
-        # #query processing, application of grabcut and same other filters(yet to decide)
-        # res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
-        # pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-        #
-        # if retr_type == 'sift':
-        #     #sift method
-        #     img_retriever = ImageRetriever(SIFTHelper())
-        #     sift_results = img_retriever.find_similar_furniture(res_img, label)
-        #     pt.plot_retrieval_results(query_img, sift_results, 'sift')
-        # elif retr_type == 'dhash':
-        #     #dhash method
-        #     img_retriever = ImageRetriever(DHashHelper())
-        #     PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
-        #     dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        #     pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
-        # else:
-        #     # autoencoder method
-        #     img_retriever = ImageRetriever(AutoencHelper())
-        #     autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
-        #     pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
-        pass
+        mask = mask.astype('uint8')
+        mask[mask==0] = 2
+        
+        query_img = img[ymin:ymax, xmin:xmax]
+        mask = mask[ymin:ymax, xmin:xmax]
+        
+        query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
+       
+        if 'lamp' in label:
+            label = 'lamp'
+    
+        res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
+        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
+    
+        if retr_type == 'sift':
+            img_retriever = ImageRetriever(SIFTHelper())
+            sift_results = img_retriever.find_similar_furniture(res_img, label)
+            pt.plot_retrieval_results(query_img, sift_results, 'sift')
+
+        elif retr_type == 'dhash':
+            img_retriever = ImageRetriever(DHashHelper())
+            PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
+            dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+            pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+
+        else:
+            img_retriever = ImageRetriever(AutoencHelper())
+            autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
+            pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
+      
     elif label in rectification_classes:
             query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
 
@@ -157,19 +151,18 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
 
   
 #-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------
-# classification_helper = Classification_Helper()
-# feature_vector = classification_helper.construct_fv_for_prediction(labels)
-#
-# if clf_mode == 'forest':
-#     predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
-# else:
-#     model = HomeScenesClassifier(len(data['objects']))
-#     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-#     model.load_state_dict(torch.load('classification/MLP_model.pt', map_location=device))
-#     model.eval()
-#     feature_vector = torch.tensor(feature_vector).type(torch.FloatTensor)
-#     result = model(feature_vector)
-#     predicted_class = torch.argmax(result)
-#     text_prediction = classification_helper.class2text_lbel(predicted_class)
-#
-# pt.plot_image(img, f'Prediction is {text_prediction}')
+classification_helper = Classification_Helper()
+feature_vector = classification_helper.construct_fv_for_prediction(labels)
+
+if clf_mode == 'forest':
+    predicted_room, text_prediction = classification_helper.predict_room(feature_vector)
+else:
+    model = HomeScenesClassifier(len(data['objects']))
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    model.load_state_dict(torch.load('classification/MLP_model.pt', map_location=device))
+    model.eval()
+    feature_vector = torch.tensor(feature_vector).type(torch.FloatTensor)
+    result = model(feature_vector)
+    predicted_class = torch.argmax(result)
+    text_prediction = classification_helper.class2text_lbel(predicted_class)
+    pt.plot_image(img, f'Prediction is {text_prediction}')

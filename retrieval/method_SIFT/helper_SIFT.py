@@ -9,7 +9,7 @@ from retrieval.query_expansion_transformations import QueryTransformer
 class SIFTHelper():
     def __init__(self, dataset_path='retrieval/dataset_retrieval_folder',
                  grabcut_path='retrieval/grabcut_dataset_folder',
-                 annotation_path='retrieval/Annotations_Kaggle.json'):
+                 annotation_path='retrieval/annotations.json'):
         self.dataset_path = dataset_path
         self.grabcut_path = grabcut_path
         self.data = json.load(open(annotation_path))
@@ -21,14 +21,8 @@ class SIFTHelper():
         obj_list = []
         num_good = []
 
-        # applying geometric transformation to the imag
-        transformed = []
-        transformed.append(query_image)
-        transformed.append(qt.flip_image(query_image, 1))
-        transformed.append(qt.rotate_image(query_image, 10))
-        transformed.append(qt.rotate_image(query_image, -10))
-        transformed.append(qt.scale_img(query_image, 1.5))
-        transformed.append(qt.scale_img(query_image, 0.5))
+        # applying geometric transformation to the image
+        transformed = [query_image]
 
         print("Computing SIFT...")
 
@@ -81,7 +75,6 @@ class SIFTHelper():
                 path = self.dataset_path + '/' + label + '/'
 
                 path = os.path.join(path, img_name)
-                print(path)
                 img = cv.imread(path, cv.COLOR_BGR2RGB)
                 similar_images.append(img)
 

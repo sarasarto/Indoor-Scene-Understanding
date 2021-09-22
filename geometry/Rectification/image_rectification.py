@@ -23,11 +23,9 @@ class ImageRectifier:
             if color_diff == 25:
                 break
             out = cv2.pyrMeanShiftFiltering(rgbImage, 3, 35, 3)
-            pt.plot_imgs_by_row([rgbImage,out], ['input image', 'mean shift'],2 )
             out = _mask_largest_segment(out, color_diff)
             out = _closing(out)
             out = 255 - out
-            pt.plot_image(out, 'thresholding')
 
             contours = _find_contours(out)
             contours = _find_possible_contours(out, contours)
@@ -47,7 +45,6 @@ class ImageRectifier:
             for_out = _clean_frames_noise(for_out)
             for_out = cv2.medianBlur(for_out, 15)
             for_out = cv2.Canny(for_out, 50, 100)
-            pt.plot_image(for_out, 'canny')
             lines = cv2.HoughLines(for_out, 1, np.pi / 180, 40, None, 0, 0)
             if lines is not None:
                 corners = _find_corners(lines)
@@ -57,7 +54,6 @@ class ImageRectifier:
 
                     color = (0, 0, 255)
                     cv2.drawContours(rgbImage, pts, -1, color, 6, 8)
-                    pt.plot_image(rgbImage, 'Contours')
                     cv2.waitKey(0)
 
                     pts = pts.reshape((-1, 1, 2))
