@@ -24,4 +24,6 @@ pip install -r requirements.txt
 
 ## Execute the pipeline
 In the root folder execute:
-**python execute_pipeline.py -img test_images/bedroom.jpg -mdl modified -rtv autoencoder -clf forest**
+```
+python execute_pipeline.py -img test_images/bedroom.jpg -mdl modified -rtv autoencoder -clf forest
+```
