@@ -23,4 +23,4 @@ Computer Vision project for the analysis of indoor house scenes including a furn
 
 ## Execute the pipeline
 In the root folder execute:
-python execute_pipeline.py -img test_images/bedroom.jpg -mdl modified -rtv autoencoder -clf forest
+Python execute_pipeline.py -img test_images/bedroom.jpg -mdl modified -rtv autoencoder -clf forest
