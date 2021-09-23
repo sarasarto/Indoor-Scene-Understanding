@@ -72,7 +72,6 @@ class Plotter():
         # images are already sorted by similarity
         # we always plot first 5 results
         fig = plt.figure()
-        plt.xticks([], [])
         fig.suptitle(f'Retrieval results with {retrieval_method} method')
 
         gs = GridSpec(2, 5)

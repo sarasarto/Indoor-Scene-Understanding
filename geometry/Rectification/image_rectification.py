@@ -52,9 +52,9 @@ class ImageRectifier:
                     pts = np.array(corners, np.int32)
                     pts = cv2.convexHull(pts)
 
-                    color = (0, 0, 255)
-                    cv2.drawContours(rgbImage, pts, -1, color, 6, 8)
-                    cv2.waitKey(0)
+                    #color = (0, 0, 255)
+                    #cv2.drawContours(rgbImage, pts, -1, color, 6, 8)
+                    #cv2.waitKey(0)
 
                     pts = pts.reshape((-1, 1, 2))
                     pts_ratio = cv2.contourArea(contour) / (cv2.contourArea(pts) + 1)
