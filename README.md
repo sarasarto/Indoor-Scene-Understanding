@@ -1,5 +1,5 @@
 # Indoor-Scene-Understanding
-##Authors: Giuseppe Cartella, Sara Sarto, Kevin Marchesini
+## Authors: Giuseppe Cartella, Sara Sarto, Kevin Marchesini
 Computer Vision project for the analysis of indoor house scenes including a furniture retrieval system.
 
 ## Preliminary steps
@@ -15,10 +15,7 @@ Computer Vision project for the analysis of indoor house scenes including a furn
 
 6. Move 'MLP_model.pt' and 'dataset_all_objects.csv' to /Indoor-Scene-Understanding/classification
 
-7. Install the requirements.txt in your virtual environment 
-  '''python 
-  pip install -r requirements.txt
-  '''
+7. Install the requirements.txt in your virtual environment ***pip install -r requirements.txt
 
 
 ## Execute the pipeline
