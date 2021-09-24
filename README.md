@@ -27,3 +27,5 @@ In the root folder execute:
 ```
 python execute_pipeline.py -img test_images/bedroom.jpg -mdl modified -rtv autoencoder -clf forest
 ```
+
+Available options mdl : ['default', 'modified'], rtv : ['sift','dhash','autoencoder'], -clf : ['forest', 'mlp']
