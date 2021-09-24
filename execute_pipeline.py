@@ -104,43 +104,42 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     xmax = bbox[2]
     ymin = bbox[1]
     ymax = bbox[3]
-
     if label in retrieval_classes:
-        pass
-        # # # we use the result mask from the network in order to apply grabcut
-        # # # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
-        # # # all the pixels equal to 1 are considered "Sure_Foreground" pixels
-        # mask = mask.astype('uint8')
-        # mask[mask==0] = 2
-        #
-        # query_img = img[ymin:ymax, xmin:xmax]
-        # mask = mask[ymin:ymax, xmin:xmax]
-        #
-        # query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
-        #
-        # if 'lamp' in label:
-        #     label = 'lamp'
-        #
-        # res_img = rt.extract_query_foreground(query_img, mask) #the result is the query without background
-        # pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-        #
-        # if retr_type == 'sift':
-        #     img_retriever = ImageRetriever(SIFTHelper())
-        #     sift_results = img_retriever.find_similar_furniture(res_img, label)
-        #     pt.plot_retrieval_results(query_img, sift_results, 'sift')
-        #
-        # elif retr_type == 'dhash':
-        #     img_retriever = ImageRetriever(DHashHelper())
-        #     PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
-        #     dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-        #     pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
-        #
-        # else:
-        #     img_retriever = ImageRetriever(AutoencHelper())
-        #     autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
-        #     pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
+        # we use the result mask from the network in order to apply grabcut
+        # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
+        # all the pixels equal to 1 are considered "Sure_Foreground" pixels
+        mask = mask.astype('uint8')
+        mask[mask==0] = 2
+
+        query_img = img[ymin:ymax, xmin:xmax]
+        mask = mask[ymin:ymax, xmin:xmax]
+
+        query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
+
+        if 'lamp' in label:
+            label = 'lamp'
+
+        res_img = rt.extract_query_foreground(query_img, mask) #the result is the query without background
+        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
+
+        if retr_type == 'sift':
+            img_retriever = ImageRetriever(SIFTHelper())
+            sift_results = img_retriever.find_similar_furniture(res_img, label)
+            pt.plot_retrieval_results(query_img, sift_results, 'sift')
+
+        elif retr_type == 'dhash':
+            img_retriever = ImageRetriever(DHashHelper())
+            PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
+            dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+            pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+
+        else:
+            img_retriever = ImageRetriever(AutoencHelper())
+            autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
+            pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
       
     elif label in rectification_classes:
+
             query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
 
             print(f'Trovata label: {label}')

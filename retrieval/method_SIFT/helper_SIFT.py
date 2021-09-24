@@ -18,8 +18,6 @@ class SIFTHelper():
     def retrieval(self, query_image, label):
 
         num_good = []
-        transformed = [query_image]
-
         print("Computing SIFT...")
 
         des = []
@@ -30,35 +28,31 @@ class SIFTHelper():
         except FileNotFoundError:
             print('Pickle file not found. Please compute sift descriptors before!')
 
-        # compute SIFT for the image and its transformations then compare them with images of the dataset
-        for (j, img) in enumerate(transformed):
-            gray_l = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
-            sift = cv.SIFT_create()
-            kp1, des1 = sift.detectAndCompute(gray_l, None)
+        # compute SIFT for the image then compare them with images of the dataset
 
-            img_names = []
-            for des2, annotated_img in zip(des, self.data):
-                # only images with the same label class are taken
-                if annotated_img['annotations'][0]['label'] != label or des2 is None:
-                    continue
+        gray_l = cv.cvtColor(query_image, cv.COLOR_RGB2GRAY)
+        sift = cv.SIFT_create()
+        kp1, des1 = sift.detectAndCompute(gray_l, None)
 
-                img_names.append(annotated_img['image'])
-                # cv2.BFMatcher() takes the descriptor of one feature in first set
-                # and is matched with all other features in second set using some distance calculation.
-                # And the closest one is returned.
-                bf = cv.BFMatcher()
-                matches = bf.knnMatch(des1, des2, k=2)
+        img_names = []
+        for des2, annotated_img in zip(des, self.data):
+            # only images with the same label class are taken
+            if annotated_img['annotations'][0]['label'] != label or des2 is None:
+                continue
 
-                good = []
-                for m, n in matches:
-                    if m.distance < 0.75 * n.distance:
-                        good.append([m])
-                num_good.append(len(good))
+            img_names.append(annotated_img['image'])
+            # cv2.BFMatcher() takes the descriptor of one feature in first set
+            # and is matched with all other features in second set using some distance calculation.
+            # And the closest one is returned.
+            bf = cv.BFMatcher()
+            matches = bf.knnMatch(des1, des2, k=2)
 
-        num_good = np.reshape(num_good,
-                              [len(transformed), -1])  # matrix with as many rows as transformations that are done
+            good = []
+            for m, n in matches:
+                if m.distance < 0.75 * n.distance:
+                    good.append([m])
+            num_good.append(len(good))
 
-        num_good = num_good.sum(axis=0)
         num_good = np.array(num_good)
 
         # Select only the best 5 results

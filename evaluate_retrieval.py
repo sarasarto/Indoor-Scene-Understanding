@@ -7,6 +7,7 @@ import numpy as np
 import cv2
 import json
 from plotting_utils.plotter import Plotter
+from retrieval.helper_retrieval import RetrievalHelper
 from retrieval.retrieval_manager import ImageRetriever
 from retrieval.method_dhash.helper_DHash import DHashHelper
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
@@ -96,7 +97,7 @@ for img in os.listdir(test_images):
         with open('geometry/objects_for_rectification.txt') as f:
             rectification_classes = f.read().splitlines()
 
-        qt = QueryTransformer()
+        rt = RetrievalHelper()
 
         for bbox, label, mask in zip(boxes, text_labels, masks):
             # bbox is the query
@@ -125,7 +126,7 @@ for img in os.listdir(test_images):
                     label = 'lamp'
 
                 # query processing, application of grabcut and same other filters(yet to decide)
-                res_img = qt.extract_query_foreground(query_img, mask)  # the result is the query without background
+                res_img = rt.extract_query_foreground(query_img, mask)  # the result is the query without background
                 pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
 
                 if retr_method == 'sift':
