@@ -13,7 +13,7 @@ Computer Vision project for the analysis of indoor house scenes including a furn
 
 5. Move 'descriptors.pkl' to **/Indoor-Scene-Understanding/retrieval/method_SIFT**
 
-6. Move 'MLP_model.pt' and 'dataset_all_objects.csv' to **/Indoor-Scene-Understanding/classification**
+6. Move 'MLP_model.pt', 'randomforest_model.pt' and 'dataset_all_objects.csv' to **/Indoor-Scene-Understanding/classification**
 
 7. Install the requirements.txt in your virtual environment 
 ```
