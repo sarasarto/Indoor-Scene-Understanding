@@ -147,7 +147,8 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
             img_rectifier = ImageRectifier()
             rect = img_rectifier.rectify(query_img)
 
-            pt.plot_imgs_by_row([query_img, rect], ['Extracted object', 'Rectified object'], 2)
+            if rect is not None:
+                pt.plot_imgs_by_row([query_img, rect], ['Extracted object', 'Rectified object'], 2)
 
   
 #-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------

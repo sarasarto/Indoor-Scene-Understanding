@@ -74,8 +74,7 @@ class ImageRectifier:
 
         if not object_contours:
             print("It isn't possible to find any object to rectify")
-            img = []
-            return img
+            return None
 
         corners = object_contours[0]
 
@@ -113,18 +112,9 @@ class ImageRectifier:
         k3 = ((m1y - m4y) * m2x - (m1x - m4x) * m2y + m1x * m4y - m1y * m4x) / (
                     (m3y - m4y) * m2x - (m3x - m4x) * m2y + m3x * m4y - m3y * m4x)
 
-        # if k2==1 AND k3==1, then the focal length equation is not solvable
-        # but the focal length is not needed to calculate the ratio.
-        # I am still trying to figure out under which circumstances k2 and k3 become 1
-        # but it seems to be when the rectangle is not distorted by perspective
-
         if k2 == 1 or k3 == 1:
             whRatio = np.sqrt((self.square(m2y - m1y) + self.square(m2x - m1x)) / (self.square(m3y - m1y) + self.square(m3x - m1x)))
         else:
-            # f_squared is the focal length of the camera, squared
-            # if k2==1 OR k3==1 then this equation is not solvable
-            # if the focal length is known, then this equation is not needed
-            # in that case assign f_squared= square(focal_length)
             f_squared = -((k3 * m3y - m1y) * (k2 * m2y - m1y) + (k3 * m3x - m1x) * (k2 * m2x - m1x)) / ((k3 - 1) * (k2 - 1))
             # The width/height ratio of the original rectangle
             part_1 = (self.square(k2 - 1) + self.square(k2 * m2y - m1y) / f_squared + self.square(k2 * m2x - m1x) / f_squared)
