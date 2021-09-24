@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 import os
 import pickle
-from retrieval.query_expansion_transformations import QueryTransformer
+
 
 
 class SIFTHelper():
@@ -16,12 +16,8 @@ class SIFTHelper():
 
     # function which implements the retrieval
     def retrieval(self, query_image, label):
-        qt = QueryTransformer()
 
-        obj_list = []
         num_good = []
-
-        # applying geometric transformation to the image
         transformed = [query_image]
 
         print("Computing SIFT...")

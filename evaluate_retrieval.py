@@ -1,5 +1,5 @@
 import argparse
-from retrieval.query_expansion_transformations import QueryTransformer
+
 from furniture_segmentation.prediction_model import PredictionModel
 import os
 from torchvision.transforms import transforms

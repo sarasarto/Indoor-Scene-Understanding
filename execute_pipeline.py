@@ -4,7 +4,7 @@ from classification.MLP_model import HomeScenesClassifier
 from retrieval.method_SIFT.helper_SIFT import SIFTHelper
 from retrieval.method_autoencoder.helper_autoenc import AutoencHelper
 from retrieval.method_dhash.helper_DHash import DHashHelper
-from retrieval.query_expansion_transformations import QueryTransformer
+from retrieval.helper_retrieval import RetrievalHelper
 from retrieval.retrieval_manager import ImageRetriever
 from classification.classification_utils import Classification_Helper
 from plotting_utils.plotter import Plotter
@@ -15,7 +15,7 @@ import numpy as np
 import cv2
 from geometry.Rectification.image_rectification import ImageRectifier
 import json
-import matplotlib.pyplot as plt
+
 
 parser = argparse.ArgumentParser(description='Computer Vision pipeline')
 parser.add_argument('-img', '--image', type=str,
@@ -94,7 +94,7 @@ rectification_classes = []
 with open('geometry/objects_for_rectification.txt') as f:
     rectification_classes = f.read().splitlines()
 
-qt = QueryTransformer()
+rt = RetrievalHelper()
 
 for bbox, label, mask in zip(boxes,text_labels, masks):
     # bbox is the query
@@ -106,39 +106,39 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
     ymax = bbox[3]
 
     if label in retrieval_classes:
-
-        # # we use the result mask from the network in order to apply grabcut
-        # # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
-        # # all the pixels equal to 1 are considered "Sure_Foreground" pixels
-        mask = mask.astype('uint8')
-        mask[mask==0] = 2
-        
-        query_img = img[ymin:ymax, xmin:xmax]
-        mask = mask[ymin:ymax, xmin:xmax]
-        
-        query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
-       
-        if 'lamp' in label:
-            label = 'lamp'
-    
-        res_img = qt.extract_query_foreground(query_img, mask) #the result is the query without background
-        pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
-    
-        if retr_type == 'sift':
-            img_retriever = ImageRetriever(SIFTHelper())
-            sift_results = img_retriever.find_similar_furniture(res_img, label)
-            pt.plot_retrieval_results(query_img, sift_results, 'sift')
-
-        elif retr_type == 'dhash':
-            img_retriever = ImageRetriever(DHashHelper())
-            PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
-            dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
-            pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
-
-        else:
-            img_retriever = ImageRetriever(AutoencHelper())
-            autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
-            pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
+        pass
+        # # # we use the result mask from the network in order to apply grabcut
+        # # # all the pixels equal to 0 Grabcut considers them as "Probable_Background"
+        # # # all the pixels equal to 1 are considered "Sure_Foreground" pixels
+        # mask = mask.astype('uint8')
+        # mask[mask==0] = 2
+        #
+        # query_img = img[ymin:ymax, xmin:xmax]
+        # mask = mask[ymin:ymax, xmin:xmax]
+        #
+        # query_img = cv2.bilateralFilter(np.array(query_img), 9, 75, 75)
+        #
+        # if 'lamp' in label:
+        #     label = 'lamp'
+        #
+        # res_img = rt.extract_query_foreground(query_img, mask) #the result is the query without background
+        # pt.plot_imgs_by_row([query_img, res_img], ['Query img', 'Result with grabcut'], 2)
+        #
+        # if retr_type == 'sift':
+        #     img_retriever = ImageRetriever(SIFTHelper())
+        #     sift_results = img_retriever.find_similar_furniture(res_img, label)
+        #     pt.plot_retrieval_results(query_img, sift_results, 'sift')
+        #
+        # elif retr_type == 'dhash':
+        #     img_retriever = ImageRetriever(DHashHelper())
+        #     PIL_image = Image.fromarray(np.uint8(res_img)).convert('RGB')
+        #     dhash_results = img_retriever.find_similar_furniture(PIL_image, label)
+        #     pt.plot_retrieval_results(query_img, dhash_results, 'dhash')
+        #
+        # else:
+        #     img_retriever = ImageRetriever(AutoencHelper())
+        #     autoenc_results = img_retriever.find_similar_furniture(Image.fromarray(res_img), label)
+        #     pt.plot_retrieval_results(query_img, autoenc_results, 'autoencoder')
       
     elif label in rectification_classes:
             query_img = img[ymin-10:ymax+10, xmin-10:xmax+10]
@@ -148,6 +148,7 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
             rect = img_rectifier.rectify(query_img)
 
             pt.plot_imgs_by_row([query_img, rect], ['Extracted object', 'Rectified object'], 2)
+
 
   
 #-----------------------------------------------------ROOM CLASSIFICATION PHASE-------------------------------------------------------

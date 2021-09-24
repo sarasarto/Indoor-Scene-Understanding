@@ -94,10 +94,6 @@ def compute_overlaps_masks(masks1, masks2):
     return overlaps
 
 
-############################################################
-#  Miscellaneous
-############################################################
-
 
 def compute_matches(gt_boxes, gt_class_ids, gt_masks,
                     pred_boxes, pred_class_ids, pred_scores, pred_masks,
