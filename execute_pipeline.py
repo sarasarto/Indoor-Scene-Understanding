@@ -78,7 +78,7 @@ for label in labels:
         if data['objects'][key]['new_label'] == label:
             text_labels.append(data['objects'][key]['labels'][0])
 
-print(f'Objects founded in the image: {text_labels}')
+print(f'Objects found in the image: {text_labels}')
 
 img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
 pt = Plotter()
@@ -167,4 +167,5 @@ else:
     result = model(feature_vector)
     predicted_class = torch.argmax(result)
     text_prediction = classification_helper.class2text_lbel(predicted_class)
-    pt.plot_image(img, f'Prediction is {text_prediction}')
+
+pt.plot_image(img, f'Prediction is {text_prediction}')
