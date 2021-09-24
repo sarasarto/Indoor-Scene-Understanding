@@ -147,7 +147,7 @@ for bbox, label, mask in zip(boxes,text_labels, masks):
             img_rectifier = ImageRectifier()
             rect = img_rectifier.rectify(query_img)
 
-            #print result of  the rectification if it works correctly
+            #print result of the rectification step  if it works correctly
             if rect is not None:
                 pt.plot_imgs_by_row([query_img, rect], ['Extracted object', 'Rectified object'], 2)
 
